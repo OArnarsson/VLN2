@@ -233,6 +233,7 @@
       <DependentUpon>Mymodel.edmx</DependentUpon>
       <LastGenOutput>Mymodel.cs</LastGenOutput>
     </Content>
+    <Content Include="Resources\style\myStyle.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Mymodel.edmx">
@@ -242,6 +243,7 @@
     <Content Include="Mymodel.edmx.diagram">
       <DependentUpon>Mymodel.edmx</DependentUpon>
     </Content>
+    <Content Include="Resources\style\myStyle.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

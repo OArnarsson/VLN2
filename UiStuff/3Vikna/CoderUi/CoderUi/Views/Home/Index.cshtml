@@ -3,19 +3,20 @@
     ViewBag.Title = "Home Page"; 
 }
 
-
+<img id="logo" src="~/Resources/images/logo.svg" />
+<h1>Coder</h1>
 
     <div class="main">
         <div class="row">
             @foreach (var item in Model)
             {
-                <div class="col-lg-3">
-                    <h2>@item.name</h2>
-                    <h6>@item.courseName</h6>
-                    <h4>@item.status</h4>
-                    <h5>Value: @item.value %</h5>
-                    <h5>Start: @item.start</h5>
-                    <h5>End: @item.end</h5>
+                <div class="projectBox">
+                    <p class="name">@item.name</p>
+                    <p class="course">@item.courseName</p>
+                    <p class="status">@item.status</p>
+                    <p class="value">Value: @item.value %</p>
+                    <p class="date col-lg-6 start">Start: @item.start</p>
+                    <p class="date col-lg-6 end">End: @item.end</p>
                 </div>
             }
         <div/>

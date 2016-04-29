@@ -1,0 +1,64 @@
+$logoSize : 100px;
+$logoMargin : 10px;
+
+//COLOR
+$asphalt : #34495e;
+$silver : #bdc3c7;
+$wisteria : #8e44ad;
+$clouds : #ecf0f1;
+$concrete : #95a5a6;
+$asbestos : #7f8c8d;
+
+$boxPadding : 1%;
+$boxMarginUD : 2%;
+$boxMarginRL : 1%;
+
+
+body {
+  background-color: $silver;
+}
+
+h1{
+    display : inline-block;
+}
+
+.projectBox{
+    margin : $boxMarginUD;
+    background-color : $concrete;
+    width : 20%;
+    text-align : center;
+    color : $asbestos;
+    display : inline-block;
+    border : solid;
+    border-color : $asphalt;
+    -webkit-border-radius : 5px;
+
+    .name {
+        font-size : 20px;      
+    }
+
+    .course { 
+        font-style : oblique;
+    }
+
+    .status {
+        font-size : 30px;
+    }
+
+    .date {
+        display : inline-block;
+
+        .start {
+            text-align : left;
+        }
+
+        .end { 
+            text-align : right;
+        }
+    }
+}
+
+#logo {
+  height : $logoSize;
+  margin : $logoMargin;
+}
