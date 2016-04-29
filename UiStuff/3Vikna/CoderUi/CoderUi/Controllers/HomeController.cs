@@ -29,9 +29,13 @@ namespace CoderUi.Controllers
             CoursesAndAssignments svenni = new CoursesAndAssignments();
 
             List<CoursesAndAssignments> benni = new List<CoursesAndAssignments>();
-            CoursesAndAssignments as1 = new CoursesAndAssignments { id = 1, CourseName = "Gagnaskipan", Description = "THIS is a shitty Gagnaskipan description", assignments = getAss(), allUsers = getUser(1) };
-            CoursesAndAssignments as2 = new CoursesAndAssignments { id = 2, CourseName = "Vefforitun", Description = "THIS is a shitty Vefforitun description", assignments = getAss(), allUsers = getUser(2) };
-            CoursesAndAssignments as3 = new CoursesAndAssignments { id = 3, CourseName = "Forritun", Description = "THIS is a shitty Forritun description", assignments = getAss(), allUsers = getUser(3) };
+            CoursesAndAssignments as1 = new CoursesAndAssignments { id = 1, CourseName = "Gagnaskipan", Description = "Í þessu námskeiði er fjallað um ýmiss konar gagnaskipan, eins og tengda lista, stafla, biðraðir, tré og tætitöflur. Jafnframt er farið í endurkvæma forritun og röðunaralgrím. Í námskeiðinu er að auki lögð áhersla á hugræn gagnatög, hlutbundna forritun, sniðmát og meðhöndlun frábrigða. Forritunarmálið C++ er notað í námskeiðinu."
+            , assignments = getAss(), allUsers = getUser(1) };
+
+            CoursesAndAssignments as2 = new CoursesAndAssignments { id = 2, CourseName = "Vefforitun", Description = "Áfanginn mun kynna grunnatriði við gerð veflausna og hönnunarmynstra tengdum þeim. Áherslan verður á samskiptamáta og staðla sem eru sameiginlegir með öllum veflausnum, ásamt þeim grunnatriðum úr hlutbundinni forritun sem eru notuð við útfærslu veflausna. Nemendur munu einnig læra að auka öryggi veflausna, hvernig meðhöndla skuli villur, hvernig eigi að skrifa og nota vefþjónustur, og um bestu venjur við útfærslur þeirra. Þá munu nemendur læra hvernig tengjast skuli gagnagrunnum og öðrum gagnageymslum."
+            , assignments = getAss(), allUsers = getUser(2) };
+
+            CoursesAndAssignments as3 = new CoursesAndAssignments { id = 3, CourseName = "Forritun", Description = "Þetta er inngangsnámskeið í forritun þar sem forritunarmálið C++ er notað. Fjallað er um grunneiningar í forritun, t.d.  breytur, tög, stýriskipanir, föll og benda. Jafnframt er lögð áhersla á innbyggðar gagnagrindur eins og fylki, strengi og vektora.  Hugtakið klasi er kynnt og hvernig það styður við hjúpun og upplýsingarhuld í hlutbundinni forritun.", assignments = getAss(), allUsers = getUser(3) };
             benni.Add(as1);
             benni.Add(as2);
             benni.Add(as3);

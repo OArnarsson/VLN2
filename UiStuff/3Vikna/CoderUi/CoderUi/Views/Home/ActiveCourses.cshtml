@@ -1,17 +1,18 @@
 ﻿@model IEnumerable<CoderUi.DummyModels.CoursesAndAssignments>
 @{
     ViewBag.Title = "ActiveCourses";
+    var counter = 1;
 }
 
 <h2>Active Courses</h2>
 
+ 
 
 <div class="col-md-12">
     @foreach (var item in Model)
     {
-
         <div class="col-md-6">
-            <h2>@item.CourseName</h2>
+            <h2>@Html.ActionLink(@item.CourseName, "CourseDetail/" + @counter, "Home") </h2>
             <p>@item.Description</p>
         </div>
 
@@ -40,6 +41,6 @@
 
         <hr />
 
-
+        counter++;
     }
 </div>
