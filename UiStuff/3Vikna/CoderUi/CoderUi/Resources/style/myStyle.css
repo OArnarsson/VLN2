@@ -5,12 +5,12 @@ h1 {
   display: inline-block; }
 
 .projectBox {
+  display: inline-block;
   margin: 2%;
-  background-color: #95a5a6;
+  background-color: #ecf0f1;
   width: 20%;
   text-align: center;
-  color: #7f8c8d;
-  display: inline-block;
+  color: #2c3e50;
   border: solid;
   border-color: #34495e;
   -webkit-border-radius: 5px; }
@@ -28,7 +28,19 @@ h1 {
       text-align: right; }
 
 #logo {
-  height: 100px;
-  margin: 10px; }
+  float: left;
+  height: 75px;
+  padding: 5px 10px; }
+
+.navbar-collapse.collapse {
+  float: left;
+  margin-top: 10px;
+  width: 85%; }
+
+.nav.navbar-nav.navbar-right {
+  float: right; }
+
+.theBoxes {
+  margin-top: 5%; }
 
 /*# sourceMappingURL=myStyle.css.map */

@@ -233,6 +233,7 @@
       <DependentUpon>Mymodel.edmx</DependentUpon>
       <LastGenOutput>Mymodel.cs</LastGenOutput>
     </Content>
+    <Content Include="Resources\images\logo.svg" />
     <Content Include="Resources\style\myStyle.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
