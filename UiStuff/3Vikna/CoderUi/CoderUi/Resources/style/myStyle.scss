@@ -26,7 +26,6 @@ h1{
 
 .projectBox{
     display : inline-block;
-    margin : $boxMarginUD;
     background-color : $clouds;
     width : 20%;
     text-align : center;
@@ -68,8 +67,8 @@ h1{
 
 .navbar-collapse.collapse {
     float : left;
-    margin-top : 10px;
     width : 85%;
+    margin : 10px 0 $boxMarginUD 0;
 }
 
 .nav.navbar-nav.navbar-right {
@@ -78,4 +77,14 @@ h1{
 
 .theBoxes {
     margin-top : 5%;
+}
+
+.progress-bar {
+    text-align : center;
+}
+
+
+//NEEDS FIXING!
+.progress-bar col-lg-10 {
+    margin-left : 8%;
 }
