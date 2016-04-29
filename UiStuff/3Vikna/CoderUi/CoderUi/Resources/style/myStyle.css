@@ -43,4 +43,11 @@ h1 {
 .theBoxes {
   margin-top: 5%; }
 
+.progress {
+  text-align : center;
+  width : 80%;
+  margin-left : 8%;
+  background-color : #bdc3c7;
+}
+
 /*# sourceMappingURL=myStyle.css.map */

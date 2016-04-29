@@ -79,12 +79,9 @@ h1{
     margin-top : 5%;
 }
 
-.progress-bar {
-    text-align : center;
-}
-
-
-//NEEDS FIXING!
-.progress-bar col-lg-10 {
-    margin-left : 8%;
+.progress {
+  text-align : center;
+  width : 80%;
+  margin-left : 8%;
+  background-color : $clouds;
 }
