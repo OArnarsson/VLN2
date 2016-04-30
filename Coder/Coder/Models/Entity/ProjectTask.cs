@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Coder.Models.Entity
 {
-    public class Task
+    public class ProjectTask
     {
         public int Id { get; set; }
         public string Name { get; set; }

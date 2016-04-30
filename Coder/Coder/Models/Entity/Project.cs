@@ -14,6 +14,6 @@ namespace Coder.Models.Entity
         public DateTime End { get; set; }
         public double Value { get; set; }
         public int CourseId { get; set; }
-        public IEnumerable<Task> Tasks { get; set; }
+        public IEnumerable<ProjectTask> ProjectTasks { get; set; }
     }
 }

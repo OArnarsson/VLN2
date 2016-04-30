@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Coder.Models.Entity;
 
 namespace Coder.Models
 {
@@ -20,6 +21,14 @@ namespace Coder.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<ApplicationUser> AspNetUsers { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectTask> ProjectTasks { get; set; }
+        public DbSet<Submission> Submissions { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<InputOutputPair> InputOutputPairs { get; set; }
+        public DbSet<FileRequired> FilesRequired { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
