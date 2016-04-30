@@ -24,7 +24,6 @@ namespace Coder.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<ApplicationUser> AspNetUsers { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectTask> ProjectTasks { get; set; }
@@ -42,7 +41,5 @@ namespace Coder.Models
         {
             return new ApplicationDbContext();
         }
-
-        // public System.Data.Entity.DbSet<Coder.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
