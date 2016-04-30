@@ -24,6 +24,7 @@ namespace Coder.Models.Entity
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime End { get; set; }
 
-        public virtual ICollection<Project> Projects { set; get; }
+        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<ApplicationUser> AspNetUsers { get; set; }
     }
 }
