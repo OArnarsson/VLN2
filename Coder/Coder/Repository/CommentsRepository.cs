@@ -17,7 +17,5 @@ namespace Coder.Repository
                    where comment.ProjectTaskId == taskId
                    select comment;
         }
-
-
     }
 }

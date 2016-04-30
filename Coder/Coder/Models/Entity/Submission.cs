@@ -14,6 +14,8 @@ namespace Coder.Models.Entity
         public int State { get; set; }
         public int ProjectTaskId { get; set; }
         public string Output { get; set; }
-        //public IEnumerable<ApplicationUser> AspNetUsers { get; set; }
+
+        public virtual ProjectTask ProjectTask { get; set; }
+        public IEnumerable<ApplicationUser> ApplicationUsers { get; set; }
     }
 }
