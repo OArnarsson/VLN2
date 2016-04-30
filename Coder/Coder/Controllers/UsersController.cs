@@ -10,7 +10,7 @@ using Coder.Models;
 
 namespace Coder.Controllers
 {
-    public class ApplicationUsersController : Controller
+    public class UsersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
