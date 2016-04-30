@@ -7,6 +7,7 @@ namespace Coder.Models.Entity
 {
     public class Submission
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTime Created { get; set; }
         public int State { get; set; }
