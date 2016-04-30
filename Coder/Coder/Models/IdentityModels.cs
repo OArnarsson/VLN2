@@ -24,10 +24,6 @@ namespace Coder.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-<<<<<<< HEAD
-=======
-        // public DbSet<ApplicationUser> AspNetUsers { get; set; }
->>>>>>> master
         public DbSet<Course> Courses { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectTask> ProjectTasks { get; set; }
