@@ -12,6 +12,6 @@ namespace Coder.Models.Entity
         public int Id { get; set; }
         public string Input { get; set; }
         public string Output { get; set; }
-        public int TaskId { get; set; }
+        public int ProjectTaskId { get; set; }
     }
 }

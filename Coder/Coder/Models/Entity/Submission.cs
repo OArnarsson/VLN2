@@ -12,8 +12,8 @@ namespace Coder.Models.Entity
         public int Id { get; set; }
         public DateTime Created { get; set; }
         public int State { get; set; }
-        public int TaskId { get; set; }
+        public int ProjectTaskId { get; set; }
         public string Output { get; set; }
-        public IEnumerable<ApplicationUser> Users { get; set; }
+        //public IEnumerable<ApplicationUser> AspNetUsers { get; set; }
     }
 }

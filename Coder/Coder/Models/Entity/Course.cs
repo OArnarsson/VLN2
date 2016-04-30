@@ -16,6 +16,6 @@ namespace Coder.Models.Entity
         public string Title { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
-        public IEnumerable<Project> Projects { get; set; }
+        //public IEnumerable<Project> Projects { get; set; }
     }
 }

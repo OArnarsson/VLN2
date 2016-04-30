@@ -13,9 +13,7 @@ namespace Coder.Controllers
 
         public ActionResult Index()
         {
-            var users = db.AspNetUsers.ToList();
-
-            return Json(users, JsonRequestBehavior.AllowGet);
+            return View();
         }
 
         public ActionResult About()
