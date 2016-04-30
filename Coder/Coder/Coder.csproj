@@ -168,6 +168,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ProjectTasksController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
@@ -260,6 +261,11 @@
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\ProjectTasks\Create.cshtml" />
+    <Content Include="Views\ProjectTasks\Delete.cshtml" />
+    <Content Include="Views\ProjectTasks\Details.cshtml" />
+    <Content Include="Views\ProjectTasks\Edit.cshtml" />
+    <Content Include="Views\ProjectTasks\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,9 +12,14 @@ namespace Coder.Models.Entity
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public float Value { get; set; }
+        public double Value { get; set; }
+
+        [ForeignKey("Project")]
         public int ProjectId { get; set; }
-        //IEnumerable<FileRequired> FilesRequired { get; set; }
-        //IEnumerable<InputOutputPair> InputOutputPairs { get; set; }
+
+        IEnumerable<FileRequired> FilesRequired { get; set; }
+        IEnumerable<InputOutputPair> InputOutputPairs { get; set; }
+
+        public virtual Project Project { get; set; }
     }
 }
