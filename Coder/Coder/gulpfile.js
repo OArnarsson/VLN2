@@ -27,7 +27,6 @@ gulp.task('watcher', ['styles'], () => {
 gulp.task('browsersync', ['styles'], () => {
     browserSync.init({
         open: 'external',
-        host: 'localhost:3980',
         proxy: 'localhost:3980',
         open: false,
         notify: false
