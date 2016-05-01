@@ -52,6 +52,13 @@
 
     </dl>
 </div>
+<h3>Projects in this course</h3>
+<div class="projects">
+    @foreach (Coder.Models.Entity.Project p in ViewBag.projects)
+    {
+        <h4><a href="@Url.Action("Details", "Projects", new { id=p.Id })">@p.Name</a></h4>
+    }
+</div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

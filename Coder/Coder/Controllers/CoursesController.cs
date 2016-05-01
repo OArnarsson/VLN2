@@ -33,6 +33,9 @@ namespace Coder.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.projects = (from p in db.Projects
+                                where p.CourseId == id.Value
+                                select p).ToList();
             return View(course);
         }
 
