@@ -19,7 +19,7 @@ namespace Coder.Controllers
 
         // GET: Projects
         [Authorize]
-        public ActionResult Index(int? userId)
+        public ActionResult Index()
         {
             var projects = (from p in db.Projects
                             select p);
