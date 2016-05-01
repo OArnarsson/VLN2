@@ -208,6 +208,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\sass\header.scss" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Content\sass\layout.scss" />
     <Content Include="Content\sass\theme.scss" />
     <None Include="Content\sass\variables.scss" />

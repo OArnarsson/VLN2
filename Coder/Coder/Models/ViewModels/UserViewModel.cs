@@ -15,5 +15,6 @@ namespace Coder.Models.ViewModels
 
         public IEnumerable<Course> Courses { get; set; }
         public ApplicationUser CurrentUser { get; set; }
+        public IEnumerable<UserCourse> UserCourses { get; set; }
     }
 }

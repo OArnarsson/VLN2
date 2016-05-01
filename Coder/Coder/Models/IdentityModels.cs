@@ -32,6 +32,7 @@ namespace Coder.Models
         public DbSet<Comment> Comments { get; set; }
         public DbSet<InputOutputPair> InputOutputPairs { get; set; }
         public DbSet<FileRequired> FilesRequired { get; set; }
+        public DbSet<UserCourse> UserCourses { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

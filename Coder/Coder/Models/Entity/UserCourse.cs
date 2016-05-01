@@ -15,7 +15,7 @@ namespace Coder.Models.Entity
         [Key, Column(Order = 1)]
         public int CourseId { get; set; }
 
-        public int Role { get; set; }
+        public int CoderRole { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual Course Course { get; set; }

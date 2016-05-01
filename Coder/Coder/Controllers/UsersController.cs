@@ -75,10 +75,15 @@ namespace Coder.Controllers
             }
             ApplicationUser applicationUser = db.Users.Find(id);
 
+            return Json(db.UserCourses.ToList(), JsonRequestBehavior.AllowGet);
+
             UserViewModel userViewModel = new UserViewModel()
             {
                 Courses = db.Courses.ToList(),
-                CurrentUser = applicationUser
+                CurrentUser = applicationUser,
+                UserCourses = (from c in db.UserCourses
+                               where c.UserId == id
+                               select c).ToList()
             };
 
             if (applicationUser == null)
@@ -93,7 +98,7 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser)
+        public ActionResult Edit([Bind(Include = "Id,Name,Email,CoderRole,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser)
         {
             if (ModelState.IsValid)
             {
