@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Coder.Models;
+using Coder.Models.ViewModels;
 
 namespace Coder.Controllers
 {
@@ -28,6 +29,13 @@ namespace Coder.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ApplicationUser applicationUser = db.Users.Find(id);
+
+            /*UserViewModel userViewModel = new UserViewModel()
+            {
+                Courses = db.Courses.ToList(),
+                CurrentUser = applicationUser
+            };*/
+
             if (applicationUser == null)
             {
                 return HttpNotFound();
@@ -66,11 +74,18 @@ namespace Coder.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ApplicationUser applicationUser = db.Users.Find(id);
+
+            UserViewModel userViewModel = new UserViewModel()
+            {
+                Courses = db.Courses.ToList(),
+                CurrentUser = applicationUser
+            };
+
             if (applicationUser == null)
             {
                 return HttpNotFound();
             }
-            return View(applicationUser);
+            return View(userViewModel);
         }
 
         // POST: Users/Edit/5
