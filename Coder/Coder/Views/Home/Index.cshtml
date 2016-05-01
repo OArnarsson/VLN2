@@ -1,3 +1,9 @@
 ﻿@{
     ViewBag.Title = "Dashboard";
 }
+
+@model Coder.Models.ViewModels.DashboardViewModel
+
+<h2>Courses: @Model.Courses.Count()</h2>
+<h2>Projects: @Model.Projects.Count()</h2>
+<h2>Users: @Model.Users.Count()</h2>

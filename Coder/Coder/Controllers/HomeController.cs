@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Coder.Models;
 using Microsoft.AspNet.Identity;
+using Coder.Models.ViewModels;
 
 namespace Coder.Controllers
 {
@@ -14,7 +15,29 @@ namespace Coder.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            DashboardViewModel viewModel = new DashboardViewModel()
+            {
+                Courses = db.Courses.ToList(),
+                Users = db.Users.ToList(),
+                Projects = db.Projects.ToList()
+            };
+
+            return View(viewModel);
+        }
+
+        public int GetUsersCount()
+        {
+            return db.Users.Count();
+        }
+
+        public int GetCoursesCount()
+        {
+            return db.Courses.Count();
+        }
+
+        public int GetProjectsCount()
+        {
+            return db.Projects.Count();
         }
 
         public ActionResult About()
