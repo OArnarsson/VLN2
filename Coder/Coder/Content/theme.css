@@ -1,2 +1,26 @@
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
 
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJ0aGVtZS5jc3MiLCJzb3VyY2VSb290IjoiL3NvdXJjZS8iLCJzb3VyY2VzQ29udGVudCI6W119 */
+/* Set padding to keep content from hitting the edges */
+.body-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+  white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+  max-width: 280px;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxheW91dC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksa0JBQWtCO0VBQ2xCLHFCQUFxQjtDQUN4Qjs7QUFFRCx3REFBd0Q7QUFDeEQ7RUFDSSxtQkFBbUI7RUFDbkIsb0JBQW9CO0NBQ3ZCOztBQUVEOztFQUVFO0FBQ0Y7RUFDSSxvQkFBb0I7Q0FDdkI7O0FBRUQsNkVBQTZFO0FBQzdFOzs7RUFHSSxpQkFBaUI7Q0FDcEIiLCJmaWxlIjoidGhlbWUuY3NzIiwic291cmNlc0NvbnRlbnQiOlsi77u/Ym9keSB7XHJcbiAgICBwYWRkaW5nLXRvcDogNTBweDtcclxuICAgIHBhZGRpbmctYm90dG9tOiAyMHB4O1xyXG59XHJcblxyXG4vKiBTZXQgcGFkZGluZyB0byBrZWVwIGNvbnRlbnQgZnJvbSBoaXR0aW5nIHRoZSBlZGdlcyAqL1xyXG4uYm9keS1jb250ZW50IHtcclxuICAgIHBhZGRpbmctbGVmdDogMTVweDtcclxuICAgIHBhZGRpbmctcmlnaHQ6IDE1cHg7XHJcbn1cclxuXHJcbi8qIE92ZXJyaWRlIHRoZSBkZWZhdWx0IGJvb3RzdHJhcCBiZWhhdmlvciB3aGVyZSBob3Jpem9udGFsIGRlc2NyaXB0aW9uIGxpc3RzIFxyXG4gICB3aWxsIHRydW5jYXRlIHRlcm1zIHRoYXQgYXJlIHRvbyBsb25nIHRvIGZpdCBpbiB0aGUgbGVmdCBjb2x1bW4gXHJcbiovXHJcbi5kbC1ob3Jpem9udGFsIGR0IHtcclxuICAgIHdoaXRlLXNwYWNlOiBub3JtYWw7XHJcbn1cclxuXHJcbi8qIFNldCB3aWR0aCBvbiB0aGUgZm9ybSBpbnB1dCBlbGVtZW50cyBzaW5jZSB0aGV5J3JlIDEwMCUgd2lkZSBieSBkZWZhdWx0ICovXHJcbmlucHV0LFxyXG5zZWxlY3QsXHJcbnRleHRhcmVhIHtcclxuICAgIG1heC13aWR0aDogMjgwcHg7XHJcbn1cclxuIl0sInNvdXJjZVJvb3QiOiIvc291cmNlLyJ9 */
