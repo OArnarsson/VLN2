@@ -211,6 +211,7 @@
     <None Include="Content\sass\layout.scss" />
     <Content Include="Content\sass\theme.scss" />
     <None Include="Content\sass\variables.scss" />
+    <Content Include="package.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
