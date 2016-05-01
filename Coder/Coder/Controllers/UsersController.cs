@@ -46,7 +46,7 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser)
+        public ActionResult Create([Bind(Include = "Id,Name,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser)
         {
             if (ModelState.IsValid)
             {
@@ -78,12 +78,34 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser)
+        public ActionResult Edit([Bind(Include = "Id,Name,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(applicationUser).State = EntityState.Modified;
-                db.SaveChanges();
+
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                {
+                    Exception raise = dbEx;
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            string message = string.Format("{0}:{1}",
+                                validationErrors.Entry.Entity.ToString(),
+                                validationError.ErrorMessage);
+                            // raise a new exception nesting
+                            // the current instance as InnerException
+                            raise = new InvalidOperationException(message, raise);
+                        }
+                    }
+                    throw raise;
+                }
+                
                 return RedirectToAction("Index");
             }
             return View(applicationUser);
