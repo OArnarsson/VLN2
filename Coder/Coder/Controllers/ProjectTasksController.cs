@@ -18,6 +18,7 @@ namespace Coder.Controllers
         // GET: ProjectTasks
         public ActionResult Index()
         {
+            var x = User.GetType();
             var projectTasks = db.ProjectTasks.Include(p => p.Project);
             return View(projectTasks.ToList());
         }

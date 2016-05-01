@@ -25,6 +25,6 @@ namespace Coder.Models.Entity
         public DateTime End { get; set; }
 
         public virtual ICollection<Project> Projects { get; set; }
-        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual ICollection<UserCourse> UserCourses { get; set; }
     }
 }

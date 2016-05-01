@@ -19,22 +19,37 @@ namespace Coder.Controllers
 
         // GET: Projects
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Index(int? userId)
         {
-            var userId = User.Identity.GetUserId();
-
-            var projects = from p in db.Projects
-                           join c in db.Courses on p.CourseId equals c.Id
-                           where c.ApplicationUsers.Any(u => u.Id == userId)
-                           select p;
-
-            return Json(projects.Count().ToString(), JsonRequestBehavior.AllowGet);
+            var projects = (from p in db.Projects
+                            select p);
 
             if (projects == null)
+            {
                 return View();
+            }
             else
             {
                 return View(projects.ToList());
+            }
+        }
+
+        public ActionResult MyProjects()
+        {
+            // Just for testing
+            var userId = User.Identity.GetUserId();
+            var projects = (from p in db.Projects
+                           join c in db.Courses on p.CourseId equals c.Id
+                           where c.UserCourses.Any(u => u.UserId == userId)
+                           select p);
+
+            if (projects == null)
+            {
+                return View();
+            }
+            else
+            {
+                return View("Index", projects.ToList());
             }
         }
 

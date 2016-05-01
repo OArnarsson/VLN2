@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Coder.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Coder.Controllers
 {

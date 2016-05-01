@@ -20,14 +20,14 @@ namespace Coder.Models.Entity
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-
         public DateTime End { get; set; }
+
         public double Value { get; set; }
 
         [ForeignKey("Course")]
         public int CourseId { get; set; }
         
-        //public IEnumerable<ProjectTask> ProjectTasks { get; set; }
+        public IEnumerable<ProjectTask> ProjectTasks { get; set; }
 
         public virtual Course Course { get; set; }
     }
