@@ -19,12 +19,7 @@ namespace Coder.Controllers
         public ActionResult Index()
         {
             var projects = db.Projects.Include(p => p.Course);
-            if (projects == null)
-                return View();
-            else
-            {
-                return View(projects.ToList());
-            }
+            return View(projects.ToList());
         }
 
         // GET: Projects/Details/5
