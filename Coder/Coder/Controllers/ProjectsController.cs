@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Coder.Models;
 using Coder.Models.Entity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
 
 namespace Coder.Controllers
 {
@@ -16,10 +18,24 @@ namespace Coder.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Projects
+        [Authorize]
         public ActionResult Index()
         {
-            var projects = db.Projects.Include(p => p.Course);
-            return View(projects.ToList());
+            var userId = User.Identity.GetUserId();
+
+            var projects = from p in db.Projects
+                           join c in db.Courses on p.CourseId equals c.Id
+                           where c.ApplicationUsers.Any(u => u.Id == userId)
+                           select p;
+
+            return Json(projects.Count().ToString(), JsonRequestBehavior.AllowGet);
+
+            if (projects == null)
+                return View();
+            else
+            {
+                return View(projects.ToList());
+            }
         }
 
         // GET: Projects/Details/5
