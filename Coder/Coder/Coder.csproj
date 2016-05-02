@@ -210,18 +210,15 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\sass\header.scss" />
     <Content Include="ClassDiagram1.cd" />
-<<<<<<< HEAD
     <Content Include="Content\sass\courses.scss" />
     <None Include="Content\sass\layout.scss" />
     <Content Include="Content\sass\theme.scss" />
     <Content Include="Content\sass\projects.scss" />
     <Content Include="Content\sass\tables.scss" />
-=======
     <Content Include="ClassDiagram2.cd" />
     <Content Include="ClassDiagram3.cd" />
     <None Include="Content\sass\layout.scss" />
     <Content Include="Content\sass\theme.scss" />
->>>>>>> origin/master
     <None Include="Content\sass\variables.scss" />
     <Content Include="package.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
