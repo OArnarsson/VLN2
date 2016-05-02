@@ -30,17 +30,20 @@ namespace Coder.Controllers
             }
             ApplicationUser applicationUser = db.Users.Find(id);
 
-            /*UserViewModel userViewModel = new UserViewModel()
+            UserViewModel userViewModel = new UserViewModel()
             {
                 Courses = db.Courses.ToList(),
-                CurrentUser = applicationUser
-            };*/
+                CurrentUser = applicationUser,
+                UserCourses = (from c in db.UserCourses
+                              where c.UserId == id
+                              select c).ToList()
+            };
 
             if (applicationUser == null)
             {
                 return HttpNotFound();
             }
-            return View(applicationUser);
+            return View(userViewModel);
         }
 
         // GET: Users/Create
