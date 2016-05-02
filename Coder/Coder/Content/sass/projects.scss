@@ -1,22 +1,3 @@
-
-$logoSize : 75px;
-$logoMargin : 3%;
-
-//COLOR
-$asphalt : #34495e;
-$silver : #bdc3c7;
-$wisteria : #8e44ad;
-$clouds : #ecf0f1;
-$concrete : #95a5a6;
-$asbestos : #7f8c8d;
-$emerald : #3bd27a;
-$midnightBlue : #2c3e50;
-$greenSea : #16a085;
-
-$boxPadding : 1%;
-$boxMarginUD : 2%;
-$boxMarginRL : 1%;
-
 body {
   background-color: $silver;
 }
@@ -68,20 +49,6 @@ h1{
     float : left;
     height : $logoSize;
     padding : 5px 10px;
-}
-
-.navbar-collapse.collapse {
-    float : left;
-    width : 85%;
-    margin : 10px 0 $boxMarginUD 0;
-}
-
-.nav.navbar-nav.navbar-right {
-    float : right;
-}
-
-.projects {
-    margin-top : 5%;
 }
 
 .progress {
