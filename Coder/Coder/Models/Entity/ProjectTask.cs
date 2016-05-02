@@ -19,6 +19,7 @@ namespace Coder.Models.Entity
 
         IEnumerable<FileRequired> FilesRequired { get; set; }
         IEnumerable<InputOutputPair> InputOutputPairs { get; set; }
+        IEnumerable<Submission> Submissions { get; set; }
 
         public virtual Project Project { get; set; }
     }
