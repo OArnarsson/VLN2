@@ -2,14 +2,19 @@
     overflow-x : hidden;
 }
 
-eachCourse {
-    display : block;
-    overflow : hidden;
+.allCourses {
+    margin-top : 10px;
 }
 
-hr {
-    height: 12px;
-    margin: 30px -999px 20px;
-    border: 0;
-    box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+.courseBox {
+    display : block;
+    overflow : hidden;
+
+    .col-lg-4 {
+        padding-left : 0;
+    }
+
+    .col-lg-8 {
+         padding-right : 0;
+    }
 }
