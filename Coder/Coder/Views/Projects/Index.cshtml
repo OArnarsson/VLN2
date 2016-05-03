@@ -13,32 +13,105 @@
     </p>
 
 
-    <div class="row">
+    <div class="projects col-lg-7">
         @foreach (var item in Model)
         {
-            <div class="projectBox ">
-                <p class="name">@item.Name</p>
-                <span class="course">@item.Course.Name</span>
+            <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
+                <div class="projectBox col-md-3">
+                    <p class="name">@item.Name</p>
+                    <span class="course">@item.Course.Title</span>
 
-                <div class="proContainer">
-                    <div class="c100 p60 green">
-                        <span>60%</span>
-                        <div class="slice">
-                            <div class="bar"></div>
-                            <div class="fill"></div>
+                    <div class="proContainer">
+                        <div class="c100 center p60 small green">
+                            <span>60%</span>
+                            <div class="slice">
+                                <div class="bar"></div>
+                                <div class="fill"></div>
+                            </div>
                         </div>
                     </div>
+
+                    <p class="value">Value: @item.Value %</p>
+
+                    <div class="date">
+                        <p class="col-lg-6 start">Start: @item.Start</p>
+                        <p class="col-lg-6 end">End: @item.End</p>
+                    </div>
+                    <!--
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    -->
                 </div>
-
-                <p class="value">Value: @item.Value %</p>
-                <p class="date col-lg-6 start">Start: @item.Start</p>
-                <p class="date col-lg-6 end">End: @item.End</p>
-
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </div>
+           </a>
         }
-        <div />
+    </div>
+
+
+    <div class="col-lg-5">
+        <table class="table table-striped table-bordered">
+            <caption>Previous projects</caption>
+            <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Course</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Proj1</td>
+                    <td>T107-GSKI</td>
+                    <td>Accepted</td>
+                </tr>
+                <tr>
+                    <td>Proj1</td>
+                    <td>T107-GSKI</td>
+                    <td>Accepted</td>
+                </tr>
+                <tr>
+                    <td>Proj1</td>
+                    <td>T107-GSKI</td>
+                    <td>Memory Error</td>
+                </tr>
+                <tr>
+                    <td>Proj1</td>
+                    <td>T107-GSKI</td>
+                    <td>Accepted</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-lg-5">
+        <table class="table table-striped table-bordered recentSubs">
+            <caption>Recent submissions</caption>
+            <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Say my name</td>
+                    <td>19.01.2003</td>
+                    <td>24.01.2003</td>
+                </tr>
+                <tr>
+                    <td>Project10</td>
+                    <td>19.01.2003</td>
+                    <td>24.01.2003</td>
+                </tr>
+                <tr>
+                    <td>Say my name</td>
+                    <td>19.01.2003</td>
+                    <td>24.01.2003</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

@@ -2,23 +2,30 @@ body {
   background-color: $silver;
 }
 
-h1{
+h1 {
     display : inline-block;
 }
 
-.projectBox{
-    margin : 1.5%;
+.projects {
     display : inline-block;
-    background-color : $clouds;
-    width : 20%;
-    text-align : center;
-    color : $midnightBlue;
+}
+
+.projectBox {
+    position : relative;
+    width : 21%;
+    height : 200px;
+    margin : 12.5px;
     border : solid;
+    display : inline-block;
+    font-size : 10px;
+    text-align : center;
     border-color : $asphalt;
+    color : $midnightBlue;
+    background-color : $clouds;
     -webkit-border-radius : 5px;
 
     .name {
-        font-size : 20px;
+        font-size : 14px;
         margin-bottom : 1px;      
     }
 
@@ -29,17 +36,24 @@ h1{
     .value {
         display : inline-block;
         width : 100%;
-        font-size : 16px;
+        font-size : 10px;
+        margin : 10px 0 5px 0;
     }
 
     .date {
+        position: absolute;
+        bottom : 0;
         display : block;
+        margin-left : 0;
+        font-size : 9px;
 
         .start {
+            width : 50%;
             text-align : left;
         }
 
         .end { 
+            width : 50%;
             text-align : right;
         }
     }
@@ -51,14 +65,14 @@ h1{
     padding : 5px 10px;
 }
 
-.progress {
-  text-align : center;
-  width : 80%;
-  margin-left : 8%;
-  background-color : $clouds;
+.proContainer {
+    width : 80%;
+    margin-left : auto;
+    margin-right : auto;
+    margin-top : 10px;
+    text-align : center;
 }
 
-.proContainer {
+.recentSubs {
     margin-top : 10px;
-    margin-left : 50px;
 }
