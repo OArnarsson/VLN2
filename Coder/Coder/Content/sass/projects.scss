@@ -32,7 +32,7 @@ body {
     font-size : 13px;
     text-align : center;
     border-color : $color-first;
-    box-shadow: $boxShadow
+    box-shadow: $boxShadow;
     color : #000;
     background-color : $color-second;
     -webkit-border-radius : $bevel;
@@ -93,7 +93,7 @@ caption {
     height : 275px;
     border-color : $color-first;
     -webkit-border-radius : $bevel;
-    box-shadow: $boxShadow
+    box-shadow: $boxShadow;
 }
 
 .recentSubs {
