@@ -188,6 +188,7 @@
     <Compile Include="Models\Entity\Project.cs" />
     <Compile Include="Models\Entity\Submission.cs" />
     <Compile Include="Models\Entity\ProjectTask.cs" />
+    <Compile Include="Models\Entity\SubmissionTestResult.cs" />
     <Compile Include="Models\Entity\UserCourse.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
