@@ -184,7 +184,7 @@
     <Compile Include="Models\Entity\Course.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entity\FileRequired.cs" />
-    <Compile Include="Models\Entity\InputOutputPair.cs" />
+    <Compile Include="Models\Entity\TaskTest.cs" />
     <Compile Include="Models\Entity\Project.cs" />
     <Compile Include="Models\Entity\Submission.cs" />
     <Compile Include="Models\Entity\ProjectTask.cs" />

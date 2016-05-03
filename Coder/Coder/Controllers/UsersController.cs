@@ -76,9 +76,8 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser applicationUser = db.Users.Find(id);
 
-            return Json(db.UserCourses.ToList(), JsonRequestBehavior.AllowGet);
+            ApplicationUser applicationUser = db.Users.Find(id);
 
             UserViewModel userViewModel = new UserViewModel()
             {

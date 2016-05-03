@@ -18,7 +18,7 @@ namespace Coder.Models.Entity
         public int ProjectId { get; set; }
 
         IEnumerable<FileRequired> FilesRequired { get; set; }
-        IEnumerable<InputOutputPair> InputOutputPairs { get; set; }
+        IEnumerable<TaskTest> TaskTests { get; set; }
         IEnumerable<Submission> Submissions { get; set; }
 
         public virtual Project Project { get; set; }

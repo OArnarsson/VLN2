@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Coder.Models.Entity
 {
-    public class InputOutputPair
+    public class TaskTest
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

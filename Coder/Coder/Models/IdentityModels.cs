@@ -12,7 +12,7 @@ namespace Coder.Models
     public class ApplicationUser : IdentityUser
     {
         public string Name { get; set; }
-        public virtual ICollection<UserCourse> UserCourses { get; set; }
+        public virtual IEnumerable<UserCourse> UserCourses { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -30,7 +30,7 @@ namespace Coder.Models
         public DbSet<ProjectTask> ProjectTasks { get; set; }
         public DbSet<Submission> Submissions { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<InputOutputPair> InputOutputPairs { get; set; }
+        public DbSet<TaskTest> TaskTests { get; set; }
         public DbSet<FileRequired> FilesRequired { get; set; }
         public DbSet<UserCourse> UserCourses { get; set; }
 
