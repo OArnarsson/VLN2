@@ -20,6 +20,7 @@ namespace Coder.Models.Entity
         IEnumerable<FileRequired> FilesRequired { get; set; }
         IEnumerable<TaskTest> TaskTests { get; set; }
         IEnumerable<Submission> Submissions { get; set; }
+        IEnumerable<Comment> Comments { get; set; }
 
         public virtual Project Project { get; set; }
     }
