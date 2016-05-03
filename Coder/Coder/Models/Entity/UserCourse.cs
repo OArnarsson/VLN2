@@ -15,10 +15,18 @@ namespace Coder.Models.Entity
         [Key, Column(Order = 1)]
         public int CourseId { get; set; }
 
-        public int CoderRole { get; set; }
+        public CoderRole CoderRole { get; set; }
 
         [ForeignKey("UserId")]
         public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual Course Course { get; set; }
+    }
+
+    public enum CoderRole
+    {
+        Guest = 1,
+        Student = 2,
+        Teacher = 3,
+        Admin = 4
     }
 }

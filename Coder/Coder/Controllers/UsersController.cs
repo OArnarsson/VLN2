@@ -10,6 +10,7 @@ using Coder.Models;
 using Coder.Models.ViewModels;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using Coder.Models.Entity;
 
 namespace Coder.Controllers
 {
@@ -31,6 +32,7 @@ namespace Coder.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             // TODO: check if ID is valid
+            // db.Users.Single(u => u.Id == id)
             ApplicationUser applicationUser = db.Users.Find(id);
 
             UserViewModel userViewModel = new UserViewModel()
@@ -52,13 +54,22 @@ namespace Coder.Controllers
         // GET: Users/Create
         public ActionResult Create()
         {
-            UserViewModel userViewModel = new UserViewModel()
+            List<Course> AllCourses = db.Courses.ToList();
+            List<UserCourse> UserCourses = new List<UserCourse>();
+
+            foreach (var course in AllCourses)
             {
-                Courses = db.Courses.ToList(),
-                CurrentUser = new ApplicationUser()
+                UserCourses.Add(new UserCourse { UserId = null, CourseId = course.Id, CoderRole = CoderRole.Guest });
+            }
+
+            UserViewModel userViewModel = new UserViewModel()
+             {
+                 Courses = AllCourses,
+                 CurrentUser = new ApplicationUser(),
+                 UserCourses = UserCourses
             };
 
-            return View();
+            return View(userViewModel);
         }
 
         // POST: Users/Create
@@ -66,10 +77,11 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Exclude = "UserName")] UserViewModel userViewModel)
+        public ActionResult Create(UserViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
+
                 userViewModel.CurrentUser.UserName = userViewModel.CurrentUser.Email;
                 db.Users.Add(userViewModel.CurrentUser);
                 try
