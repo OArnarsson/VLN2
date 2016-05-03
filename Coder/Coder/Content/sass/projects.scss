@@ -1,5 +1,6 @@
 body {
-  background-color: $silver;
+  background-color: #fff;
+  height : 100%;
 }
 
 h1 {
@@ -8,21 +9,23 @@ h1 {
 
 .projects {
     display : inline-block;
+    margin-top : 10px;
+    height : 100%;
 }
 
 .projectBox {
     position : relative;
-    width : 21%;
+    width : 30.18%;
     height : 200px;
-    margin : 12.5px;
+    margin : 10px;
     border : solid;
     display : inline-block;
     font-size : 10px;
     text-align : center;
-    border-color : $asphalt;
-    color : $midnightBlue;
-    background-color : $clouds;
-    -webkit-border-radius : 5px;
+    border-color : $color-first;
+    color : #000;
+    background-color : $color-second;
+    -webkit-border-radius : $bevel;
 
     .name {
         font-size : 14px;
@@ -73,6 +76,18 @@ h1 {
     text-align : center;
 }
 
+caption {
+    font-size : 20px;
+}
+
+.sideTable {
+    margin-top : 20px;
+    border : solid;
+    height : 275px;
+    border-color : $color-first;
+    -webkit-border-radius : $bevel;
+}
+
 .recentSubs {
-    margin-top : 10px;
+    height : 345px;
 }
