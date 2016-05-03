@@ -11,6 +11,7 @@ namespace Coder.Models.Entity
         public int Id { get; set; }
         public string Input { get; set; }
         public string Output { get; set; }
+        public string ObtainedOutput { get; set; }
         public int Status { get; set; }
 
         [ForeignKey("Submission")]
