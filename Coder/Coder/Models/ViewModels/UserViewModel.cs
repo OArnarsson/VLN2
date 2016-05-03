@@ -6,6 +6,7 @@ using System.Web;
 
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Coder.Models.ViewModels
 {

@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Coder.Models;
 using Coder.Models.ViewModels;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace Coder.Controllers
 {
@@ -28,6 +30,7 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            // TODO: check if ID is valid
             ApplicationUser applicationUser = db.Users.Find(id);
 
             UserViewModel userViewModel = new UserViewModel()
@@ -49,6 +52,12 @@ namespace Coder.Controllers
         // GET: Users/Create
         public ActionResult Create()
         {
+            UserViewModel userViewModel = new UserViewModel()
+            {
+                Courses = db.Courses.ToList(),
+                CurrentUser = new ApplicationUser()
+            };
+
             return View();
         }
 
@@ -57,16 +66,31 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser)
+        public ActionResult Create([Bind(Exclude = "UserName")] UserViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(applicationUser);
-                db.SaveChanges();
+                userViewModel.CurrentUser.UserName = userViewModel.CurrentUser.Email;
+                db.Users.Add(userViewModel.CurrentUser);
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (var validationError in validationErrors.ValidationErrors)
+                        {
+                            Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                        }
+                    }
+                }
+                
                 return RedirectToAction("Index");
             }
 
-            return View(applicationUser);
+            return View(userViewModel);
         }
 
         // GET: Users/Edit/5
