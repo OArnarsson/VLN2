@@ -1,4 +1,4 @@
-﻿//The whole bar itself
+﻿//The whole nav bar
 .navbar-inverse {
     position : absolute;
     top : 0;
@@ -6,6 +6,11 @@
     border : solid;
     margin : 0 auto;
     border-color : $color-first;
+    box-shadow: $boxShadow
+    /*
+    -webkit-border-bottom-left-radius : $bevel;
+    -webkit-border-bottom-right-radius : $bevel;
+    */
     font-size : 15px;
     background-color : $color-first;
     color : $color-second!important;
