@@ -81,7 +81,6 @@ namespace Coder.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 userViewModel.CurrentUser.UserName = userViewModel.CurrentUser.Email;
                 db.Users.Add(userViewModel.CurrentUser);
                 try
@@ -136,11 +135,12 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Email,CoderRole,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser)
+        public ActionResult Edit(UserViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(applicationUser).State = EntityState.Modified;
+                userViewModel.CurrentUser.UserName = userViewModel.CurrentUser.Email;
+                db.Entry(userViewModel.CurrentUser).State = EntityState.Modified;
 
                 try
                 {
@@ -166,7 +166,7 @@ namespace Coder.Controllers
                 
                 return RedirectToAction("Index");
             }
-            return View(applicationUser);
+            return View(userViewModel.CurrentUser);
         }
 
         // GET: Users/Delete/5
