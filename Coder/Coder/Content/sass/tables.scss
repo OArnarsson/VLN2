@@ -1,6 +1,9 @@
 ﻿.coderTable {
     margin-top : 10px;
-    th, tr:nth-child(even) {
+    th {
+        background-color : #fff;
+    }
+    tr:nth-child(odd) {
         background-color : $color-second;
     }
 }

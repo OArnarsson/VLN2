@@ -3,24 +3,33 @@ body {
   height : 100%;
 }
 
-h1 {
-    display : inline-block;
-}
-
 .projects {
     display : inline-block;
-    margin-top : 10px;
-    height : 100%;
+    margin-top : 10px;    
 }
+
+.allProjects {
+    padding-left : 0;
+    display : inline-block;
+    margin-top : 10px;  
+    
+    //The first box in each row
+    a:nth-of-type(3n-2) {
+        .projectBox {
+            margin-left : 0;
+        }
+    } 
+}
+
 
 .projectBox {
     position : relative;
-    width : 30.18%;
+    width : 30%;
     height : 200px;
-    margin : 10px;
+    margin : 11px;
     border : solid;
     display : inline-block;
-    font-size : 10px;
+    font-size : 13px;
     text-align : center;
     border-color : $color-first;
     color : #000;
@@ -28,7 +37,7 @@ h1 {
     -webkit-border-radius : $bevel;
 
     .name {
-        font-size : 14px;
+        font-size : 16px;
         margin-bottom : 1px;      
     }
 
@@ -39,7 +48,6 @@ h1 {
     .value {
         display : inline-block;
         width : 100%;
-        font-size : 10px;
         margin : 10px 0 5px 0;
     }
 
@@ -48,7 +56,7 @@ h1 {
         bottom : 0;
         display : block;
         margin-left : 0;
-        font-size : 9px;
+        font-size : 10px;
 
         .start {
             width : 50%;
@@ -60,12 +68,6 @@ h1 {
             text-align : right;
         }
     }
-}
-
-#logo {
-    float : left;
-    height : $logoSize;
-    padding : 5px 10px;
 }
 
 .proContainer {
@@ -81,7 +83,7 @@ caption {
 }
 
 .sideTable {
-    margin-top : 20px;
+    margin-top : 22.5px;
     border : solid;
     height : 275px;
     border-color : $color-first;

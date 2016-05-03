@@ -1,7 +1,33 @@
-﻿.navbar-inverse {
+﻿//The whole bar itself
+.navbar-inverse {
+    width : 1140px;
+    border : solid;
+    margin : 0 auto;
+    border-color : $color-first;
+    -webkit-border-radius : $bevel;
+    font-size : 15px;
     background-color : $color-first;
+    color : $color-second!important;
 }
 
-.navbar nav {
-    color : $color-second;
+//Leftmost item in navbar
+.navbar-brand {
+    color : $color-second!important;
+    font-size : 20px;
+}
+
+//All hover on navbar
+a:hover, .navbar-brand:hover{
+        background-color : $color-second!important;
+        color : $color-first!important;
+    }
+
+//Text in all but brand
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a {
+    color : $color-second!important;
+}
+
+//Text in all but brand, on hover
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
+    color : $color-first!important
 }
