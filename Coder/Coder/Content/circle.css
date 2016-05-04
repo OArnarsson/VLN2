@@ -859,6 +859,12 @@
 .c100.green:hover > span {
   color: #4db53c;
 }
+.c100.yellow .bar, .c100.green .fill {
+  border-color: #ff0!important;
+}
+.c100.yellow:hover > span {
+  color: #ff0;
+}
 .c100.green.dark .bar, .c100.green.dark .fill {
   border-color: #5fd400 !important;
 }
