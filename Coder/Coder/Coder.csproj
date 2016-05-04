@@ -203,6 +203,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\circle.css" />
     <Content Include="Content\images\test.png" />
+    <Content Include="Content\login.css" />
     <Content Include="Content\theme.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
