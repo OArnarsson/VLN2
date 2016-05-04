@@ -8,6 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/theme.css")
     <link href="~/Content/circle.css" rel="stylesheet" />
+    <link href="~/Content/flipclock.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -44,8 +45,11 @@
             <p>&copy; @DateTime.Now.Year - Coder</p>
         </div>
     </footer>
-    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery")   
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/flipclock.min.js"></script>
+    <script src="~/Scripts/CountDown.js"></script>
+        @RenderSection("scripts", required: false)
+       
 </body>
 </html>

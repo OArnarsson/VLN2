@@ -19,14 +19,16 @@ namespace Coder.Controllers
             {
                 Courses = db.Courses.ToList(),
                 Users = db.Users.ToList(),
-                // Projects = db.Projects.ToList()
-                Projects = (from x in db.Projects.ToList() where x.End >= DateTime.Now orderby x.End select x).Take(9).ToList()               
+                //Tries to take only projects that are still active, ordered by time remaining. 
+                Projects = (from x in db.Projects.ToList() where x.End >= DateTime.Now orderby x.End select x).Take(9).ToList()
             };
-            if(viewModel.Projects.Count() < 10)
+
+            
+            if (viewModel.Projects.Count() < 10)
             {
+                //Filling up the list with inactive projects, ordered by most recent.
                 var y = viewModel.Projects.ToList();
-                int difference = 9 - viewModel.Projects.Count();
-                y.AddRange((from x in db.Projects.ToList() where x.End < DateTime.Now orderby x.End descending select x).Take(difference).ToList());
+                y.AddRange((from x in db.Projects.ToList() where x.End < DateTime.Now orderby x.End descending select x).Take(9 - viewModel.Projects.Count()).ToList());
                 viewModel.Projects = y.ToList();
             }
 

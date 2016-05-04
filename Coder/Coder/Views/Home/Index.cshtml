@@ -6,6 +6,16 @@
 
 <div class="row">
     <div class="allProjects col-lg-8 row">
+       
+
+
+        @*<input class="TimeLeft" type="hidden" value="1000" id="Klukka1"/>
+        <input class="TimeLeft" type="hidden" value="4000" id="Klukka2"/>
+
+        <div class="Klukka1 our-clock" style="margin:2em;"></div>
+        <div class="Klukka2 our-clock" style="margin:2em;"></div>*@
+        
+
         @foreach (var item in Model.Projects)
         {
             if (item.Value < 50)
@@ -24,12 +34,15 @@
             if (@item.End < DateTime.Now)
             {
                 ViewBag.ActiveProject = "oldBox";
-            }
+            }           
 
             //The percentage of circle colored.
             ViewBag.pvalue = "p" + @item.Value;
 
-            <div class="col-md-4">
+            //This is used to pass endDate data for countdown.
+            <input class="TimeLeft" type="hidden" value="@item.End.ToString("MM.dd.yy H:mm:ss")" id="@item.Id" />
+
+            <div class="col-md-4">           
                 <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
                     <div class="projectBox @ViewBag.ActiveProject">
                         <p class="name">@item.Name</p>
@@ -44,13 +57,8 @@
                                 </div>
                             </div>
                         </div>
-
-                        <p class="value">Value: @item.Value %</p>
-
-                        <div class="date">
-                            <p class="col-lg-6 start">Start: @item.Start</p>
-                            <p class="col-lg-6 end">End: @item.End</p>
-                        </div>
+                        <div class="remaining">Time Remaining</div> 
+                        <div class="@item.Id our-clock" style="margin:2em;"> <h2 style="zoom: 1.5">Ended:</h2><h2 style="zoom: 1.5">@item.End.ToShortDateString()</h2></div>                                             
                     </div>
                 </a>
             </div>

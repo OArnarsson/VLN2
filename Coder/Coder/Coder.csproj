@@ -202,6 +202,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\circle.css" />
+    <Content Include="Content\flipclock.css" />
     <Content Include="Content\images\logo.svg" />
     <Content Include="Content\theme.css" />
     <Content Include="favicon.ico" />
@@ -225,6 +226,8 @@
     <None Include="Content\sass\variables.scss" />
     <Content Include="package.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\CountDown.js" />
+    <Content Include="Scripts\flipclock.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
