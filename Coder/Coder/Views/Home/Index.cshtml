@@ -21,21 +21,17 @@
                 ViewBag.color = "green";
             }
 
-            if (@item.End > DateTime.Now)
+            if (@item.End < DateTime.Now)
             {
-                ViewBag.ActiveProject = "ActiveProject";
-            }
-            else
-            {
-                ViewBag.ActiveProject = "OldProject";
+                ViewBag.ActiveProject = "oldBox";
             }
 
-
+            //The percentage of circle colored.
             ViewBag.pvalue = "p" + @item.Value;
 
             <div class="col-md-4">
                 <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
-                    <div class="projectBox">
+                    <div class="projectBox @ViewBag.ActiveProject">
                         <p class="name">@item.Name</p>
                         <span class="course">@item.Course.Title</span>
 
