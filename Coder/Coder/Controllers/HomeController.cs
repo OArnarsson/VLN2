@@ -19,8 +19,16 @@ namespace Coder.Controllers
             {
                 Courses = db.Courses.ToList(),
                 Users = db.Users.ToList(),
-                Projects = db.Projects.ToList()
+                // Projects = db.Projects.ToList()
+                Projects = (from x in db.Projects.ToList() where x.End >= DateTime.Now orderby x.End select x).Take(9).ToList()               
             };
+            if(viewModel.Projects.Count() < 10)
+            {
+                var y = viewModel.Projects.ToList();
+                int difference = 9 - viewModel.Projects.Count();
+                y.AddRange((from x in db.Projects.ToList() where x.End < DateTime.Now orderby x.End descending select x).Take(difference).ToList());
+                viewModel.Projects = y.ToList();
+            }
 
             return View(viewModel);
         }
