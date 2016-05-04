@@ -1,41 +1,24 @@
-﻿//The whole nav bar
-.navbar-inverse {
-    position : absolute;
-    top : 0;
-    width : 1140px;
-    border : solid;
-    margin : 0 auto;
-    border-color : $color-first;
-    box-shadow: $boxShadow;
-    /*
-    -webkit-border-bottom-left-radius : $bevel;
-    -webkit-border-bottom-right-radius : $bevel;
-    */
-    font-size : 15px;
-    background-color : $color-first;
-    color : $color-second!important;
-}
+﻿#header {
+    top: 0;
+    left: 0;
+    margin: 0 auto;
+    background: #2c3e50;
+    box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, .80);
+    border-bottom: none;
+    font-size: 15px;
+    color: #fff;
 
-//Leftmost item in navbar
-.navbar-brand {
-    color : $color-second!important;
-    font-size : 20px;
-}
-
-//All hover on navbar
-a:hover,
-.navbar-brand:hover{
-        background-color : $color-second!important;
-        color : $color-first!important;
+    .nav a {
+        color: #fff;
+        transition: .4s ease all;
+        &:hover {
+            color: $color-third;
+        }
     }
 
-//Text in all but brand
-.navbar-inverse .navbar-nav > li > a:hover,
-.navbar-inverse .navbar-nav > li > a {
-    color : $color-second!important;
-}
-
-//Text in all but brand, on hover
-.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
-    color : $color-first!important
+    //Leftmost item in navbar
+    .navbar-brand {
+        color: $color-third;
+        font-size: 20px;
+    }
 }

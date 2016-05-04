@@ -21,8 +21,7 @@ namespace Coder.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            var projects = (from p in db.Projects
-                            select p);
+            var projects = db.Projects;
 
             if (projects == null)
             {

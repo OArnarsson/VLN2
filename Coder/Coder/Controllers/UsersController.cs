@@ -139,8 +139,6 @@ namespace Coder.Controllers
             {
                 userViewModel.CurrentUser.UserCourses = new List<UserCourse>();
 
-                userViewModel.CurrentUser.UserCourses.RemoveAll(x => x.UserId == userViewModel.CurrentUser.Id);
-
                 for (int i = 0; i < form.Count; i++)
                 {
                     var key = form.Keys[i];

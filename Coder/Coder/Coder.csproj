@@ -212,12 +212,12 @@
     <Content Include="Content\sass\header.scss" />
     <Content Include="ClassDiagram1.cd" />
     <Content Include="Content\sass\courses.scss" />
-    <None Include="Content\sass\layout.scss" />
-    <Content Include="Content\sass\theme.scss" />
     <Content Include="Content\sass\projects.scss" />
     <Content Include="Content\sass\tables.scss" />
     <Content Include="ClassDiagram2.cd" />
     <Content Include="ClassDiagram3.cd" />
+    <Content Include="Content\sass\footer.scss" />
+    <Content Include="Content\sass\content.scss" />
     <None Include="Content\sass\layout.scss" />
     <Content Include="Content\sass\theme.scss" />
     <None Include="Content\sass\variables.scss" />

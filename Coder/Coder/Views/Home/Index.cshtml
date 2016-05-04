@@ -4,6 +4,131 @@
 
 @model Coder.Models.ViewModels.DashboardViewModel
 
-<h2>Courses: @Model.Courses.Count()</h2>
-<h2>Projects: @Model.Projects.Count()</h2>
-<h2>Users: @Model.Users.Count()</h2>
+<div class="row">
+    <div class="allProjects col-lg-8 row">
+        @foreach (var item in Model.Projects)
+        {
+            <div class="col-md-4">
+                <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
+                    <div class="projectBox">
+                        <p class="name">@item.Name</p>
+                        <span class="course">@item.Course.Title</span>
+
+                        <div class="proContainer">
+                            <div class="c100 center p60 small orange">
+                                <span id="proText">60%</span>
+                                <div class="slice">
+                                    <div class="bar"></div>
+                                    <div class="fill"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="value">Value: @item.Value %</p>
+
+                        <div class="date">
+                            <p class="col-lg-6 start">Start: @item.Start</p>
+                            <p class="col-lg-6 end">End: @item.End</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+
+    <div class="col-lg-4">
+        <table class="table sideTable coderTable">
+            <caption>Previous projects</caption>
+            <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Course</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Proj1</td>
+                    <td>T107-GSKI</td>
+                    <td>Accepted</td>
+                </tr>
+                <tr>
+                    <td>Proj1</td>
+                    <td>T107-GSKI</td>
+                    <td>Accepted</td>
+                </tr>
+                <tr>
+                    <td>Proj1</td>
+                    <td>T107-GSKI</td>
+                    <td>Memory Error</td>
+                </tr>
+                <tr>
+                    <td>Proj1</td>
+                    <td>T107-GSKI</td>
+                    <td>Memory Error</td>
+                </tr>
+                <tr>
+                    <td>Proj1</td>
+                    <td>T107-GSKI</td>
+                    <td>Memory Error</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-4">
+        <table class="recentSubs table sideTable coderTable">
+            <caption>Recent submissions</caption>
+            <thead>
+                <tr>
+                    <th>Submission</th>
+                    <th>Task</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>#1</td>
+                    <td>b</td>
+                    <td>Accepted</td>
+                </tr>
+                <tr>
+                    <td>#2</td>
+                    <td>c</td>
+                    <td>Accepted</td>
+                </tr>
+                <tr>
+                    <td>#3</td>
+                    <td>a</td>
+                    <td>Accepted</td>
+                </tr>
+                <tr>
+                    <td>#4</td>
+                    <td>a</td>
+                    <td>Memory Error</td>
+                </tr>
+                <tr>
+                    <td>#21</td>
+                    <td>d</td>
+                    <td>Memory Error</td>
+                </tr>
+                <tr>
+                    <td>#38</td>
+                    <td>c</td>
+                    <td>Compile Error</td>
+                </tr>
+                <tr>
+                    <td>#465</td>
+                    <td>a</td>
+                    <td>Accepted</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<p>Courses: @Model.Courses.Count()</p>
+<p>Projects: @Model.Projects.Count()</p>
+<p>Users: @Model.Users.Count()</p>
