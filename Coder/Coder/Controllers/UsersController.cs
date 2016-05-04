@@ -69,6 +69,7 @@ namespace Coder.Controllers
         {
             if (ModelState.IsValid)
             {
+                // TODO: Password
                 userViewModel.CurrentUser.UserCourses = new List<UserCourse>();
                 for (int i = 0; i < form.Count; i++)
                 {
