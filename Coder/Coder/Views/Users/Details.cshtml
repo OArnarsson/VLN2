@@ -47,12 +47,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (int i = 0; i < Model.CurrentUser.UserCourses.Count(); i++)
+                    @foreach (var userCourse in Model.CurrentUser.UserCourses)
                     {
-                        enumList.ForEach(x => x.Selected = (x.Value == ((int)Model.CurrentUser.UserCourses.ElementAt(i).CoderRole).ToString()));
+                        enumList.ForEach(x => x.Selected = Model.CurrentUser.UserCourses.Any(j => j.CourseId == userCourse.CourseId) &&
+                                                               (int.Parse(x.Value) == ((int)Model.CurrentUser.UserCourses.FirstOrDefault(j => j.CourseId == userCourse.CourseId).CoderRole)));
                         <tr>
-                            <td>@Model.Courses.ElementAt(i).Title</td>
-                            <td>@Html.DropDownList("courseRole", enumList, "---")</td>
+                            <td>@userCourse.Course.Title</td>
+                            <td>@userCourse.CoderRole</td>
                         </tr>
                     }
                 </tbody>

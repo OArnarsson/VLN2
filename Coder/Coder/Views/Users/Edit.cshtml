@@ -56,8 +56,8 @@
                     <tbody>
                         @foreach (var course in Model.Courses)
                         {
-                            enumList.ForEach(x => x.Selected = Model.CurrentUser.UserCourses.Any(j => j.UserId == Model.CurrentUser.Id && j.CourseId == course.Id) &&
-                                                               (int.Parse(x.Value) == ((int)Model.CurrentUser.UserCourses.FirstOrDefault(j => j.UserId == Model.CurrentUser.Id && j.CourseId == course.Id).CoderRole)));
+                            enumList.ForEach(x => x.Selected = Model.CurrentUser.UserCourses.Any(j => j.CourseId == course.Id) &&
+                                                               (int.Parse(x.Value) == ((int)Model.CurrentUser.UserCourses.FirstOrDefault(j => j.CourseId == course.Id).CoderRole)));
                             <tr>
                                 <td>@course.Title</td>
                                 <td>@Html.DropDownList(("Course_" + course.Id), enumList, "---")</td>
