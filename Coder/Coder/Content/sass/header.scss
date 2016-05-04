@@ -23,3 +23,17 @@
         font-size: 20px;
     }
 }
+
+#headLogo {
+    img {
+        float: left;
+        margin: 5px 10px;
+        vertical-align: auto;
+        height: 45px;
+        fill: #fff;
+
+        :hover {
+            fill : white;
+        }
+    }
+}
