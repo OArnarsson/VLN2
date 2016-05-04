@@ -35,6 +35,14 @@ textarea {
     max-width: 280px;
 }
 
+a {
+    color: $color-third;
+
+    :hover {
+        color: $color-first;
+    }
+}
+
 hr {
     height: 12px;
     //margin: 30px -999px 20px;

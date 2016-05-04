@@ -3,7 +3,7 @@
     th {
         background-color: #fff;
     }
-    tr:nth-child(odd) {
+    tr:nth-child(2n+1) {
         background-color: $color-second;
     }
 }
