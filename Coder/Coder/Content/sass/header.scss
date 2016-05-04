@@ -23,13 +23,15 @@
 }
 
 //All hover on navbar
-a:hover, .navbar-brand:hover{
+a:hover,
+.navbar-brand:hover{
         background-color : $color-second!important;
         color : $color-first!important;
     }
 
 //Text in all but brand
-.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a {
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a {
     color : $color-second!important;
 }
 

@@ -11,14 +11,14 @@ body {
 .allProjects {
     padding-left : 0;
     display : inline-block;
-    margin-top : 10px;  
+    margin-top : 10px;
     
     //The first box in each row
     a:nth-of-type(3n-2) {
         .projectBox {
             margin-left : 0;
         }
-    } 
+    }
 }
 
 

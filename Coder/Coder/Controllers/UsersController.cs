@@ -133,10 +133,26 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(UserViewModel userViewModel)
+        public ActionResult Edit(UserViewModel userViewModel, FormCollection form)
         {
             if (ModelState.IsValid)
             {
+                userViewModel.CurrentUser.UserCourses = new List<UserCourse>();
+
+                userViewModel.CurrentUser.UserCourses.RemoveAll(x => x.UserId == userViewModel.CurrentUser.Id);
+
+                for (int i = 0; i < form.Count; i++)
+                {
+                    var key = form.Keys[i];
+
+                    if (key.StartsWith("Course_") && !string.IsNullOrEmpty(form.GetValue(key).AttemptedValue.ToString()))
+                    {
+                        var val = int.Parse(form.GetValue(key).AttemptedValue.ToString());
+                        var courseId = int.Parse(key.Split('_')[1]);
+                        userViewModel.CurrentUser.UserCourses.Add(new UserCourse { UserId = userViewModel.CurrentUser.Id, CourseId = courseId, CoderRole = (CoderRole)val });
+                    }
+                }
+
                 userViewModel.CurrentUser.UserName = userViewModel.CurrentUser.Email;
                 db.Entry(userViewModel.CurrentUser).State = EntityState.Modified;
 
