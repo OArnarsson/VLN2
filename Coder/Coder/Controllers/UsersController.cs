@@ -38,10 +38,7 @@ namespace Coder.Controllers
             UserViewModel userViewModel = new UserViewModel()
             {
                 Courses = db.Courses.ToList(),
-                CurrentUser = applicationUser,
-                UserCourses = (from c in db.UserCourses
-                              where c.UserId == id
-                              select c).ToList()
+                CurrentUser = applicationUser
             };
 
             if (applicationUser == null)
@@ -54,19 +51,10 @@ namespace Coder.Controllers
         // GET: Users/Create
         public ActionResult Create()
         {
-            List<Course> AllCourses = db.Courses.ToList();
-            List<UserCourse> UserCourses = new List<UserCourse>();
-
-            foreach (var course in AllCourses)
-            {
-                UserCourses.Add(new UserCourse { UserId = null, CourseId = course.Id, CoderRole = CoderRole.Guest });
-            }
-
             UserViewModel userViewModel = new UserViewModel()
-             {
-                 Courses = AllCourses,
-                 CurrentUser = new ApplicationUser(),
-                 UserCourses = UserCourses
+            {
+                Courses = db.Courses.ToList(),
+                CurrentUser = new ApplicationUser()
             };
 
             return View(userViewModel);
@@ -77,10 +65,23 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(UserViewModel userViewModel)
+        public ActionResult Create(UserViewModel userViewModel, FormCollection form)
         {
             if (ModelState.IsValid)
             {
+                userViewModel.CurrentUser.UserCourses = new List<UserCourse>();
+                for (int i = 0; i < form.Count; i++)
+                {
+                    var key = form.Keys[i];
+
+                    if (key.StartsWith("Course_") && !string.IsNullOrEmpty(form.GetValue(key).AttemptedValue.ToString()))
+                    {
+                        var val = int.Parse(form.GetValue(key).AttemptedValue.ToString());
+                        var courseId = int.Parse(key.Split('_')[1]);
+                        userViewModel.CurrentUser.UserCourses.Add(new UserCourse { CourseId = courseId, CoderRole = (CoderRole)val });
+                    }
+                }
+
                 userViewModel.CurrentUser.UserName = userViewModel.CurrentUser.Email;
                 db.Users.Add(userViewModel.CurrentUser);
                 try
@@ -117,10 +118,7 @@ namespace Coder.Controllers
             UserViewModel userViewModel = new UserViewModel()
             {
                 Courses = db.Courses.ToList(),
-                CurrentUser = applicationUser,
-                UserCourses = (from c in db.UserCourses
-                               where c.UserId == id
-                               select c).ToList()
+                CurrentUser = applicationUser
             };
 
             if (applicationUser == null)

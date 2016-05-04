@@ -2,6 +2,16 @@
 
 @{
     ViewBag.Title = "Edit";
+
+    var enumList = new List<SelectListItem>();
+    foreach (var value in Enum.GetValues(typeof(Coder.Models.Entity.CoderRole)))
+    {
+        enumList.Add(new SelectListItem
+        {
+            Text = value.ToString(),
+            Value = ((int)value).ToString()
+        });
+    }
 }
 
 <h2>Edit</h2>
@@ -34,7 +44,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserCourses, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CurrentUser.UserCourses, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <table>
                     <thead>
@@ -46,9 +56,10 @@
                     <tbody>
                         @for (int i = 0; i < Model.Courses.Count(); i++)
                         {
+                            enumList.ForEach(x => x.Selected = (x.Value == ((int)Model.CurrentUser.UserCourses.ElementAt(i).CoderRole).ToString()));
                             <tr>
                                 <td>@Model.Courses.ElementAt(i).Title</td>
-                                <td>@Html.DropDownListFor(m => Model.UserCourses.ElementAt(i).CoderRole, new SelectList(Enum.GetValues(typeof(Coder.Models.Entity.CoderRole))), "---")</td>
+                                <td>@Html.DropDownList(("Course_" + Model.Courses.ElementAt(i).Id), enumList, "---")</td>
                             </tr>
                         }
                     </tbody>
