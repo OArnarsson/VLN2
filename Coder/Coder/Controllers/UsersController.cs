@@ -31,20 +31,18 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            // TODO: check if ID is valid
-            // db.Users.Single(u => u.Id == id)
-            ApplicationUser applicationUser = db.Users.Find(id);
 
-            UserViewModel userViewModel = new UserViewModel()
-            {
-                Courses = db.Courses.ToList(),
-                CurrentUser = applicationUser
-            };
+            ApplicationUser user = db.Users.Find(id);
 
-            if (applicationUser == null)
+            if (user == null)
             {
                 return HttpNotFound();
             }
+
+            var userViewModel = new UserViewModel(user);
+            userViewModel.Courses = db.Courses.ToList();
+            userViewModel.UserCourses = db.UserCourses.Where(i => i.UserId == user.Id).ToList();
+
             return View(userViewModel);
         }
 
@@ -53,8 +51,7 @@ namespace Coder.Controllers
         {
             UserViewModel userViewModel = new UserViewModel()
             {
-                Courses = db.Courses.ToList(),
-                CurrentUser = new ApplicationUser()
+                Courses = db.Courses.ToList()
             };
 
             return View(userViewModel);
@@ -70,39 +67,39 @@ namespace Coder.Controllers
             if (ModelState.IsValid)
             {
                 // TODO: Password
-                userViewModel.CurrentUser.UserCourses = new List<UserCourse>();
-                for (int i = 0; i < form.Count; i++)
-                {
-                    var key = form.Keys[i];
 
-                    if (key.StartsWith("Course_") && !string.IsNullOrEmpty(form.GetValue(key).AttemptedValue.ToString()))
-                    {
-                        var val = int.Parse(form.GetValue(key).AttemptedValue.ToString());
-                        var courseId = int.Parse(key.Split('_')[1]);
-                        userViewModel.CurrentUser.UserCourses.Add(new UserCourse { CourseId = courseId, CoderRole = (CoderRole)val });
-                    }
+                var newUser = new ApplicationUser
+                {
+                    UserName = userViewModel.Name,
+                    Email = userViewModel.Email,
+                    PasswordHash = "ABUclklic+d66MaHLCMRHYcujA/HV/M1Hd5DChD84SgqoYMd27K/Mt86WJNAHaA8MA==" // Password is "Password1!"
+                };
+
+                var userCourses = getUserCoursesFromFormCollection(form, newUser.Id);
+
+                foreach (var i in userCourses)
+                {
+                    db.UserCourses.Add(i);
                 }
 
-                userViewModel.CurrentUser.UserName = userViewModel.CurrentUser.Email;
-                db.Users.Add(userViewModel.CurrentUser);
+                db.Users.Add(newUser);
                 try
                 {
                     db.SaveChanges();
                 }
-                catch (DbEntityValidationException dbEx)
+                catch (DbEntityValidationException ex)
                 {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
+                    foreach (var entityValidationErrors in ex.EntityValidationErrors)
                     {
-                        foreach (var validationError in validationErrors.ValidationErrors)
+                        foreach (var validationError in entityValidationErrors.ValidationErrors)
                         {
-                            Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
+                            Response.Write("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
                         }
                     }
                 }
-                
+
                 return RedirectToAction("Index");
             }
-
             return View(userViewModel);
         }
 
@@ -114,18 +111,17 @@ namespace Coder.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ApplicationUser applicationUser = db.Users.Find(id);
+            ApplicationUser user = db.Users.Find(id);
 
-            UserViewModel userViewModel = new UserViewModel()
-            {
-                Courses = db.Courses.ToList(),
-                CurrentUser = applicationUser
-            };
-
-            if (applicationUser == null)
+            if (user == null)
             {
                 return HttpNotFound();
             }
+
+            var userViewModel = new UserViewModel(user);
+            userViewModel.Courses = db.Courses.ToList();
+            userViewModel.UserCourses = db.UserCourses.Where(i => i.UserId == user.Id).ToList();
+            
             return View(userViewModel);
         }
 
@@ -138,48 +134,43 @@ namespace Coder.Controllers
         {
             if (ModelState.IsValid)
             {
-                userViewModel.CurrentUser.UserCourses = new List<UserCourse>();
+                var user = db.Users.FirstOrDefault(i => i.Id == userViewModel.UserId);
+                user.Name = userViewModel.Name;
+                user.Email = userViewModel.Email;
 
-                for (int i = 0; i < form.Count; i++)
+                foreach (var x in db.UserCourses.Where(i => i.UserId == user.Id))
                 {
-                    var key = form.Keys[i];
-
-                    if (key.StartsWith("Course_") && !string.IsNullOrEmpty(form.GetValue(key).AttemptedValue.ToString()))
-                    {
-                        var val = int.Parse(form.GetValue(key).AttemptedValue.ToString());
-                        var courseId = int.Parse(key.Split('_')[1]);
-                        userViewModel.CurrentUser.UserCourses.Add(new UserCourse { UserId = userViewModel.CurrentUser.Id, CourseId = courseId, CoderRole = (CoderRole)val });
-                    }
+                    db.UserCourses.Remove(x);
                 }
 
-                userViewModel.CurrentUser.UserName = userViewModel.CurrentUser.Email;
-                db.Entry(userViewModel.CurrentUser).State = EntityState.Modified;
+                foreach (var x in getUserCoursesFromFormCollection(form, user.Id))
+                {
+                    db.UserCourses.Add(x);
+                }
 
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
-                {
-                    Exception raise = dbEx;
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            string message = string.Format("{0}:{1}",
-                                validationErrors.Entry.Entity.ToString(),
-                                validationError.ErrorMessage);
-                            // raise a new exception nesting
-                            // the current instance as InnerException
-                            raise = new InvalidOperationException(message, raise);
-                        }
-                    }
-                    throw raise;
-                }
-                
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-            return View(userViewModel.CurrentUser);
+            return View(userViewModel);
+        }
+
+        public List<UserCourse> getUserCoursesFromFormCollection(FormCollection form, string userId)
+        {
+            var userCourses = new List<UserCourse>();
+            for (int i = 0; i < form.Count; i++)
+            {
+                var key = form.Keys[i];
+
+                if (key.StartsWith("Course_") && !string.IsNullOrEmpty(form.GetValue(key).AttemptedValue))
+                {
+                    var val = int.Parse(form.GetValue(key).AttemptedValue.ToString());
+                    var courseId = int.Parse(key.Split('_')[1]);
+                    userCourses.Add(new UserCourse { UserId = userId, CourseId = courseId, CoderRole = (CoderRole)val });
+                }
+            }
+            return userCourses;
         }
 
         // GET: Users/Delete/5
@@ -202,8 +193,12 @@ namespace Coder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            ApplicationUser applicationUser = db.Users.Find(id);
-            db.Users.Remove(applicationUser);
+            ApplicationUser user = db.Users.Find(id);
+            foreach (var c in db.UserCourses.Where(i => i.UserId == id))
+            {
+                db.UserCourses.Remove(c);
+            }
+            db.Users.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
