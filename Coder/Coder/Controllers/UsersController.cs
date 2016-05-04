@@ -85,24 +85,11 @@ namespace Coder.Controllers
 
                 userViewModel.CurrentUser.UserName = userViewModel.CurrentUser.Email;
                 db.Users.Add(userViewModel.CurrentUser);
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            Trace.TraceInformation("Property: {0} Error: {1}", validationError.PropertyName, validationError.ErrorMessage);
-                        }
-                    }
-                }
-                
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-
+            userViewModel.Courses = db.Courses.ToList();
             return View(userViewModel);
         }
 
@@ -139,7 +126,6 @@ namespace Coder.Controllers
             if (ModelState.IsValid)
             {
                 userViewModel.CurrentUser.UserCourses = new List<UserCourse>();
-
                 for (int i = 0; i < form.Count; i++)
                 {
                     var key = form.Keys[i];
@@ -152,34 +138,24 @@ namespace Coder.Controllers
                     }
                 }
 
+                foreach (var x in db.UserCourses.Where(i => i.UserId == userViewModel.CurrentUser.Id))
+                {
+                    db.UserCourses.Remove(x);
+                }
+
+                foreach (var x in userViewModel.CurrentUser.UserCourses)
+                {
+                    db.UserCourses.Add(x);
+                }
+
                 userViewModel.CurrentUser.UserName = userViewModel.CurrentUser.Email;
                 db.Entry(userViewModel.CurrentUser).State = EntityState.Modified;
 
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
-                {
-                    Exception raise = dbEx;
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
-                        {
-                            string message = string.Format("{0}:{1}",
-                                validationErrors.Entry.Entity.ToString(),
-                                validationError.ErrorMessage);
-                            // raise a new exception nesting
-                            // the current instance as InnerException
-                            raise = new InvalidOperationException(message, raise);
-                        }
-                    }
-                    throw raise;
-                }
-                
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-            return View(userViewModel.CurrentUser);
+            return View(userViewModel);
         }
 
         // GET: Users/Delete/5
