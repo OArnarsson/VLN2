@@ -83,7 +83,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.Name, "Details", "ProjectTasks", new { id = item.Id })
+                @Html.ActionLink(item.Name, "Details", "ProjectTasks", new { id = item.Id }, null)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Value)
@@ -91,9 +91,8 @@
             @if (ViewBag.Role == Coder.Models.Entity.CoderRole.Teacher || User.IsInRole("Administrator"))
             {
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Edit", "Edit", "ProjectTasks", new { id = item.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "ProjectTasks", new { id = item.Id }, null)
                 </td>
             }
         </tr>
