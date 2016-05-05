@@ -10,6 +10,7 @@ using Coder.Models;
 using Coder.Models.Entity;
 using Coder.Models.ViewModels;
 using MvcSiteMapProvider.Web.Mvc.Filters;
+using Microsoft.AspNet.Identity;
 
 namespace Coder.Controllers
 {
@@ -20,7 +21,20 @@ namespace Coder.Controllers
         // GET: Courses
         public ActionResult Index()
         {
-            return View(db.Courses.ToList());
+            var userId = User.Identity.GetUserId();
+            var courses = (from c in db.Courses
+                            join u in db.UserCourses on c.Id equals u.CourseId
+                            where u.UserId == userId
+                            select c).ToList();
+
+            if (courses == null)
+            {
+                return View();
+            }
+            else
+            {
+                return View(courses.ToList());
+            }
         }
 
         // GET: Courses/Details/5
