@@ -15,6 +15,7 @@ using System.Web.Security;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using MvcSiteMapProvider.Web.Mvc.Filters;
 
 namespace Coder.Controllers
 {
@@ -29,6 +30,7 @@ namespace Coder.Controllers
         }
 
         // GET: Users/Details/5
+        [SiteMapTitle("title")]
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -111,6 +113,7 @@ namespace Coder.Controllers
         }
 
         // GET: Users/Edit/5
+        [SiteMapTitle("title")]
         public ActionResult Edit(string id)
         {
             if (id == null)

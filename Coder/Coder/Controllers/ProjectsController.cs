@@ -10,6 +10,7 @@ using Coder.Models;
 using Coder.Models.Entity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
+using MvcSiteMapProvider.Web.Mvc.Filters;
 
 namespace Coder.Controllers
 {
@@ -18,7 +19,6 @@ namespace Coder.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Projects
-        [Authorize]
         public ActionResult Index()
         {
             var projects = db.Projects;
@@ -53,6 +53,7 @@ namespace Coder.Controllers
         }
 
         // GET: Projects/Details/5
+        [SiteMapTitle("title")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -93,6 +94,7 @@ namespace Coder.Controllers
         }
 
         // GET: Projects/Edit/5
+        [SiteMapTitle("title")]
         public ActionResult Edit(int? id)
         {
             if (id == null)

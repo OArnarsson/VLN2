@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Coder.Models;
 using Coder.Models.Entity;
+using MvcSiteMapProvider.Web.Mvc.Filters;
 
 namespace Coder.Controllers
 {
@@ -23,6 +24,7 @@ namespace Coder.Controllers
         }
 
         // GET: ProjectTasks/Details/5
+        [SiteMapTitle("title")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -63,6 +65,7 @@ namespace Coder.Controllers
         }
 
         // GET: ProjectTasks/Edit/5
+        [SiteMapTitle("title")]
         public ActionResult Edit(int? id)
         {
             if (id == null)

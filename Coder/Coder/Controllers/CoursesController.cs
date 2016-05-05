@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Coder.Models;
 using Coder.Models.Entity;
 using Coder.Models.ViewModels;
+using MvcSiteMapProvider.Web.Mvc.Filters;
 
 namespace Coder.Controllers
 {
@@ -23,6 +24,7 @@ namespace Coder.Controllers
         }
 
         // GET: Courses/Details/5
+        [SiteMapTitle("title")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -64,6 +66,7 @@ namespace Coder.Controllers
         }
 
         // GET: Courses/Edit/5
+        [SiteMapTitle("title")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -139,6 +142,7 @@ namespace Coder.Controllers
         }
 
         // GET: Courses/Delete/5
+        //[SiteMapTitle("title")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
