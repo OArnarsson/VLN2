@@ -1,39 +1,13 @@
 ﻿@model Coder.Models.Entity.Course
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = @Html.DisplayFor(model => model.Name) + " Details";
 }
 
-<h2>Details</h2>
+<h2> @Html.DisplayFor(model => model.Name) ( @Html.DisplayFor(model => model.Title) )</h2>
 
-<div>
-    <h4>Course</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
+<dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Start)
         </dt>
@@ -51,6 +25,14 @@
         </dd>
 
     </dl>
+
+<div>
+    <hr />
+    <h3> @Html.DisplayNameFor(model => model.Description) </h3>
+
+        <p>
+            @Html.DisplayFor(model => model.Description)
+        </p>
 </div>
 <h3>Projects in this course</h3>
 <div class="projects">

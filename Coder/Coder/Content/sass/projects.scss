@@ -53,6 +53,11 @@
     }
 }
 
+.projectBox.fluid {
+    max-height: none;
+    margin-bottom: 10px;
+}
+
 #proText {
     color: $color-first;
 }

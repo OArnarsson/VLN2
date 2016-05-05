@@ -226,6 +226,7 @@
     <None Include="Content\sass\layout.scss" />
     <Content Include="Content\sass\theme.scss" />
     <Content Include="Content\sass\login.scss" />
+    <Content Include="Content\sass\userDetails.scss" />
     <None Include="Content\sass\variables.scss" />
     <Content Include="package.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

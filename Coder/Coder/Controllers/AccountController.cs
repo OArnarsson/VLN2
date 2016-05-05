@@ -65,13 +65,13 @@ namespace Coder.Controllers
             
             using (WebClient wc = new WebClient())
             {
-                var json = wc.DownloadString("http://quotes.rest/qod.json");
+                var json = wc.DownloadString("http://api.icndb.com/jokes/random/");
                 var data = (JObject)JsonConvert.DeserializeObject(json);
                 
-                ViewBag.Quote = data["contents"]["quotes"][0]["quote"];
+                ViewBag.Joke = data["value"]["joke"];
             }
 
-            // quotes.rest/qod.json
+            // quotes.rest/qod.json*/
             return View();
         }
 
