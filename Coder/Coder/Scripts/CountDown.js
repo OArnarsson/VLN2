@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-=======
-﻿var clock;
->>>>>>> Stashed changes
 
 $(document).ready(function () {
     
