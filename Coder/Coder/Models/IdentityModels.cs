@@ -12,7 +12,8 @@ namespace Coder.Models
     public class ApplicationUser : IdentityUser
     {
         public string Name { get; set; }
-        public virtual List<UserCourse> UserCourses { get; set; }
+        public virtual ICollection<UserCourse> UserCourses { get; set; }
+        public virtual ICollection<Submission> Submissions { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

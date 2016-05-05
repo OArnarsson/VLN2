@@ -8,14 +8,15 @@ namespace Coder.Models.Entity
 {
     public class SubmissionTestResult
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Input { get; set; }
         public string Output { get; set; }
         public string ObtainedOutput { get; set; }
         public int Status { get; set; }
 
-        [ForeignKey("Submission")]
         public int SubmissionId { get; set; }
-        public Submission Submission { get; set; }
+        [ForeignKey("SubmissionId")]
+        public virtual Submission Submission { get; set; }
     }
 }

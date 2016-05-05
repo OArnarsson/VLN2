@@ -19,6 +19,8 @@ namespace Coder.Models.Entity
 
         [ForeignKey("UserId")]
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        [ForeignKey("CourseId")]
         public virtual Course Course { get; set; }
     }
 

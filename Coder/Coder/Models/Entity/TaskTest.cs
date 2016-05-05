@@ -12,6 +12,10 @@ namespace Coder.Models.Entity
         public int Id { get; set; }
         public string Input { get; set; }
         public string Output { get; set; }
+
         public int ProjectTaskId { get; set; }
+
+        [ForeignKey("ProjectTaskId")]
+        public virtual ProjectTask ProjectTask { get; set; }
     }
 }

@@ -8,8 +8,8 @@ namespace Coder.Models.ViewModels
 {
     public class DashboardViewModel
     {
-        public IEnumerable<Course> Courses { get; set; }
-        public IEnumerable<Project> Projects { get; set; }
-        public IEnumerable<ApplicationUser> Users { get; set;  }
+        public List<Course> Courses { get; set; }
+        public List<Project> Projects { get; set; }
+        public List<ApplicationUser> Users { get; set;  }
     }
 }

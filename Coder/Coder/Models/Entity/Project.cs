@@ -24,11 +24,11 @@ namespace Coder.Models.Entity
 
         public double Value { get; set; }
 
-        [ForeignKey("Course")]
         public int CourseId { get; set; }
         
-        public IEnumerable<ProjectTask> ProjectTasks { get; set; }
+        public virtual ICollection<ProjectTask> ProjectTasks { get; set; }
 
+        [ForeignKey("CourseId")]
         public virtual Course Course { get; set; }
     }
 }

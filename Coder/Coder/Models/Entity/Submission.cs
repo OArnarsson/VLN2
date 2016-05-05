@@ -12,11 +12,11 @@ namespace Coder.Models.Entity
         public int Id { get; set; }
         public DateTime Created { get; set; }
 
-        [ForeignKey("ProjectTask")]
         public int ProjectTaskId { get; set; }
+        [ForeignKey("ProjectTaskId")]
         public virtual ProjectTask ProjectTask { get; set; }
 
-        public IEnumerable<ApplicationUser> ApplicationUsers { get; set; }
-        public IEnumerable<SubmissionTestResult> SubmissionTestResults { get; set; }
+        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual ICollection<SubmissionTestResult> SubmissionTestResults { get; set; }
     }
 }

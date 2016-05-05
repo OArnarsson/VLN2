@@ -14,14 +14,15 @@ namespace Coder.Models.Entity
         public string Description { get; set; }
         public double Value { get; set; }
 
-        [ForeignKey("Project")]
+        
         public int ProjectId { get; set; }
 
-        IEnumerable<FileRequired> FilesRequired { get; set; }
-        IEnumerable<TaskTest> TaskTests { get; set; }
-        IEnumerable<Submission> Submissions { get; set; }
-        IEnumerable<Comment> Comments { get; set; }
-
+        [ForeignKey("ProjectId")]
         public virtual Project Project { get; set; }
+
+        public virtual ICollection<FileRequired> FilesRequired { get; set; }
+        public virtual ICollection<TaskTest> TaskTests { get; set; }
+        public virtual ICollection<Submission> Submissions { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }
