@@ -46,8 +46,10 @@
         </div>
     </footer>
     @Scripts.Render("~/bundles/jquery")   
-    @Scripts.Render("~/bundles/bootstrap")    
-    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/flipclock.min.js"></script>
+    <script src="~/Scripts/CountDown.js"></script>
+        @RenderSection("scripts", required: false)
        
 </body>
 </html>

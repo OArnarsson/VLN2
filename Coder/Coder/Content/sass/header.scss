@@ -8,33 +8,46 @@
     font-size: 15px;
     color: #fff;
 
-
     .nav a {
         color: $color-second;
         transition: .4s ease all;
+
         &:hover {
             color: $color-third;
         }
     }
-
-    //Leftmost item in navbar
-    .navbar-brand {
-        color: $color-third;
-        font-size: 26px;
-    }
-
-    :hover {
-        color : $color-second;
-    }
 }
 
 #headLogo {
-    float: left;
-    margin-top : 5px;
-    margin-right: 8px;
-    width: 44px; 
-    
-    :hover {
-        fill: $color-third!important;
-    }  
+    .logo {
+        float: left;
+        padding: 5px 15px 5px 0;
+
+        svg {
+            display: block;
+            width: 40px;
+            path {
+                transition: .4s ease all;
+            }
+        }
+    }
+
+    .logoTitle {
+        float: left;
+        margin-right: 30px;
+        color: #fff;
+        font-size: 26px;
+        line-height: 50px;
+        transition: .4s ease all;
+    }
+
+    &:hover {
+        .logoTitle {
+            color: $color-third;
+        }
+
+        svg path {
+            fill: $color-third !important;
+        }
+    }
 }
