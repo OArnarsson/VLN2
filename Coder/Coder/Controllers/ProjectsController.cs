@@ -71,7 +71,7 @@ namespace Coder.Controllers
             var userId = User.Identity.GetUserId();
             var userCourse = db.UserCourses.FirstOrDefault(i => i.UserId == userId && i.CourseId == project.Course.Id);
 
-            if (userCourse == null)
+            if (userCourse == null && !User.IsInRole("Administrator"))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
