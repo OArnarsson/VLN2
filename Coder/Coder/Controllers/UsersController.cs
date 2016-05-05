@@ -11,6 +11,10 @@ using Coder.Models.ViewModels;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using Coder.Models.Entity;
+using System.Web.Security;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Coder.Controllers
 {
@@ -49,7 +53,7 @@ namespace Coder.Controllers
         // GET: Users/Create
         public ActionResult Create()
         {
-            UserViewModel userViewModel = new UserViewModel()
+            CreateUserViewModel userViewModel = new CreateUserViewModel()
             {
                 Courses = db.Courses.ToList()
             };
@@ -62,19 +66,22 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(UserViewModel userViewModel, FormCollection form)
+        public async Task<ActionResult> Create(CreateUserViewModel userViewModel, FormCollection form)
         {
             if (ModelState.IsValid)
             {
-                // TODO: Password
+                UserStore<ApplicationUser> store = new UserStore<ApplicationUser>(db);
+                UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(store);
 
                 var newUser = new ApplicationUser
                 {
-                    UserName = userViewModel.Name,
-                    Email = userViewModel.Email,
-                    PasswordHash = "ABUclklic+d66MaHLCMRHYcujA/HV/M1Hd5DChD84SgqoYMd27K/Mt86WJNAHaA8MA==" // Password is "Password1!"
+                    Name = userViewModel.Name,
+                    UserName = userViewModel.Email,
+                    Email = userViewModel.Email
                 };
 
+                var result = await UserManager.CreateAsync(newUser, userViewModel.Password);
+            
                 var userCourses = getUserCoursesFromFormCollection(form, newUser.Id);
 
                 foreach (var i in userCourses)
