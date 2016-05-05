@@ -24,9 +24,8 @@ namespace Coder.Models.Entity
 
     public enum CoderRole
     {
-        Guest = 1,
-        Student = 2,
-        Teacher = 3,
-        Admin = 4
+        Student = 1,
+        TeachingAssistant = 2,
+        Teacher = 3
     }
 }
