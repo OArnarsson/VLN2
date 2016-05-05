@@ -1,12 +1,14 @@
 ﻿.coderTable {
     margin-top: 10px;
     width:100%;
+    background-color: white;
+
     th {
-        background-color: white;
+        background-color: $color-second;
         text-align:center;
     }
-    tr:nth-child(2n+1) {
-        background-color: white;
+    tr:nth-child(2n) {
+        background-color: $color-second;
     }
     caption{        
         font-weight:bolder;
