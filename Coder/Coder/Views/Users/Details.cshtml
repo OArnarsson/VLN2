@@ -14,98 +14,126 @@
     }
 }
 
-<h2>Details</h2>
-
 <div class="col-lg-8">
-    <dd>
-        <h4>User - @Model.Email</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Email)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Email)
-            </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Password)
-            </dt>
+    <div class="projectBox fluid">
+        <h2>User Details</h2>
 
-            <dd>
-                (ChangeButtonPlaceholder)
-            </dd>
+        <dd>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.UserId)
-            </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.UserId)
-            </dd>
-        </dl>
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+            </dl>
 
-        <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
-            @Html.ActionLink("Back to List", "Index")
-        </p>
-</div>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+    </div>
 
-<div class="col-lg-4 projectBox">
-    <table class="table sideTable coderTable">
-        <caption>Courses</caption>
-        <thead>
-            <tr>
-                <td>Course</td>
-                <td>Role</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var userCourse in Model.UserCourses)
-            {       
-    enumList.ForEach(x => x.Selected = Model.UserCourses.Any(j => j.CourseId == userCourse.CourseId) &&
-                                           (int.Parse(x.Value) == ((int)Model.UserCourses.FirstOrDefault(j => j.CourseId == userCourse.CourseId).CoderRole)));
+    <div class="projectBox fluid">
+        <table class="table coderTable">
+            <caption>Recent submissions</caption>
+            <thead>
                 <tr>
-                    <td>@userCourse.Course.Title</td>
-                    <td>@userCourse.CoderRole</td>
+                    <th>Submission</th>
+                    <th>Project</th>
+                    <th>Task</th>
+                    <th>Status</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-<div class="row">
-    <table class="table coderTable">
-        <caption>Recent submissions</caption>
-        <thead>
-            <tr>
-                <td>Submission</td>
-                <td>Project</td>
-                <td>Task</td>
-                <td>Status</td>
-            </tr>
-        </thead>
-        <!--This body only contains dummy info for visuals-->
-        <tbody>
-            @foreach (var userCourse in Model.UserCourses)
+            </thead>
+            <!--This body only contains dummy info for visuals-->
+            <tbody>
+                @foreach (var userCourse in Model.UserCourses)
             {
                 enumList.ForEach(x => x.Selected = Model.UserCourses.Any(j => j.CourseId == userCourse.CourseId) &&
                                                        (int.Parse(x.Value) == ((int)Model.UserCourses.FirstOrDefault(j => j.CourseId == userCourse.CourseId).CoderRole)));
+                    <tr>
+                        <td>@userCourse.Course.Title</td>
+                        <td>@userCourse.CoderRole</td>
+                        <td>@userCourse.Course.Projects.Count</td>
+                        <td>@userCourse.Course.Start</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="userDetailsRightSide" class="col-lg-4">
+    <div class="projectBox fluid">
+        <table class="table sideTable coderTable">
+            <caption>Enrollments</caption>
+            <thead>
                 <tr>
-                    <td>@userCourse.Course.Title</td>
-                    <td>@userCourse.CoderRole</td>
-                    <td>@userCourse.Course.Projects.Count</td>
-                    <td>@userCourse.Course.Start</td>
+                    <th>Course</th>
+                    <th>Role</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var userCourse in Model.UserCourses)
+            {
+                enumList.ForEach(x => x.Selected = Model.UserCourses.Any(j => j.CourseId == userCourse.CourseId) &&
+                                                       (int.Parse(x.Value) == ((int)Model.UserCourses.FirstOrDefault(j => j.CourseId == userCourse.CourseId).CoderRole)));
+                    <tr>
+                        <td>@Html.ActionLink(userCourse.Course.Title, "Details", "Courses", new { id = userCourse.CourseId }, null)</td>
+                        <td>@userCourse.CoderRole</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="projectBox fluid">
+        <table class="table sideTable coderTable">
+            <caption>Comments</caption>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Project</th>
+                    <th>Task</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>ProjectsSomething</td>
+                    <td>C</td>
+                    <td>21.06.2015</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>ProjectsSomething</td>
+                    <td>C</td>
+                    <td>21.06.2015</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>ProjectsSomething</td>
+                    <td>C</td>
+                    <td>21.06.2015</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>ProjectsSomething</td>
+                    <td>C</td>
+                    <td>21.06.2015</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
