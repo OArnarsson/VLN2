@@ -14,10 +14,10 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Course.Name)
+                    Project
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    Course
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Start)
@@ -36,10 +36,10 @@
         {
             <tr>
                 <td>
-                    @Html.ActionLink(item.Course.Name, "Details", "Courses", new { id = item.Course.Id }, null)
+                    @Html.ActionLink(item.Name, "Details", new { id = item.Id })
                 </td>
                 <td>
-                    @Html.ActionLink(item.Name, "Details", new { id = item.Id })
+                    @Html.ActionLink(item.Course.Name, "Details", "Courses", new { id = item.Course.Id }, null)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Start)

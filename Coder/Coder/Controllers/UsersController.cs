@@ -142,11 +142,6 @@ namespace Coder.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(UserViewModel userViewModel, FormCollection form)
         {
-            if (userViewModel.Password != userViewModel.ConfirmPassword)
-            {
-                ModelState.AddModelError("Password", "The password must be at least 6 characters long.");
-            }
-
             if (ModelState.IsValid)
             {
                 ApplicationUser user = db.Users.FirstOrDefault(i => i.Id == userViewModel.UserId);
