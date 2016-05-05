@@ -9,6 +9,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Coder.Models;
+using System.Net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 
 namespace Coder.Controllers
 {
@@ -58,6 +62,16 @@ namespace Coder.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            
+            using (WebClient wc = new WebClient())
+            {
+                var json = wc.DownloadString("http://quotes.rest/qod.json");
+                var data = (JObject)JsonConvert.DeserializeObject(json);
+                
+                ViewBag.Quote = data["contents"]["quotes"][0]["quote"];
+            }
+
+            // quotes.rest/qod.json
             return View();
         }
 
