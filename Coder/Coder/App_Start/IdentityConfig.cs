@@ -53,7 +53,7 @@ namespace Coder
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6
+                RequiredLength = 1
             };
 
             // Configure user lockout defaults
