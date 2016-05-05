@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Coder.Models;
 using Coder.Models.Entity;
+using Coder.Models.ViewModels;
 
 namespace Coder.Controllers
 {
@@ -70,11 +71,17 @@ namespace Coder.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Course course = db.Courses.Find(id);
+
             if (course == null)
             {
                 return HttpNotFound();
             }
-            return View(course);
+
+            CourseViewModel courseViewModel = new CourseViewModel(course);
+            courseViewModel.UserCourses = db.UserCourses.Where(i => i.CourseId == course.Id).ToList();
+            courseViewModel.ApplicationUsers = db.Users.ToList();
+           
+            return View(courseViewModel);
         }
 
         // POST: Courses/Edit/5
@@ -82,15 +89,53 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,Title,Start,End")] Course course)
+        public ActionResult Edit(CourseViewModel courseViewModel, FormCollection form)
         {
             if (ModelState.IsValid)
             {
+                Course course = db.Courses.FirstOrDefault(i => i.Id == courseViewModel.CourseId);
+                course.Name = courseViewModel.Name;
+                course.Description = courseViewModel.Description;
+                course.Title = courseViewModel.Title;
+                course.Start = courseViewModel.Start;
+                course.End = courseViewModel.End;
+
+                foreach (var x in db.UserCourses.Where(i => i.CourseId == course.Id))
+                {
+                    db.UserCourses.Remove(x);
+                }
+
+                foreach (var x in getUserCoursesFromFormCollection(form, course.Id))
+                {
+                    db.UserCourses.Add(x);
+                }
+
                 db.Entry(course).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { course.Id });
             }
-            return View(course);
+
+            courseViewModel.UserCourses = db.UserCourses.Where(i => i.CourseId == courseViewModel.CourseId).ToList();
+            courseViewModel.ApplicationUsers = db.Users.ToList();
+            return View(courseViewModel);
+        }
+
+        public List<UserCourse> getUserCoursesFromFormCollection(FormCollection form, int courseId)
+        {
+            var userCourses = new List<UserCourse>();
+            for (int i = 0; i < form.Count; i++)
+            {
+                var key = form.Keys[i];
+
+                if (key.StartsWith("User_") && !string.IsNullOrEmpty(form.GetValue(key).AttemptedValue))
+                {
+                    var val = int.Parse(form.GetValue(key).AttemptedValue.ToString());
+                    var userId = key.Split('_')[1];
+                    userCourses.Add(new UserCourse { UserId = userId.ToString(), CourseId = courseId, CoderRole = (CoderRole)val });
+                }
+            }
+
+            return userCourses;
         }
 
         // GET: Courses/Delete/5
