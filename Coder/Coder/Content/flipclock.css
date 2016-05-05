@@ -17,8 +17,6 @@
   text-decoration: none;
   color: #ccc; }
 
-.flip-clock-wrapper span:hover {
-  color: #fff; }
 
 .flip-clock-wrapper ul {
   list-style: none; }
@@ -49,8 +47,8 @@
 .flip-clock-wrapper {
   text-align: center;
   position: relative;
-  width: 100%;
-  margin: 1em;
+  width: 500px;
+  margin: 0 auto;
 }
 
 .flip-clock-wrapper:before,
@@ -67,12 +65,11 @@
   position: relative;
   float: left;
   margin: 5px;
-  width: 60px;
+  width: 43px;
   height: 90px;
   font-size: 80px;
   font-weight: bold;
   line-height: 87px;
-  border-radius: 6px;
   background: #000;
 }
 
@@ -109,11 +106,6 @@
   overflow: hidden; 
   outline: 1px solid transparent; }
 
-.flip-clock-wrapper ul li span div .shadow {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 2; }
 
 .flip-clock-wrapper ul li span div.up {
   -webkit-transform-origin: 50% 100%;
@@ -123,16 +115,6 @@
   transform-origin: 50% 100%;
   top: 0; }
 
-.flip-clock-wrapper ul li span div.up:after {
-  content: "";
-  position: absolute;
-  top: 44px;
-  left: 0;
-  z-index: 5;
-  width: 100%;
-  height: 3px;
-  background-color: #000;
-  background-color: rgba(0, 0, 0, 0.4); }
 
 .flip-clock-wrapper ul li span div.down {
   -webkit-transform-origin: 50% 0;
@@ -141,8 +123,6 @@
   -o-transform-origin: 50% 0;
   transform-origin: 50% 0;
   bottom: 0;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
 }
 
 
@@ -155,10 +135,8 @@
   width: 100%;
   height: 200%;
   color: #34495e;
-  text-shadow: 0 1px 2px #000;
   text-align: center;
   background-color: white;
-  border-radius: 6px;
   font-size: 70px; }
 
 .flip-clock-wrapper ul li span div.up div.inn {
@@ -171,7 +149,6 @@
 .flip-clock-wrapper ul.play li.flip-clock-before {
   z-index: 3; }
 
-.flip-clock-wrapper .flip {   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7); }
 
 .flip-clock-wrapper ul.play li.flip-clock-active {
   -webkit-animation: asd 0.5s 0.5s linear both;
@@ -184,7 +161,7 @@
   float: left;
   display: inline-block;
   position: relative;
-  width: 20px;
+  width: 25px;
   height: 100px; }
 
 .flip-clock-divider:first-child {
@@ -196,7 +173,6 @@
   width: 10px;
   height: 10px;
   position: absolute;
-  border-radius: 50%;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   left: 5px; }
 
@@ -205,7 +181,9 @@
   top: -1.5em;
   right: -86px;
   color: black;
-  text-shadow: none; }
+  text-shadow: none;
+  font-size: 35px;
+}
 
 .flip-clock-divider.minutes .flip-clock-label {
   right: -88px; }
@@ -434,5 +412,4 @@
 
 .our-clock{
     zoom: .3;
-    padding-right: 15px;
 }
