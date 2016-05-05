@@ -60,11 +60,24 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Project project = db.Projects.Find(id);
+
             if (project == null)
             {
                 return HttpNotFound();
             }
+
+            var userId = User.Identity.GetUserId();
+            var userCourse = db.UserCourses.FirstOrDefault(i => i.UserId == userId && i.CourseId == project.Course.Id);
+
+            if (userCourse == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            ViewBag.Role = userCourse.CoderRole;
+            
             return View(project);
         }
 

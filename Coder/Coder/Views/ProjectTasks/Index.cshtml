@@ -21,12 +21,9 @@
             Course
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Value)
         </th>
-        <th></th>
+        <th>@*Edit/Details/Delete*@</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -39,9 +36,6 @@
         </td>
         <td>
             @Html.ActionLink(item.Project.Course.Name, "Details", "Courses", new { id = item.Project.CourseId }, null)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Value)
