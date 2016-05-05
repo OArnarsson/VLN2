@@ -6,7 +6,7 @@
 
 
 <div class="course-details">
-<h2> @Html.DisplayFor(model => model.Name) ( @Html.DisplayFor(model => model.Title) )</h2>
+<h2 id="UniqueValue"> @Html.DisplayFor(model => model.Name) ( @Html.DisplayFor(model => model.Title) )</h2>
 
 
 <dl class="dl-horizontal">
@@ -28,6 +28,10 @@
 
     </dl>
 
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
 </div>
 <div class="description-block">
     <hr />
@@ -47,61 +51,58 @@
 
 @*The same code that is one the starting page, might need to do this differently - steinar*@
 
+<div>
+    </hr>
+    <h3>Projects</h3>
+    <div class="projectBox">
+        @foreach (var item in Model.Projects)
+        {
+            if (item.Value < 50)
+            {
+                ViewBag.color = "red";
+            }
+            else if (item.Value >= 50 && item.Value < 100)
+            {
+                ViewBag.color = "orange";
+            }
+            else if (item.Value == 100)
+            {
+                ViewBag.color = "green";
+            }
 
-<div class="projectBox">
-@foreach (var item in Model.Projects)
-{
-    if (item.Value < 50)
-    {
-        ViewBag.color = "red";
-    }
-    else if (item.Value >= 50 && item.Value < 100)
-    {
-        ViewBag.color = "orange";
-    }
-    else if (item.Value == 100)
-    {
-        ViewBag.color = "green";
-    }
+            if (@item.End < DateTime.Now)
+            {
+                ViewBag.ActiveProject = "oldBox";
+            }
 
-    if (@item.End < DateTime.Now)
-    {
-        ViewBag.ActiveProject = "oldBox";
-    }
+            //The percentage of circle colored.
+            ViewBag.pvalue = "p" + @item.Value;
 
-    //The percentage of circle colored.
-    ViewBag.pvalue = "p" + @item.Value;
+            //This is used to pass endDate data for countdown.
+            <input class="TimeLeft" type="hidden" value="@item.End.ToString("MM.dd.yy H:mm:ss")" id="@item.Id" />
 
-    //This is used to pass endDate data for countdown.
-    <input class="TimeLeft" type="hidden" value="@item.End.ToString("MM.dd.yy H:mm:ss")" id="@item.Id" />
+                <div class="col-md-4">
+                    <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
+                        <div class="projectBox @ViewBag.ActiveProject">
+                            <p class="name">@item.Name</p>
+                            <span class="course">@item.Course.Title</span>
 
-            <div class="col-md-4">
-                <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
-                    <div class="projectBox @ViewBag.ActiveProject">
-                        <p class="name">@item.Name</p>
-                        <span class="course">@item.Course.Title</span>
-
-                        <div class="proContainer">
-                            <div class="c100 center @ViewBag.pvalue small @ViewBag.color">
-                                <span id="proText">@item.Value%</span>
-                                <div class="slice">
-                                    <div class="bar"></div>
-                                    <div class="fill"></div>
+                            <div class="proContainer">
+                                <div class="c100 center @ViewBag.pvalue small @ViewBag.color">
+                                    <span id="proText">@item.Value%</span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="remaining">Time Remaining</div>
+                            <div class="@item.Id our-clock"> <h2 style="zoom: 1.5">Ended:</h2><h2 style="zoom: 1.5">@item.End.ToShortDateString()</h2></div>
                         </div>
-                        <div class="remaining">Time Remaining</div>
-                        <div class="@item.Id our-clock"> <h2 style="zoom: 1.5">Ended:</h2><h2 style="zoom: 1.5">@item.End.ToShortDateString()</h2></div>
-                    </div>
-                </a>
-            </div>
-}
+                    </a>
+                </div>
+        }
     </div>
+</>
 
 </div>
-
-<br>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
