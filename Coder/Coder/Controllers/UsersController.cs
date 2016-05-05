@@ -137,13 +137,26 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(UserViewModel userViewModel, FormCollection form)
+        public async Task<ActionResult> Edit(UserViewModel userViewModel, FormCollection form)
         {
+            if (userViewModel.Password != userViewModel.ConfirmPassword)
+            {
+                ModelState.AddModelError("Password", "The password must be at least 6 characters long.");
+            }
+
             if (ModelState.IsValid)
             {
-                var user = db.Users.FirstOrDefault(i => i.Id == userViewModel.UserId);
+                ApplicationUser user = db.Users.FirstOrDefault(i => i.Id == userViewModel.UserId);
                 user.Name = userViewModel.Name;
                 user.Email = userViewModel.Email;
+
+                UserStore<ApplicationUser> store = new UserStore<ApplicationUser>(db);
+                UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(store);
+
+                if (!String.IsNullOrEmpty(userViewModel.Password))
+                {
+                    var result = await UserManager.ChangePasswordAsync(user.Id, user.PasswordHash, userViewModel.Password);
+                }
 
                 foreach (var x in db.UserCourses.Where(i => i.UserId == user.Id))
                 {
