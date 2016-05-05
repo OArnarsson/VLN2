@@ -15,6 +15,10 @@
     margin-bottom: 10px;
     background-color:rgba(255, 255, 255, 0.95); 
 
+    &:hover {
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .05)
+    }
+
     .name {
         font-size: 16px;
         margin-bottom: 1px;
@@ -63,6 +67,11 @@
 
 caption {
     font-size: 20px;
+}
+
+.remaining {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .sideTable {
