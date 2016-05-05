@@ -1,9 +1,16 @@
 ﻿.coderTable {
     margin-top: 10px;
+    width:100%;
     th {
-        background-color: #fff;
+        background-color: white;
+        text-align:center;
     }
     tr:nth-child(2n+1) {
-        background-color: $color-second;
+        background-color: white;
+    }
+    caption{        
+        font-weight:bolder;
+        text-align:left;
+        margin-bottom:6px;
     }
 }

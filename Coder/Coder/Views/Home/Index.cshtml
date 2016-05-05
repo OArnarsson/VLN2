@@ -4,7 +4,7 @@
 
 @model Coder.Models.ViewModels.DashboardViewModel
 
-<div class="row">
+<div class="row" style="margin-top:-30px">
     <div class="allProjects col-lg-8 row">
 
         @foreach (var item in Model.Projects)
@@ -56,7 +56,7 @@
         }
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-lg-4 projectBox">
         <table class="table sideTable coderTable">
             <caption>Previous projects</caption>
             <thead>
@@ -71,33 +71,38 @@
                 <tr>
                     <td>Proj1</td>
                     <td>T107-GSKI</td>
-                    <td>Accepted</td>
+                    <td>10</td>
                 </tr>
                 <tr>
-                    <td>Proj1</td>
+                    <td>Proj2</td>
                     <td>T107-GSKI</td>
-                    <td>Accepted</td>
+                    <td>10</td>
                 </tr>
                 <tr>
-                    <td>Proj1</td>
+                    <td>Proj3</td>
                     <td>T107-GSKI</td>
-                    <td>Memory Error</td>
+                    <td>10</td>
                 </tr>
                 <tr>
-                    <td>Proj1</td>
+                    <td>Proj4</td>
                     <td>T107-GSKI</td>
-                    <td>Memory Error</td>
+                    <td>10</td>
                 </tr>
                 <tr>
-                    <td>Proj1</td>
+                    <td>Proj5</td>
                     <td>T107-GSKI</td>
-                    <td>Memory Error</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>Proj6</td>
+                    <td>T107-GSKI</td>
+                    <td>9</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4 projectBox">
         <table class="recentSubs table sideTable coderTable">
             <caption>Recent submissions</caption>
             <thead>
@@ -152,3 +157,9 @@
 <p>Courses: @Model.Courses.Count()</p>
 <p>Projects: @Model.Projects.Count()</p>
 <p>Users: @Model.Users.Count()</p>
+
+@section Scripts {
+    @*When we have done everything for dis view we should make bundle for dem script files!*@
+    <script src="~/Scripts/flipclock.min.js"></script>
+    <script src="~/Scripts/CountDown.js"></script>
+}
