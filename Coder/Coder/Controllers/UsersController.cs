@@ -22,6 +22,14 @@ namespace Coder.Controllers
     public class UsersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserStore<ApplicationUser> store;
+        private UserManager<ApplicationUser> userManager;
+
+        public UsersController()
+        {
+            store = new UserStore<ApplicationUser>(db);
+            userManager = new UserManager<ApplicationUser>(store);
+        }
 
         // GET: Users
         public ActionResult Index()
@@ -72,9 +80,6 @@ namespace Coder.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserStore<ApplicationUser> store = new UserStore<ApplicationUser>(db);
-                UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(store);
-
                 var newUser = new ApplicationUser
                 {
                     Name = userViewModel.Name,
@@ -82,7 +87,7 @@ namespace Coder.Controllers
                     Email = userViewModel.Email
                 };
 
-                var result = await UserManager.CreateAsync(newUser, userViewModel.Password);
+                var result = await userManager.CreateAsync(newUser, userViewModel.Password);
             
                 var userCourses = getUserCoursesFromFormCollection(form, newUser.Id);
 
@@ -91,21 +96,13 @@ namespace Coder.Controllers
                     db.UserCourses.Add(i);
                 }
 
+                if (userViewModel.Admin)
+                {
+                    userManager.AddToRole(newUser.Id, "Administrator");
+                }
+
                 db.Users.Add(newUser);
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (DbEntityValidationException ex)
-                {
-                    foreach (var entityValidationErrors in ex.EntityValidationErrors)
-                    {
-                        foreach (var validationError in entityValidationErrors.ValidationErrors)
-                        {
-                            Response.Write("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
-                        }
-                    }
-                }
+                db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
@@ -131,6 +128,7 @@ namespace Coder.Controllers
             var userViewModel = new UserViewModel(user);
             userViewModel.Courses = db.Courses.ToList();
             userViewModel.UserCourses = db.UserCourses.Where(i => i.UserId == user.Id).ToList();
+            userViewModel.Admin = userManager.IsInRole(user.Id, "Administrator");
             
             return View(userViewModel);
         }
@@ -148,13 +146,10 @@ namespace Coder.Controllers
                 user.Name = userViewModel.Name;
                 user.Email = userViewModel.Email;
 
-                UserStore<ApplicationUser> store = new UserStore<ApplicationUser>(db);
-                UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(store);
-
                 if (!String.IsNullOrEmpty(userViewModel.Password))
                 {
-                    UserManager.RemovePassword(user.Id);
-                    UserManager.AddPassword(user.Id, userViewModel.Password);
+                    userManager.RemovePassword(user.Id);
+                    userManager.AddPassword(user.Id, userViewModel.Password);
                 }
 
                 foreach (var x in db.UserCourses.Where(i => i.UserId == user.Id))
@@ -165,6 +160,15 @@ namespace Coder.Controllers
                 foreach (var x in getUserCoursesFromFormCollection(form, user.Id))
                 {
                     db.UserCourses.Add(x);
+                }
+
+                if (userViewModel.Admin)
+                {
+                    userManager.AddToRole(user.Id, "Administrator");
+                }
+                else
+                {
+                    userManager.RemoveFromRole(user.Id, "Administrator");
                 }
 
                 db.Entry(user).State = EntityState.Modified;
