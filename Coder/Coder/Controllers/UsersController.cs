@@ -155,7 +155,8 @@ namespace Coder.Controllers
 
                 if (!String.IsNullOrEmpty(userViewModel.Password))
                 {
-                    var result = await UserManager.ChangePasswordAsync(user.Id, user.PasswordHash, userViewModel.Password);
+                    UserManager.RemovePassword(user.Id);
+                    UserManager.AddPassword(user.Id, userViewModel.Password);
                 }
 
                 foreach (var x in db.UserCourses.Where(i => i.UserId == user.Id))
