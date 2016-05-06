@@ -11,21 +11,26 @@ using Coder.Models.Entity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
 using MvcSiteMapProvider.Web.Mvc.Filters;
+using Coder.Repositories;
 
 namespace Coder.Controllers
 {
     public class ProjectsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ProjectsRepository projectsRepository;
+        private readonly CoursesRepository coursesRepository;
+
+        public ProjectsController()
+        {
+            projectsRepository = new ProjectsRepository(db);
+            coursesRepository = new CoursesRepository(db);
+        }
 
         // GET: Projects
         public ActionResult Index()
         {
-            var userId = User.Identity.GetUserId();
-            var projects = (from p in db.Projects
-                            join c in db.Courses on p.CourseId equals c.Id
-                            where c.UserCourses.Any(u => u.UserId == userId)
-                            select p);
+            var projects = projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator"));
 
             if (projects == null)
             {
@@ -46,17 +51,14 @@ namespace Coder.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Project project = db.Projects.Find(id);
+            Project project = projectsRepository.GetProjectById(id);
 
             if (project == null)
             {
                 return HttpNotFound();
             }
-
-            var userId = User.Identity.GetUserId();
-            var userCourse = db.UserCourses.FirstOrDefault(i => i.UserId == userId && i.CourseId == project.Course.Id);
-
-            if (userCourse == null && !User.IsInRole("Administrator"))
+            
+            if (!coursesRepository.IsInCourse(project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
@@ -67,7 +69,20 @@ namespace Coder.Controllers
         // GET: Projects/Create
         public ActionResult Create()
         {
-            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name");
+            if (!coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId()) && !User.IsInRole("Administrator"))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            if (User.IsInRole("Administrator"))
+            {
+                ViewBag.CourseId = new SelectList(coursesRepository.GetAllCourses(), "Id", "Name");
+            }
+            else
+            {
+                ViewBag.CourseId = new SelectList(coursesRepository.GetCoursesForTeacherWithTeacherRole(User.Identity.GetUserId()), "Id", "Name");
+            }
+
             return View();
         }
 
@@ -76,16 +91,23 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Start,End,Value,CourseId")] Project project)
+        public ActionResult Create(Project project)
         {
             if (ModelState.IsValid)
             {
-                db.Projects.Add(project);
-                db.SaveChanges();
+                projectsRepository.AddProject(project);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", project.CourseId);
+            if (User.IsInRole("Administrator"))
+            {
+                ViewBag.CourseId = new SelectList(coursesRepository.GetAllCourses(), "Id", "Name", project.CourseId);
+            }
+            else
+            {
+                ViewBag.CourseId = new SelectList(coursesRepository.GetCoursesForTeacherWithTeacherRole(User.Identity.GetUserId()), "Id", "Name", project.CourseId);
+            }
+
             return View(project);
         }
 
@@ -97,12 +119,28 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            if (!coursesRepository.IsTeacherInCourse(projectsRepository.GetProjectById(id).CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             Project project = db.Projects.Find(id);
+
             if (project == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", project.CourseId);
+
+            if (User.IsInRole("Administrator"))
+            {
+                ViewBag.CourseId = new SelectList(coursesRepository.GetAllCourses(), "Id", "Name", project.CourseId);
+            }
+            else
+            {
+                ViewBag.CourseId = new SelectList(coursesRepository.GetCoursesForTeacherWithTeacherRole(User.Identity.GetUserId()), "Id", "Name", project.CourseId);
+            }
+
             return View(project);
         }
 
@@ -111,15 +149,30 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,Start,End,Value,CourseId")] Project project)
+        public ActionResult Edit(Project project)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(project).State = EntityState.Modified;
-                db.SaveChanges();
+                if (!coursesRepository.IsTeacherInCourse(project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                }
+
+                projectsRepository.UpdateState(EntityState.Modified, project);
+                projectsRepository.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-            ViewBag.CourseId = new SelectList(db.Courses, "Id", "Name", project.CourseId);
+
+            if (User.IsInRole("Administrator"))
+            {
+                ViewBag.CourseId = new SelectList(coursesRepository.GetAllCourses(), "Id", "Name", project.CourseId);
+            }
+            else
+            {
+                ViewBag.CourseId = new SelectList(coursesRepository.GetCoursesForTeacherWithTeacherRole(User.Identity.GetUserId()), "Id", "Name", project.CourseId);
+            }
+
             return View(project);
         }
 
@@ -130,11 +183,19 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Projects.Find(id);
+
+            if (!coursesRepository.IsTeacherInCourse(projectsRepository.GetProjectById(id).CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            Project project = projectsRepository.GetProjectById(id);
+
             if (project == null)
             {
                 return HttpNotFound();
             }
+
             return View(project);
         }
 
@@ -143,9 +204,13 @@ namespace Coder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Project project = db.Projects.Find(id);
-            db.Projects.Remove(project);
-            db.SaveChanges();
+            if (!coursesRepository.IsTeacherInCourse(projectsRepository.GetProjectById(id).CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            projectsRepository.RemoveProject(projectsRepository.GetProjectById(id));
+            
             return RedirectToAction("Index");
         }
 
