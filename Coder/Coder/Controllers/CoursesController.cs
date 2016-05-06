@@ -18,11 +18,20 @@ namespace Coder.Controllers
     public class CoursesController : Controller
     {
         private readonly ApplicationDbContext db = new ApplicationDbContext();
+        private readonly CoursesRepository coursesRepository;
+        private readonly UserCoursesRepository userCoursesRepository;
+        private readonly UsersRepository usersRepository;
+
+        public CoursesController()
+        {
+            coursesRepository = new CoursesRepository(db);
+            userCoursesRepository = new UserCoursesRepository(db);
+            usersRepository = new UsersRepository(db);
+        }
 
         // GET: Courses
         public ActionResult Index()
         {
-            var coursesRepository = new CoursesRepository(db);
             var courses = coursesRepository.GetCoursesForUser(User.Identity.GetUserId());
 
             if (User.IsInRole("Administrator"))
@@ -42,20 +51,20 @@ namespace Coder.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var coursesRepository = new CoursesRepository(db);
-
-            Course course = coursesRepository.GetCourseFromId(id, User.Identity.GetUserId(), User.IsInRole("Administrator"));
+            Course course = coursesRepository.GetCourseFromId(id);
 
             if (course == null)
             {
                 return HttpNotFound();
             }
-
+            
             if (!coursesRepository.IsInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
-            
+
+            course = coursesRepository.GetCourseFromId(id, User.Identity.GetUserId(), User.IsInRole("Administrator"));
+
             return View(course);
         }
 
@@ -74,7 +83,6 @@ namespace Coder.Controllers
         {
             if (ModelState.IsValid)
             {
-                var coursesRepository = new CoursesRepository(db);
                 coursesRepository.AddCourse(course);
                 return RedirectToAction("Index");
             }
@@ -90,10 +98,6 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
-            var coursesRepository = new CoursesRepository(db);
-            var userCoursesRepository = new UserCoursesRepository(db);
-            var usersRepository = new UsersRepository(db);
 
             Course course = coursesRepository.GetCourseFromId(id, User.Identity.GetUserId(), User.IsInRole("Administrator"));
 
@@ -123,10 +127,6 @@ namespace Coder.Controllers
         {
             if (ModelState.IsValid)
             {
-                var coursesRepository = new CoursesRepository(db);
-                var userCoursesRepository = new UserCoursesRepository(db);
-                var usersRepository = new UsersRepository(db);
-
                 Course course = coursesRepository.GetCourseFromId(courseViewModel.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator"));
                 course.Name = courseViewModel.Name;
                 course.Description = courseViewModel.Description;
@@ -186,8 +186,7 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
-
-            var coursesRepository = new CoursesRepository(db);
+            
             Course course = coursesRepository.GetCourseFromId(id);
 
             if (course == null)
@@ -203,7 +202,6 @@ namespace Coder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var coursesRepository = new CoursesRepository(db);
             coursesRepository.RemoveCourse(coursesRepository.GetCourseFromId(id));
             return RedirectToAction("Index");
         }
