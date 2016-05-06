@@ -7,29 +7,3 @@
     right: 0;
 }
 
-#tests {
-    .test {
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        padding: 30px;
-    }
-
-    .remove-test {
-        clear: left;
-        margin-top: 20px;
-    }
-
-    .input,
-    .output {
-        display: block;
-        width: 50%;
-        float: left;
-    }
-
-    .input {
-        padding-right: 30px;
-    }
-    .output {
-        padding-left: 30px;
-    }
-}

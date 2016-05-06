@@ -1,47 +1,90 @@
-﻿$(document).ready(function () {
+﻿var coder = coder || {};
 
-    var i = $('.test', $('#tests')).size() + 1;
+coder.taskTests = {
+    counter: ($('.test', '#tests').length + 1),
 
-    $("#newTest").click(function (e) {
-        var $tests = $('#tests');
-
-        var $test = $('<div class="test clearfix"></div>');
-        var $editors = $('<div class="editors clearfix"></div>');
-
-        $('<div class="input"><div id="editor' + i + 'in" class="editor"></div></div>').appendTo($editors);
-        $('<div class="output"><div id="editor' + i + 'out" class="editor"></div></div>').appendTo($editors);
-
-        $test.append('<p>Test ' + i + '</p>');
-        $test.append($editors);
-        $test.append('<a href="#" class="btn btn-danger remove-test">Remove</div>');
-        $test.appendTo($tests);
-
-        var editor = ace.edit("editor" + i + "in");
-        editor.setTheme("ace/theme/monokai");
-        editor.setOptions({
-            maxLines: Infinity
+    init: function () {
+        $.each($('.editor'), function (key, value) {
+            coder.taskTests.initEditor(value);
         });
 
-        var editor = ace.edit("editor" + i + "out");
-        editor.setTheme("ace/theme/monokai");
-        editor.setOptions({
-            maxLines: Infinity
+        coder.taskTests.bind();
+    },
+
+    bind: function () {
+        // Add button
+        $("#newTest").click(function (e) {
+            // Add new test
+            var $tests = $('#tests');
+            $tests.append(coder.taskTests.getNewTestHtml());
+
+            // Init ace editor for the new test
+            $.each($('.test', '#tests').last().find('.editor'), function (key, value) {
+                coder.taskTests.initEditor(value);
+            });
+
+            // Rebind new remove button
+            coder.taskTests.bindRemove();
+            e.preventDefault();
+            coder.taskTests.counter++;
         });
 
+        $("#taskEditForm").submit(function (e) {
+            var i = 1;
+            
+            // Get all tests
+            var $allTests = $('.test', '#tests');
+            $.each($allTests, function (key, value) {
+
+                // Get all editors within each test
+                var $testEditors = $(value).find('.editor');
+                $.each($testEditors, function (key, value) {
+                    var editor = ace.edit(value);
+                    var type = $(value).hasClass('input') ? 'input' : 'output';
+                    var input = '<input type="hidden" name="test_' + i + '_' + type + '" value="' + editor.getValue().replace(/"/g, "&quot;") + '"/>';
+                    $("#taskEditForm").append(input);
+                });
+                i++;
+            });
+
+            return true;
+        });
+
+        coder.taskTests.bindRemove();
+    },
+
+    bindRemove: function() {
+        // Remove button
         $('.remove-test', '#tests').click(function (e) {
             $(this).parent().remove();
             e.preventDefault();
         });
+    },
 
-        e.preventDefault();
-        i++;
-    });
-
-    $("#TaskEditForm").submit(function (e) {
-        $.each($(".editor"), function (i, val) {
-            var editor = ace.edit(val);
-            $("#TaskEditForm").append('<input type="hidden" name="test" value="' + editor.getValue() + '"/>');
+    initEditor: function (value) {
+        var editor = ace.edit(value);
+        editor.setTheme("ace/theme/chrome");
+        editor.setOptions({
+            maxLines: Infinity,
+            readOnly: $(value).hasClass('readonly')
         });
-        return true;
-    });
+    },
+
+    getNewTestHtml: function () {
+        var $test = $('<div class="test clearfix"></div>');
+        $test.append('<h3>Test ' + coder.taskTests.counter + '</h3>');
+        $test.append('<a href="#" class="remove-test"><i class="fa fa-trash " aria-hidden="true"></i></a>');
+
+        var $testsWrap = $('<div class="tests-wrap row">');
+        $testsWrap.append($('<div class="input-wrap col-sm-6"><div class="editor input"></div></div>'));
+        $testsWrap.append($('<div class="output-wrap col-sm-6"><div class="editor output"></div></div>'));
+
+        $test.append($testsWrap);
+        
+        return $test;
+    }
+}
+
+$(document).ready(function () {
+    coder.taskTests.init();
 });

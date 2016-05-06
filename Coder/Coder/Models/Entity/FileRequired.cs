@@ -6,6 +6,7 @@ using System.Web;
 
 namespace Coder.Models.Entity
 {
+    [Table("FilesRequired")]
     public class FileRequired
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -26,21 +26,24 @@
         </div>
     </div>
 
-    <div class="projectBox col-lg-12">
-        <div class="small left col-lg-6">Input</div>
+    <div id="tests">
+        @{ int counter = 1; }
         @foreach (var test in Model.TaskTests)
-        {
-            <code>
-                @test.Input
-            </code>
-        }
-        <div class="small right col-lg-6">Output</div>
-
-        @foreach (var test in Model.TaskTests)
-        {
-            <code>
-                @test.Output
-            </code>
+            {
+            <div class="test clearfix">
+                <h3>Test @counter</h3>
+                <div class="tests-wrap row">
+                    <div class="input-wrap col-sm-6">
+                        <p>Input</p>
+                        <div class="editor input readonly">@test.Input</div>
+                    </div>
+                    <div class="output-wrap col-sm-6">
+                        <p>Output</p>
+                        <div class="editor output readonly">@test.Output</div>
+                    </div>
+                </div>
+            </div>
+            counter = counter + 1;
         }
     </div>
 
@@ -81,3 +84,7 @@
         <h3>Comments</h3>
     </div>
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/scripts/ace/ace.js");
+}

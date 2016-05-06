@@ -86,23 +86,43 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,Value,ProjectId")] ProjectTask projectTask, FormCollection form)
+        public ActionResult Edit(ProjectTask projectTask, FormCollection form)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(projectTask).State = EntityState.Modified;
                 db.SaveChanges();
-                
 
-                var userCourses = new List<TaskTest>();
+
+                foreach (var i in db.TaskTests.Where(x => x.ProjectTaskId == projectTask.Id))
+                {
+                    db.TaskTests.Remove(i);
+                }
+
+                foreach (var f in db.FilesRequired.Where(i => i.ProjectTaskId == projectTask.Id))
+                {
+                    db.FilesRequired.Remove(f);
+                }
+
+                foreach (var file in form.GetValue("files").AttemptedValue.Split(','))
+                {
+                    if (String.IsNullOrEmpty(file.Trim()))
+                    {
+                        continue;
+                    }
+                    db.FilesRequired.Add(new FileRequired { Name = file.Trim(), ProjectTaskId = projectTask.Id });
+                }
+
                 for (int i = 0; i < form.Count; i++)
                 {
                     var key = form.Keys[i];
 
-                    if (key.StartsWith("test") && !string.IsNullOrEmpty(form.GetValue(key).AttemptedValue))
+                    if (key.StartsWith("test") && key.EndsWith("output"))
                     {
-                        var val = form.GetValue(key).AttemptedValue.ToString();
-                        //db.TaskTests.Add(new TaskTest { Input = val, Output = val, ProjectTaskId = projectTask.Id });
+                        var counter = key.Split('_')[1];
+                        string input = form.GetValue("test_" + counter + "_input").AttemptedValue.Replace("&quot;", "\"");
+                        string output = form.GetValue("test_" + counter + "_output").AttemptedValue.Replace("&quot;", "\"");
+                        db.TaskTests.Add(new TaskTest { Input = input, Output = output, ProjectTaskId = projectTask.Id });
                     }
                 }
 

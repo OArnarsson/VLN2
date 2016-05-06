@@ -6,7 +6,7 @@
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "TaskEditForm" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "taskEditForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -47,6 +47,42 @@
                 @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
             </div>
         </div>
+        @{
+            string files = "";
+
+            if (Model.FilesRequired != null)
+            {
+                foreach (var file in Model.FilesRequired)
+                {
+                    files += file.Name + ", ";
+                }
+            }
+        }
+        <input placeholder="Filenames seperated by ," type="text" name="files" value="@files"/>
+
+        <div id="tests">
+            @{ int counter = 1; }
+            @foreach (var test in Model.TaskTests)
+            {
+                <div class="test clearfix">
+                    <h3>Test @counter</h3>
+                    <a href="#" class="remove-test"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    <div class="tests-wrap row">
+                        <div class="input-wrap col-sm-6">
+                            <p>Input</p>
+                            <div class="editor input">@test.Input</div>
+                        </div>
+                        <div class="output-wrap col-sm-6">
+                            <p>Output</p>
+                            <div class="editor output">@test.Output</div>
+                        </div>
+                    </div>
+                </div>
+                counter = counter + 1;
+            }
+        </div>
+
+        <a id="newTest" href="#"><i class="fa fa-plus"></i>Add test</a>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -54,22 +90,7 @@
             </div>
         </div>
     </div>
-
-    <div id="tests">
-        @{int counter = 0;
-        }
-        @foreach (var test in Model.TaskTests)
-        {
-            <div class="test">
-                <div id="editor" + @counter class="input">@test.Input</div>
-                <div id="editor" + @counter class="output">@test.Output</div>
-            </div>
-        }
-    </div>
-
-    <a id="newTest" href="#" class="btn btn-success">Add test</a>
-            }
-
+}
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/scripts/ace/ace.js");
