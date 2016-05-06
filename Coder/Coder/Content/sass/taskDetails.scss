@@ -1,0 +1,25 @@
+﻿#projectName {
+    float: left;
+    display: block;
+}
+
+#taskName {
+    display: block;
+}
+
+#bestSub {
+    float: right;
+    text-align: right;
+}
+
+.small {
+    display: inline-block;
+
+    .left {
+        float: left;
+    }
+
+    .right {
+        float: right;
+    }
+}
