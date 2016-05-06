@@ -29,6 +29,8 @@ namespace Coder.Models.ViewModels
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        public bool Admin { get; set; }
+
         public List<Course> Courses { get; set; }
 
         public List<UserCourse> UserCourses { get; set; }
