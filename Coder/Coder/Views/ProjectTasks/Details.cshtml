@@ -4,28 +4,53 @@
     ViewBag.Title = "Details";
 }
 
-<h1>@Model.Name</h1>
-@Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-<p>@Model.Project.Name - @Model.Project.Course.Name</p>
+<div class="container">
+    <div class="projectBox col-lg-12">
+        <div class="small left col-lg-6">
+            <h1 id="projectName">@Model.Project.Name</h1>
+            <span id="taskName">@Model.Name - @Model.Project.Course.Name</span>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+        </div>
+        <div class="small right col-lg-6">
+            <h1 id="bestSub">Best Submission</h1>
+        </div>
+        <div class="small  col-lg-12">
+            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Value)
+            @Html.DisplayFor(model => model.Value)
+            WHAT THE HELL
+        </div>
+    </div>
 
-<div>
-    @Html.DisplayFor(model => model.Description)
-    @Html.DisplayNameFor(model => model.Value)
-    @Html.DisplayFor(model => model.Value)
-</div>
-
-@foreach (var test in Model.TaskTests)
-{
-    <div class="row">
-        <div class="col-sm-6">
-            <code >
+    <div class="projectBox col-lg-12">
+        <div class="small left col-lg-6">Input</div>
+        @foreach (var test in Model.TaskTests)
+        {
+            <code>
                 @test.Input
             </code>
-        </div>
-        <div class="col-sm-6">
+        }
+        <div class="small right col-lg-6">Output</div>
+
+        @foreach (var test in Model.TaskTests)
+        {
             <code>
                 @test.Output
             </code>
-        </div>
+        }
     </div>
-}
+
+    <div class="projectBox col-lg-12">
+        <div class="small left col-lg-6">Group Skil</div>
+
+        <div class="small col-lg-12">Upload files</div>
+    </div>
+
+    <div class="projectBox col-lg-12">
+        Table submissions
+    </div>
+
+    <div class="projectBox col-lg-12">
+        commentheader
+    </div>
+</div>
