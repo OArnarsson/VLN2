@@ -17,7 +17,7 @@
         <div class="course-box clearfix">           
             <div class="col-lg-4">
                 <h3>@Html.ActionLink(item.Name, "Details", new { id = item.Id }) (@Html.DisplayFor(modelItem => item.Title))</h3>
-                <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                <p>@Html.Raw(item.Description)</p>
             </div>
             <div class="col-lg-8">
                 <table class="coder-table">

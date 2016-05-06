@@ -12,6 +12,7 @@ using MvcSiteMapProvider.Web.Mvc.Filters;
 
 namespace Coder.Controllers
 {
+    [ValidateInput(false)]
     public class ProjectTasksController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -15,6 +15,7 @@ using Coder.Repositories;
 
 namespace Coder.Controllers
 {
+    [ValidateInput(false)]
     public class CoursesController : Controller
     {
         private readonly ApplicationDbContext db = new ApplicationDbContext();

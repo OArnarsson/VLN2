@@ -87,4 +87,9 @@ coder.taskTests = {
 
 $(document).ready(function () {
     coder.taskTests.init();
+
+    tinymce.init({
+        selector: 'textarea'
+    });
+
 });

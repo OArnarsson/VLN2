@@ -16,7 +16,6 @@ namespace Coder.Models.Entity
         public string Name { get; set; }
 
         [AllowHtml]
-        [UIHint("tinymce_full_compressed")]
         public string Description { get; set; }
 
 

@@ -23,8 +23,7 @@
 
     <div class="details-box">
         <div class="description">
-            @* Will most likely be more detailed HTML *@
-            @Html.DisplayFor(model => model.Description)
+            @Html.Raw(Model.Description)
         </div>
     </div>
 </div>
