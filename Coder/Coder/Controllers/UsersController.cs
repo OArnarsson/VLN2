@@ -77,7 +77,7 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateUserViewModel userViewModel, FormCollection form)
+        public ActionResult Create(CreateUserViewModel userViewModel, FormCollection form)
         {
             if (ModelState.IsValid)
             {
@@ -87,12 +87,8 @@ namespace Coder.Controllers
                     UserName = userViewModel.Email,
                     Email = userViewModel.Email
                 };
-
-                var result = await userManager.CreateAsync(newUser, userViewModel.Password);
-            
-                var userCourses = getUserCoursesFromFormCollection(form, newUser.Id);
-
-                foreach (var i in userCourses)
+                
+                foreach (var i in getUserCoursesFromFormCollection(form, newUser.Id))
                 {
                     db.UserCourses.Add(i);
                 }
@@ -104,6 +100,8 @@ namespace Coder.Controllers
 
                 db.Users.Add(newUser);
                 db.SaveChanges();
+
+                userManager.AddPassword(newUser.Id, userViewModel.Password);
 
                 return RedirectToAction("Index");
             }
@@ -139,7 +137,7 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(UserViewModel userViewModel, FormCollection form)
+        public ActionResult Edit(UserViewModel userViewModel, FormCollection form)
         {
             if (ModelState.IsValid)
             {
