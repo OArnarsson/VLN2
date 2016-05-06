@@ -17,7 +17,7 @@
 <div class="col-lg-8">
 
     <div class="projectBox fluid">
-        <h2>User Details</h2>
+        <h2>User Details<a href=@Url.Action("Edit", "Users", new { id = Model.UserId })><i class="fa fa-pencil"></i></a></h2>
 
         <dd>
             <hr />
@@ -37,11 +37,6 @@
                     @Html.DisplayFor(model => model.Email)
                 </dd>
             </dl>
-
-            <p>
-                @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
-                @Html.ActionLink("Back to List", "Index")
-            </p>
     </div>
 
     <div class="projectBox fluid">
