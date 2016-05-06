@@ -5,44 +5,35 @@
 }
 
 <div class="course-details">
-    <h2 id="UniqueValue"> @Html.DisplayFor(model => model.Name)</h2>
-    <h3>@Html.DisplayFor(model => model.Title)</h3>
+    <h1>@Html.DisplayFor(model => model.Name)</h1>
+    <a href=@Url.Action("Edit", "Courses", new { id = Model.Id })><i class="fa fa-pencil"></i></a>
+    
+    <div class="details-box">
+        <span class="text-caption">@Html.DisplayNameFor(model => model.Title)</span>
+        <span class="text-value">@Html.DisplayFor(model => model.Title)</span>
+    </div>
+    
+    <div class="details-box">
+        <span class="text-caption">End date:</span>
+        <span class="text-value">@Html.DisplayFor(model => model.End)</span>
+    </div>
 
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Start)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Start)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.End)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.End)
-        </dd>
-    </dl>
-
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</div>
-
-<div class="description-block">
-    <h3>@Html.DisplayNameFor(model => model.Description)</h3>
-    <p>@Html.DisplayFor(model => model.Description)</p>
+    <div class="details-box">
+        <div class="description">
+            @* Will most likely be more detailed HTML *@
+            @Html.DisplayFor(model => model.Description)
+        </div>
+    </div>
 </div>
 
 <div>
-    <h3>Projects</h3>
-    <table class="table coderTable">
+    <table class="coderTable">
         <thead>
             <tr>
-                <th>Project</th>
+                <th>Title</th>
+                <th>Value</th>
+                <th>Start date</th>
+                <th>End date</th>
                 <th></th>
             </tr>
         </thead>
@@ -51,6 +42,9 @@
         {
             <tr>
                 <td>@Html.ActionLink(item.Name, "Details", "Projects", new { id = item.Id }, null)</td>
+                <td>@item.Value.ToString()</td>
+                <td>@item.Start.ToString()</td>
+                <td>@item.End.ToString()</td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null) |
                     @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, null) |

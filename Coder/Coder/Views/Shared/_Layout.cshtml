@@ -7,6 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/theme.css")
+    @Styles.Render("~/Content/font-awesome.min.css")
     <link href="~/Content/circle.css" rel="stylesheet" />
     <link href="~/Content/flipclock.css" rel="stylesheet" />
 </head>
@@ -36,7 +37,10 @@
     </div>
     <div id="main">
         <div class="container body-content">
-            @Html.MvcSiteMap().SiteMapPath()
+            <div class="breadcrumbs">
+                @Html.MvcSiteMap().SiteMapPath()
+            </div>
+            
             @RenderBody()
         </div>
     </div>
