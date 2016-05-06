@@ -4,27 +4,12 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h1> @Html.DisplayFor(model => model.Name) </h1>
 
 <div>
-    <h4>Project</h4>
+    <h3> @Html.DisplayFor(model => model.Course.Name) </h3>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Course.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Course.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Description)
