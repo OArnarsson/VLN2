@@ -6,7 +6,10 @@
 
 <div class="course-details">
     <h1>@Html.DisplayFor(model => model.Name)</h1>
-    <a href=@Url.Action("Edit", "Courses", new { id = Model.Id })><i class="fa fa-pencil"></i></a>
+    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+    {
+        <a href=@Url.Action("Edit", "Courses", new { id = Model.Id })><i class="fa fa-pencil"></i></a>
+    }
     
     <div class="details-box">
         <span class="text-caption">@Html.DisplayNameFor(model => model.Title)</span>
@@ -46,9 +49,15 @@
                 <td>@item.Start.ToString()</td>
                 <td>@item.End.ToString()</td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null) |
-                    @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, null) |
-                    @Html.ActionLink("Delete", "Delete", "Projects", new { id = item.Id }, null)
+                    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+                    {
+                        <a href=@Url.Action("Edit", "Projects", new { id = item.Id })><i class="fa fa-pencil"></i></a>
+                    }
+
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <a href=@Url.Action("Delete", "Projects", new { id = item.Id })><i class="fa fa-trash"></i></a>
+                    }
                 </td>
             </tr>
         }
