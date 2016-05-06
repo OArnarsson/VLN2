@@ -4,12 +4,11 @@
     ViewBag.Title = @Html.DisplayFor(model => model.Name) + " Details";
 }
 
-
 <div class="course-details">
-<h2 id="UniqueValue"> @Html.DisplayFor(model => model.Name) ( @Html.DisplayFor(model => model.Title) )</h2>
+    <h2 id="UniqueValue"> @Html.DisplayFor(model => model.Name)</h2>
+    <h3>@Html.DisplayFor(model => model.Title)</h3>
 
-
-<dl class="dl-horizontal">
+    <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Start)
         </dt>
@@ -25,7 +24,6 @@
         <dd>
             @Html.DisplayFor(model => model.End)
         </dd>
-
     </dl>
 
     <p>
@@ -33,76 +31,32 @@
         @Html.ActionLink("Back to List", "Index")
     </p>
 </div>
+
 <div class="description-block">
-    <hr />
-    <h3> @Html.DisplayNameFor(model => model.Description) </h3>
-
-        <p>
-            @Html.DisplayFor(model => model.Description)
-        </p>
+    <h3>@Html.DisplayNameFor(model => model.Description)</h3>
+    <p>@Html.DisplayFor(model => model.Description)</p>
 </div>
-@*<h3>Projects in this course</h3>
-<div class="projects">
-    @foreach (Coder.Models.Entity.Project p in ViewBag.projects)
-    {
-        <h4><a href="@Url.Action("Details", "Projects", new { id=p.Id })">@p.Name</a></h4>
-    }
-</div>*@
-
-@*The same code that is one the starting page, might need to do this differently - steinar*@
 
 <div>
-    </hr>
     <h3>Projects</h3>
-    <div class="projectBox">
+    <table class="table coderTable">
+        <thead>
+            <tr>
+                <th>Project</th>
+                <th></th>
+            </tr>
+        </thead>
+
         @foreach (var item in Model.Projects)
         {
-            if (item.Value < 50)
-            {
-                ViewBag.color = "red";
-            }
-            else if (item.Value >= 50 && item.Value < 100)
-            {
-                ViewBag.color = "orange";
-            }
-            else if (item.Value == 100)
-            {
-                ViewBag.color = "green";
-            }
-
-            if (@item.End < DateTime.Now)
-            {
-                ViewBag.ActiveProject = "oldBox";
-            }
-
-            //The percentage of circle colored.
-            ViewBag.pvalue = "p" + @item.Value;
-
-            //This is used to pass endDate data for countdown.
-            <input class="TimeLeft" type="hidden" value="@item.End.ToString("MM.dd.yy H:mm:ss")" id="@item.Id" />
-
-                <div class="col-md-4">
-                    <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
-                        <div class="projectBox @ViewBag.ActiveProject">
-                            <p class="name">@item.Name</p>
-                            <span class="course">@item.Course.Title</span>
-
-                            <div class="proContainer">
-                                <div class="c100 center @ViewBag.pvalue small @ViewBag.color">
-                                    <span id="proText">@item.Value%</span>
-                                    <div class="slice">
-                                        <div class="bar"></div>
-                                        <div class="fill"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="remaining">Time Remaining</div>
-                            <div class="@item.Id our-clock"> <h2 style="zoom: 1.5">Ended:</h2><h2 style="zoom: 1.5">@item.End.ToShortDateString()</h2></div>
-                        </div>
-                    </a>
-                </div>
+            <tr>
+                <td>@Html.ActionLink(item.Name, "Details", "Projects", new { id = item.Id }, null)</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Projects", new { id = item.Id }, null) |
+                    @Html.ActionLink("Details", "Details", "Projects", new { id = item.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Projects", new { id = item.Id }, null)
+                </td>
+            </tr>
         }
-    </div>
-</>
-
+    </table>
 </div>

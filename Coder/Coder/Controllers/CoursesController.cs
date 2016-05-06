@@ -11,30 +11,26 @@ using Coder.Models.Entity;
 using Coder.Models.ViewModels;
 using MvcSiteMapProvider.Web.Mvc.Filters;
 using Microsoft.AspNet.Identity;
+using Coder.Repositories;
 
 namespace Coder.Controllers
 {
     public class CoursesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Courses
         public ActionResult Index()
         {
-            var userId = User.Identity.GetUserId();
-            var courses = (from c in db.Courses
-                            join u in db.UserCourses on c.Id equals u.CourseId
-                            where u.UserId == userId
-                            select c).ToList();
+            var coursesRepository = new CoursesRepository(db);
+            var courses = coursesRepository.GetCoursesForUser(User.Identity.GetUserId());
 
-            if (courses == null)
+            if (User.IsInRole("Administrator"))
             {
-                return View();
+                courses = coursesRepository.GetAllCourses();
             }
-            else
-            {
-                return View(courses.ToList());
-            }
+            
+            return View(courses.ToList());
         }
 
         // GET: Courses/Details/5
@@ -45,14 +41,15 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
+
+            var coursesRepository = new CoursesRepository(db);
+            Course course = coursesRepository.GetCourseFromId(id);
+
             if (course == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.projects = (from p in db.Projects
-                                where p.CourseId == id.Value
-                                select p).ToList();
+            
             return View(course);
         }
 
