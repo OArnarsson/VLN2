@@ -29,7 +29,10 @@
                     <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
                     <li>@Html.ActionLink("Project Tasks", "Index", "ProjectTasks")</li>
                     <li>@Html.ActionLink("Submissions", "Index", "Submissions")</li>
-                    <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
