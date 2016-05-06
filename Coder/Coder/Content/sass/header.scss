@@ -19,6 +19,25 @@
             color: $color-action;
         }
     }
+
+    .navbar-header:hover {
+        #headLogo svg path {
+            fill: $color-action;
+        }
+
+        .navbar-brand.logoTitle {
+            color: $color-action;
+        }
+    }
+
+    .navbar-brand.logoTitle {
+        color: #fff;
+        margin-right: 10px;
+        font-size: 20px;
+        transition: .4s ease all;
+        padding-top: 20px;
+        height: 60px;
+    }
 }
 
 #headLogo {
@@ -29,27 +48,9 @@
     svg {
         display: block;
         width: 35px;
+
         path {
             transition: .4s ease all;
         }
     }
-}
-
-.navbar-header:hover {
-    #headLogo svg path {
-        fill: $color-action;
-    }
-
-    .navbar-brand.logoTitle {
-         color: $color-action;
-    }
-}
-
-.navbar-brand.logoTitle {
-    color: #fff;
-    margin-right: 10px;
-    font-size: 20px;
-    transition: .4s ease all;
-    padding-top: 20px;
-    height: 60px;
 }

@@ -24,8 +24,11 @@
             padding-left: 15px;
         }
 
-        td:first-child a {
-            color: #000;
+        td:not(:last-child) a {
+            color: #333;
+            &:hover {
+                color: $color-action;
+            }
         }
 
         td:last-child {

@@ -1,5 +1,6 @@
 ﻿@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic);
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,300,300italic,400italic,700italic);
+
 body {
     font-family: 'Roboto', sans-serif;
     font-family: 'Lato', sans-serif;
@@ -9,9 +10,28 @@ body {
 a {
     color: $color-action;
     transition: .4s ease all;
+
     &:hover {
         text-decoration: none;
         color: darken($color-action, 30%);
+    }
+
+    &:focus {
+        text-decoration: none;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    a {
+        color: #333;
+        &:hover {
+            color: $color-action;
+        }
     }
 }
 
@@ -25,7 +45,8 @@ h2 {
 }
 
 span {
-    &.text-value, &.text-caption {
+    &.text-value,
+    &.text-caption {
         padding: 10px 0;
     }
 
@@ -36,7 +57,7 @@ span {
 
 .breadcrumbs {
     a {
-        color: #000;
+        color: #333;
         font-weight: 800;
     }
 }
