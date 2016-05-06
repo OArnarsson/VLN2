@@ -4,10 +4,15 @@
     ViewBag.Title = "Details";
 }
 
-<h1> @Html.DisplayFor(model => model.Name) <a href=@Url.Action("Edit", "Projects", new { id = Model.Id })><i class="fa fa-pencil"></i></a></h1>
+<h1> @Html.DisplayFor(model => model.Name)</h1>
+
+@if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+{
+    <a href=@Url.Action("Edit", "Projects", new { id = Model.Id })><i class="fa fa-pencil"></i></a>
+}
 
 <div>
-    <h3> @Html.DisplayFor(model => model.Course.Name) </h3>
+    <h3> @Html.ActionLink(Model.Course.Name, "Details", "Courses", new { id = Model.Course.Id }, null) </h3>
     <hr />
     <dl class="dl-horizontal">
 
@@ -71,13 +76,17 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Value)
                 </td>
-                @if (ViewBag.Role == Coder.Models.Entity.CoderRole.Teacher || User.IsInRole("Administrator"))
-                {
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", "ProjectTasks", new { id = item.Id }, null) |
-                        @Html.ActionLink("Delete", "Delete", "ProjectTasks", new { id = item.Id }, null)
-                    </td>
-                }
+                <td>
+                    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+                    {
+                        <a href=@Url.Action("Edit", "ProjectTasks", new { id = item.Id })><i class="fa fa-pencil"></i></a>
+                    }
+
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <a href=@Url.Action("Delete", "ProjectTasks", new { id = item.Id })><i class="fa fa-trash"></i></a>
+                    }
+                </td>
             </tr>
         }
     </tbody>

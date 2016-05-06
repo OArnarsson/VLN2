@@ -7,8 +7,12 @@
 <div class="container">
     <div class="projectBox col-lg-12 clearfix">
         <div class="small left col-lg-6">
-            <h1 id="projectName">@Model.Name (@Html.DisplayFor(model => model.Value)%)<a href=@Url.Action("Edit", "ProjectTasks", new { id = Model.Id })><i class="fa fa-pencil"></i></a></h1>
-            <span id="taskName">@Html.ActionLink(@Model.Project.Name, "Details", "Projects", new { id = Model.Project.Id }, null) - @Html.ActionLink(@Model.Project.Course.Name, "Details", "Courses", new { id = Model.Project.Course.Id }, null)</span>
+            <h1 id="projectName">@Model.Name (@Html.DisplayFor(model => model.Value)%)</h1>
+            @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+            {
+                <a href=@Url.Action("Edit", "ProjectTasks", new { id = Model.Id })><i class="fa fa-pencil"></i></a>
+            }
+            <span id="taskName">@Html.ActionLink(@Model.Project.Course.Name, "Details", "Courses", new { id = Model.Project.Course.Id }, null) - @Html.ActionLink(@Model.Project.Name, "Details", "Projects", new { id = Model.Project.Id }, null)</span>
         </div>
         <div class="small right col-lg-6">
             <h1 id="bestSub">Best Submission<i class="fa fa-check-square" aria-hidden="true"></i></h1>
