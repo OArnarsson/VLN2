@@ -33,6 +33,14 @@ namespace Coder.Repositories
                     select c).ToList();
         }
 
+        public IEnumerable<Course> GetCoursesForTeacherWithTeacherRole(string userId)
+        {
+            return (from c in db.Courses
+                    join u in db.UserCourses on c.Id equals u.CourseId
+                    where u.UserId == userId && u.CoderRole == CoderRole.Teacher
+                    select c).ToList();
+        }
+
         public Course GetCourseFromId(int? id, string userId, bool isAdmin)
         {
             if (IsInCourse(id, userId, isAdmin))
@@ -84,6 +92,10 @@ namespace Coder.Repositories
             }
             return false;
         }
+
+        public bool IsTeacherInAnyCourse(string userId)
+        {
+            return (db.UserCourses.Where(i => i.UserId == userId).FirstOrDefault().CoderRole == CoderRole.Teacher);
+        }
     }
 }
-

@@ -80,10 +80,6 @@
                     @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
                     {
                         <a href=@Url.Action("Edit", "ProjectTasks", new { id = item.Id })><i class="fa fa-pencil"></i></a>
-                    }
-
-                    @if (User.IsInRole("Administrator"))
-                    {
                         <a href=@Url.Action("Delete", "ProjectTasks", new { id = item.Id })><i class="fa fa-trash"></i></a>
                     }
                 </td>
