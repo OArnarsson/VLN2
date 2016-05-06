@@ -6,7 +6,7 @@
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "TaskEditForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -60,34 +60,15 @@
         }
         @foreach (var test in Model.TaskTests)
         {
-
-            <div class="row">
-                <div class="col-sm-6">
-                    <input type="hidden" name="test" + @counter />
-                    <code>
-                        @test.Input
-                    </code>
-                </div>
-                <div class="col-sm-6">
-                    <code>
-                        @test.Output
-                    </code>
-                </div>
+            <div class="test">
+                <div id="editor" + @counter class="input">@test.Input</div>
+                <div id="editor" + @counter class="output">@test.Output</div>
             </div>
         }
     </div>
-    <div id="editor">
-        function foo(items) {
-        var x = "All this is syntax highlighted";
-        return x;
-        }
-    </div>
-    <a id="newTest" href="#">Add test</a>
-            }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <a id="newTest" href="#" class="btn btn-success">Add test</a>
+            }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

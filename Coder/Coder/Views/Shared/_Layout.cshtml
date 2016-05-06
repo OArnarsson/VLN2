@@ -56,7 +56,8 @@
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/flipclock.min.js"></script>
     <script src="~/Scripts/CountDown.js"></script>
-        @RenderSection("scripts", required: false)
+    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/scripts/site.js")
        
 </body>
 </html>
