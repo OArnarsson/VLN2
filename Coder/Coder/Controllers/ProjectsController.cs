@@ -21,7 +21,11 @@ namespace Coder.Controllers
         // GET: Projects
         public ActionResult Index()
         {
-            var projects = db.Projects;
+            var userId = User.Identity.GetUserId();
+            var projects = (from p in db.Projects
+                            join c in db.Courses on p.CourseId equals c.Id
+                            where c.UserCourses.Any(u => u.UserId == userId)
+                            select p);
 
             if (projects == null)
             {
@@ -30,25 +34,6 @@ namespace Coder.Controllers
             else
             {
                 return View(projects.ToList());
-            }
-        }
-
-        public ActionResult MyProjects()
-        {
-            // Just for testing
-            var userId = User.Identity.GetUserId();
-            var projects = (from p in db.Projects
-                           join c in db.Courses on p.CourseId equals c.Id
-                           where c.UserCourses.Any(u => u.UserId == userId)
-                           select p);
-
-            if (projects == null)
-            {
-                return View();
-            }
-            else
-            {
-                return View("Index", projects.ToList());
             }
         }
 
@@ -71,7 +56,7 @@ namespace Coder.Controllers
             var userId = User.Identity.GetUserId();
             var userCourse = db.UserCourses.FirstOrDefault(i => i.UserId == userId && i.CourseId == project.Course.Id);
 
-            if (userCourse == null)
+            if (userCourse == null && !User.IsInRole("Administrator"))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }

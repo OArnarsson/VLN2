@@ -1,17 +1,81 @@
 ﻿@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic);
-@import url(https://fonts.googleapis.com/css?family=Raleway:400,700italic,700,600italic,600,500italic,500,400italic,300,300italic,800,800italic);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,300,300italic,400italic,700italic);
 
 body {
     font-family: 'Roboto', sans-serif;
-    //font-family: 'Raleway', sans-serif;
-    background-color:ghostwhite;
+    font-family: 'Lato', sans-serif;
+    background-color: #fff;
 }
 
 a {
-    color: $color-third;
+    color: $color-action;
     transition: .4s ease all;
+
     &:hover {
         text-decoration: none;
-        color: darken($color-third, 30%);
+        color: darken($color-action, 30%);
     }
+
+    &:focus {
+        text-decoration: none;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    a {
+        color: #333;
+        &:hover {
+            color: $color-action;
+        }
+    }
+}
+
+h1 {
+    display: inline-block;
+    padding-top: 10px;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+span {
+    &.text-value,
+    &.text-caption {
+        padding: 10px 0;
+    }
+
+    &.text-caption {
+        font-weight: 600;
+    }
+}
+
+.breadcrumbs {
+    a {
+        color: #333;
+        font-weight: 800;
+    }
+}
+
+.details-box {
+    margin: 10px 0;
+
+    .description {
+        margin-top: 30px;
+    }
+}
+
+.editButton {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+i.fa {
+    font-size: 24px;
+    margin: 0 20px;
 }

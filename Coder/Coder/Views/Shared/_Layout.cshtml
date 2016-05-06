@@ -7,6 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/theme.css")
+    @Styles.Render("~/Content/font-awesome.min.css")
     <link href="~/Content/circle.css" rel="stylesheet" />
     <link href="~/Content/flipclock.css" rel="stylesheet" />
 </head>
@@ -28,7 +29,10 @@
                     <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
                     <li>@Html.ActionLink("Project Tasks", "Index", "ProjectTasks")</li>
                     <li>@Html.ActionLink("Submissions", "Index", "Submissions")</li>
-                    <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -36,7 +40,10 @@
     </div>
     <div id="main">
         <div class="container body-content">
-            @Html.MvcSiteMap().SiteMapPath()
+            <div class="breadcrumbs">
+                @Html.MvcSiteMap().SiteMapPath()
+            </div>
+            
             @RenderBody()
         </div>
     </div>
@@ -49,7 +56,8 @@
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/flipclock.min.js"></script>
     <script src="~/Scripts/CountDown.js"></script>
-        @RenderSection("scripts", required: false)
+    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/scripts/site.js")
        
 </body>
 </html>

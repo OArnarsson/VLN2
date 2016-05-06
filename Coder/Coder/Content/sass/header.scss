@@ -3,55 +3,54 @@
     left: 0;
     margin: 0 auto;
     background: $color-first;
-    box-shadow: 2px 3px 3px -2px rgba(0, 0, 0, .80);
     border-bottom: none;
     font-size: 15px;
     color: #fff;
+    height: 60px;
 
     .nav a {
-        color: $color-second;
+        color: #fff;
         transition: .4s ease all;
+        padding-top: 20px;
+        height: 60px;
 
         &:hover {
-            color: $color-third;
+            background: #fff;
+            color: $color-action;
         }
+    }
+
+    .navbar-header:hover {
+        #headLogo svg path {
+            fill: $color-action;
+        }
+
+        .navbar-brand.logoTitle {
+            color: $color-action;
+        }
+    }
+
+    .navbar-brand.logoTitle {
+        color: #fff;
+        margin-right: 10px;
+        font-size: 20px;
+        transition: .4s ease all;
+        padding-top: 20px;
+        height: 60px;
     }
 }
 
 #headLogo {
-    .logo {
-        float: left !important;
-        padding: 5px 15px 5px 0;
+    float: left;
+    padding: 12px 15px 5px 0;
+    height: 60px;
 
-        svg {
-            display: block;
-            width: 40px;
-            path {
-                transition: .4s ease all;
-            }
+    svg {
+        display: block;
+        width: 35px;
+
+        path {
+            transition: .4s ease all;
         }
     }
-
-    .logoTitle {
-        float: left;
-        margin-right: 30px;
-        color: #fff;
-        font-size: 26px;
-        line-height: 50px;
-        transition: .4s ease all;
-    }
-
-    &:hover {
-        .logoTitle {
-            color: $color-third;
-        }
-
-        svg path {
-            fill: $color-third !important;
-        }
-    }
-}
-
-.navbar-brand.logoTitle {
-    color: $color-third;
 }

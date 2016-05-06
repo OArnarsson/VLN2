@@ -8,17 +8,16 @@
 
 <p>@Html.ActionLink("Create New", "Create")</p>
 
-<div class="allCourses">
+<div class="allCourses row">
     @foreach (var item in Model)
     {
-        <div class="courseBox">           
+        <div class="course-box clearfix">           
             <div class="col-lg-4">
                 <h3>@Html.ActionLink(item.Name, "Details", new { id = item.Id }) (@Html.DisplayFor(modelItem => item.Title))</h3>
                 <p>@Html.DisplayFor(modelItem => item.Description)</p>
             </div>
             <div class="col-lg-8">
-                <table class="table coderTable">
-                    <caption>Latest projects</caption>
+                <table class="coder-table">
                     <thead>
                         <tr>
                             <th>Project Name</th>
@@ -31,7 +30,7 @@
                         @foreach (var x in item.Projects)
                         {
                             <tr>
-                                <td>@x.Name</td>
+                                <td>@Html.ActionLink(x.Name, "Details", "Projects", new { id = x.Id }, null)</td>
                                 <td>@Html.DisplayFor(modelItem => x.Start)</td>
                                 <td>@Html.DisplayFor(modelItem => x.End)</td>                                
                             </tr>
@@ -41,7 +40,6 @@
             </div>
             
         </div>
-        <hr>
     }
     
 </div>

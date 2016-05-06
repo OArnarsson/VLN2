@@ -10,17 +10,27 @@ using Coder.Models;
 using Coder.Models.Entity;
 using Coder.Models.ViewModels;
 using MvcSiteMapProvider.Web.Mvc.Filters;
+using Microsoft.AspNet.Identity;
+using Coder.Repositories;
 
 namespace Coder.Controllers
 {
     public class CoursesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Courses
         public ActionResult Index()
         {
-            return View(db.Courses.ToList());
+            var coursesRepository = new CoursesRepository(db);
+            var courses = coursesRepository.GetCoursesForUser(User.Identity.GetUserId());
+
+            if (User.IsInRole("Administrator"))
+            {
+                courses = coursesRepository.GetAllCourses();
+            }
+            
+            return View(courses.ToList());
         }
 
         // GET: Courses/Details/5
@@ -31,14 +41,15 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
+
+            var coursesRepository = new CoursesRepository(db);
+            Course course = coursesRepository.GetCourseFromId(id);
+
             if (course == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.projects = (from p in db.Projects
-                                where p.CourseId == id.Value
-                                select p).ToList();
+            
             return View(course);
         }
 

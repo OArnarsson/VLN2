@@ -65,37 +65,40 @@
     @Html.ActionLink("Back to List", "Index")
 </p>
 <h2>Tasks</h2>
-<table class="table">
-    <tr>
-        <th>
-            Task
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Value)
-        </th>
-        @if (ViewBag.Role == Coder.Models.Entity.CoderRole.Teacher || User.IsInRole("Administrator"))
-        {
-            <th>@*Edit/Delete*@</th>
-        }
-    </tr>
-
-    @foreach (var item in Model.ProjectTasks)
-    {
+<table class="coder-table">
+    <thead>
         <tr>
-            <td>
-                @Html.ActionLink(item.Name, "Details", "ProjectTasks", new { id = item.Id }, null)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Value)
-            </td>
+            <th>
+                Task
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Value)
+            </th>
             @if (ViewBag.Role == Coder.Models.Entity.CoderRole.Teacher || User.IsInRole("Administrator"))
             {
-                <td>
-                    @Html.ActionLink("Edit", "Edit", "ProjectTasks", new { id = item.Id }, null) |
-                    @Html.ActionLink("Delete", "Delete", "ProjectTasks", new { id = item.Id }, null)
-                </td>
+                <th>@*Edit/Delete*@</th>
             }
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ProjectTasks)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", "ProjectTasks", new { id = item.Id }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value)
+                </td>
+                @if (ViewBag.Role == Coder.Models.Entity.CoderRole.Teacher || User.IsInRole("Administrator"))
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "ProjectTasks", new { id = item.Id }, null) |
+                        @Html.ActionLink("Delete", "Delete", "ProjectTasks", new { id = item.Id }, null)
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
 
 </table>

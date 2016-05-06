@@ -1,18 +1,43 @@
-﻿.coderTable {
+﻿.coder-table {
     margin-top: 10px;
-    width:100%;
-    background-color: white;
+    width: 100%;
+    border: 1px solid $color-first;
+    border-collapse: separate;
 
-    th {
-        background-color: $color-second;
-        text-align:center;
+    thead > tr {
+        border-bottom: 1px solid $color-first;
+        background-color: $color-first;
+        th {
+            font-weight: 400;
+            padding: 20px 15px;
+            color: #fff;
+
+            &:last-child {
+                text-align: right;
+            }
+        }
     }
-    tr:nth-child(2n) {
-        background-color: $color-second;
-    }
-    caption{        
-        font-weight:bolder;
-        text-align:left;
-        margin-bottom:6px;
+
+    tr {
+        td {
+            padding: 15px 0;
+            padding-left: 15px;
+        }
+
+        td:not(:last-child) a {
+            color: #333;
+            &:hover {
+                color: $color-action;
+            }
+        }
+
+        td:last-child {
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        &:nth-child(2n) {
+            background-color: #f9f9f9;
+        }
     }
 }

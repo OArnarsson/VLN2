@@ -86,17 +86,48 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,Value,ProjectId")] ProjectTask projectTask)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,Value,ProjectId")] ProjectTask projectTask, FormCollection form)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(projectTask).State = EntityState.Modified;
                 db.SaveChanges();
+                
+
+                var userCourses = new List<TaskTest>();
+                for (int i = 0; i < form.Count; i++)
+                {
+                    var key = form.Keys[i];
+
+                    if (key.StartsWith("test") && !string.IsNullOrEmpty(form.GetValue(key).AttemptedValue))
+                    {
+                        var val = form.GetValue(key).AttemptedValue.ToString();
+                        //db.TaskTests.Add(new TaskTest { Input = val, Output = val, ProjectTaskId = projectTask.Id });
+                    }
+                }
+
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
+
+            
+
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", projectTask.ProjectId);
             return View(projectTask);
         }
+
+        /*public ActionResult EditTests(int? id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTests()
+        {
+            return View();
+        }*/
 
         // GET: ProjectTasks/Delete/5
         public ActionResult Delete(int? id)
