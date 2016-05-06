@@ -93,13 +93,13 @@ namespace Coder.Controllers
                     db.UserCourses.Add(i);
                 }
 
+                db.Users.Add(newUser);
+                db.SaveChanges();
+
                 if (userViewModel.Admin)
                 {
                     userManager.AddToRole(newUser.Id, "Administrator");
                 }
-
-                db.Users.Add(newUser);
-                db.SaveChanges();
 
                 userManager.AddPassword(newUser.Id, userViewModel.Password);
 
