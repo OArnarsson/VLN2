@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Coder.Models.Entity
 {
@@ -13,7 +14,12 @@ namespace Coder.Models.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
+
+        [AllowHtml]
+        [UIHint("tinymce_full_compressed")]
         public string Description { get; set; }
+
+
         public string Title { get; set; }
 
         [DataType(DataType.Date)]
