@@ -43,11 +43,17 @@ namespace Coder.Controllers
             }
 
             var coursesRepository = new CoursesRepository(db);
-            Course course = coursesRepository.GetCourseFromId(id);
+
+            Course course = coursesRepository.GetCourseFromId(id, User.Identity.GetUserId(), User.IsInRole("Administrator"));
 
             if (course == null)
             {
                 return HttpNotFound();
+            }
+
+            if (!coursesRepository.IsInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
             
             return View(course);
@@ -68,8 +74,8 @@ namespace Coder.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Courses.Add(course);
-                db.SaveChanges();
+                var coursesRepository = new CoursesRepository(db);
+                coursesRepository.AddCourse(course);
                 return RedirectToAction("Index");
             }
 
@@ -84,16 +90,26 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
+            
+            var coursesRepository = new CoursesRepository(db);
+            var userCoursesRepository = new UserCoursesRepository(db);
+            var usersRepository = new UsersRepository(db);
+
+            Course course = coursesRepository.GetCourseFromId(id, User.Identity.GetUserId(), User.IsInRole("Administrator"));
 
             if (course == null)
             {
                 return HttpNotFound();
             }
 
+            if (!coursesRepository.IsInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
             CourseViewModel courseViewModel = new CourseViewModel(course);
-            courseViewModel.UserCourses = db.UserCourses.Where(i => i.CourseId == course.Id).ToList();
-            courseViewModel.ApplicationUsers = db.Users.ToList();
+            courseViewModel.UserCourses = userCoursesRepository.GetUserCoursesByCourseId(id);
+            courseViewModel.ApplicationUsers = usersRepository.GetAllUsers();
            
             return View(courseViewModel);
         }
@@ -107,25 +123,30 @@ namespace Coder.Controllers
         {
             if (ModelState.IsValid)
             {
-                Course course = db.Courses.FirstOrDefault(i => i.Id == courseViewModel.CourseId);
+                var coursesRepository = new CoursesRepository(db);
+                var userCoursesRepository = new UserCoursesRepository(db);
+                var usersRepository = new UsersRepository(db);
+
+                Course course = coursesRepository.GetCourseFromId(courseViewModel.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator"));
                 course.Name = courseViewModel.Name;
                 course.Description = courseViewModel.Description;
                 course.Title = courseViewModel.Title;
                 course.Start = courseViewModel.Start;
                 course.End = courseViewModel.End;
 
-                foreach (var x in db.UserCourses.Where(i => i.CourseId == course.Id))
-                {
-                    db.UserCourses.Remove(x);
-                }
+                userCoursesRepository.RemoveAllUserCoursesForCourse(course);
 
                 foreach (var x in getUserCoursesFromFormCollection(form, course.Id))
                 {
-                    db.UserCourses.Add(x);
+                    userCoursesRepository.AddUserCourse(x);
                 }
 
-                db.Entry(course).State = EntityState.Modified;
-                db.SaveChanges();
+                coursesRepository.UpdateState(EntityState.Modified, course);
+
+                // Saved it here instead of after each UserCourse add in the foreach loop above.
+                // Normally I have db.SaveChanges() just in the repository functions
+                userCoursesRepository.SaveChanges();
+
                 return RedirectToAction("Details", new { course.Id });
             }
 
@@ -160,11 +181,20 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
+
+            if (!User.IsInRole("Administrator"))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            var coursesRepository = new CoursesRepository(db);
+            Course course = coursesRepository.GetCourseFromId(id);
+
             if (course == null)
             {
                 return HttpNotFound();
             }
+
             return View(course);
         }
 
@@ -173,9 +203,8 @@ namespace Coder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Course course = db.Courses.Find(id);
-            db.Courses.Remove(course);
-            db.SaveChanges();
+            var coursesRepository = new CoursesRepository(db);
+            coursesRepository.RemoveCourse(coursesRepository.GetCourseFromId(id));
             return RedirectToAction("Index");
         }
 

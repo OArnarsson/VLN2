@@ -3,6 +3,7 @@ using Coder.Models.Entity;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Principal;
 using System.Web;
@@ -13,9 +14,15 @@ namespace Coder.Repositories
     public class CoursesRepository
     {
         private readonly ApplicationDbContext db;
+
         public CoursesRepository(ApplicationDbContext context)
         {
             db = context ?? new ApplicationDbContext();
+        }
+        
+        public IEnumerable<Course> GetAllCourses()
+        {
+            return db.Courses.ToList();
         }
 
         public IEnumerable<Course> GetCoursesForUser(string userId)
@@ -26,14 +33,47 @@ namespace Coder.Repositories
                     select c).ToList();
         }
 
-        public IEnumerable<Course> GetAllCourses()
+        public Course GetCourseFromId(int? id, string userId, bool isAdmin)
         {
-            return db.Courses.ToList();
+            if (IsInCourse(id, userId, isAdmin))
+            {
+                return GetCourseFromId(id);
+            }
+
+            return null;
         }
 
+        // Used when admin can only call, like GET delete
         public Course GetCourseFromId(int? id)
         {
-            return db.Courses.Find(id);
+            return db.Courses.FirstOrDefault(i => i.Id == id);
+        }
+
+        public void AddCourse(Course course)
+        {
+            db.Courses.Add(course);
+            db.SaveChanges();
+        }
+
+        public void RemoveCourse(Course course)
+        {
+            db.Courses.Remove(course);
+            db.SaveChanges();
+        }
+
+        public void UpdateState(EntityState state, Course course)
+        {
+            db.Entry(course).State = state;
+        }
+        
+        // Helper function, perhabs should be in a Service layer
+        public bool IsInCourse(int? id, string userId, bool isAdmin)
+        {
+            if (isAdmin)
+            {
+                return true;
+            }
+            return db.UserCourses.Any(x => x.CourseId == id && x.UserId == userId);
         }
     }
 }
