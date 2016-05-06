@@ -10,6 +10,6 @@ namespace Coder.Models.ViewModels
     {
         public List<Course> Courses { get; set; }
         public List<Project> Projects { get; set; }
-        public List<ApplicationUser> Users { get; set;  }
+        public List<ApplicationUser> Users { get; set; }
     }
 }

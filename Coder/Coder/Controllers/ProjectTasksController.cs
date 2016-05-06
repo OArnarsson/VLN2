@@ -98,6 +98,18 @@ namespace Coder.Controllers
             return View(projectTask);
         }
 
+        /*public ActionResult EditTests(int? id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTests()
+        {
+            return View();
+        }*/
+
         // GET: ProjectTasks/Delete/5
         public ActionResult Delete(int? id)
         {

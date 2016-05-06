@@ -1,26 +1,27 @@
-﻿.coderTable {
+﻿.coder-table {
     margin-top: 10px;
     width: 100%;
     border: 1px solid $color-first;
+    border-collapse: separate;
 
     thead > tr {
         border-bottom: 1px solid $color-first;
         background-color: $color-first;
         th {
             font-weight: 400;
-            padding: 20px;
+            padding: 20px 15px;
             color: #fff;
 
             &:last-child {
-                float: right;
+                text-align: right;
             }
         }
     }
 
     tr {
         td {
-            padding: 20px 0;
-            padding-left: 20px;
+            padding: 15px 0;
+            padding-left: 15px;
         }
 
         td:first-child a {
@@ -28,12 +29,12 @@
         }
 
         td:last-child {
-            float: right;
+            text-align: right;
             padding-right: 20px;
         }
 
         &:nth-child(2n) {
-            background-color: $color-second;
+            background-color: #f9f9f9;
         }
     }
 }
