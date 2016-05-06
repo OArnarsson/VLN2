@@ -48,11 +48,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="remaining">Time Remaining</div>
-                        <div class="@item.Id our-clock"> <h2 style="zoom: 1.5">Ended:</h2><h2 style="zoom: 1.5">@item.End.ToShortDateString()</h2></div>
-                    </div>
-                </a>
-            </div>
+                        <p id="endDate">
+                            @item.End.ToString("ddd d MMM") &nbsp;'@item.End.ToString("yy")<br>
+                            @item.End.ToString("HH:mm")
+                    </p>
+                </div>
+            </a>
+        </div>
         }
     </div>
 

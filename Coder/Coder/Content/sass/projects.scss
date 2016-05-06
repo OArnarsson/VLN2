@@ -94,5 +94,19 @@ caption {
 
     &:hover {
         opacity : .9!important;
+
+        #endDate{
+            opacity: .8!important;
+        }
     }
+
+    #endDate {
+        opacity: .35; 
+        color: red;
+    }
+}
+
+#endDate {
+    padding-top: 15px;
+    font-size: 15px;
 }

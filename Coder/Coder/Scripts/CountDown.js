@@ -15,7 +15,7 @@ $(document).ready(function () {
             var clock = $("." + id).FlipClock(difference, {
                 clockFace: 'DailyCounter',
                 countdown: true,
-                showSeconds: true
+                showSeconds: false
             });
         }
         else {

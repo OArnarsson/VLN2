@@ -10,7 +10,7 @@
         th {
             font-weight: 400;
             padding: 20px 15px;
-            color: #fff;
+            color: #f9f9f9;
 
             &:last-child {
                 text-align: right;
@@ -19,6 +19,7 @@
     }
 
     tr {
+        background-color: ghostwhite;
         td {
             padding: 15px 0;
             padding-left: 15px;
@@ -37,7 +38,7 @@
         }
 
         &:nth-child(2n) {
-            background-color: #f9f9f9;
+            background-color: #fff;
         }
     }
 }
