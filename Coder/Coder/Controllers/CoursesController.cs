@@ -101,18 +101,19 @@ namespace Coder.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Course course = coursesRepository.GetCourseFromId(id, User.Identity.GetUserId(), User.IsInRole("Administrator"));
+            Course course = coursesRepository.GetCourseFromId(id);
 
             if (course == null)
             {
                 return HttpNotFound();
             }
 
-            if (!coursesRepository.IsInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            if (!User.IsInRole("Administrator") && !coursesRepository.IsTeacherInCourse(id, User.Identity.GetUserId()))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
 
+            course = coursesRepository.GetCourseFromId(id, User.Identity.GetUserId(), User.IsInRole("Administrator"));
             CourseViewModel courseViewModel = new CourseViewModel(course);
             courseViewModel.UserCourses = userCoursesRepository.GetUserCoursesByCourseId(id);
             courseViewModel.ApplicationUsers = usersRepository.GetAllUsers();

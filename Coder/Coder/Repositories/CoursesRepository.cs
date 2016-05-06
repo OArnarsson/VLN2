@@ -75,6 +75,11 @@ namespace Coder.Repositories
             }
             return db.UserCourses.Any(x => x.CourseId == id && x.UserId == userId);
         }
+
+        public bool IsTeacherInCourse(int? id, string userId)
+        {
+            return (db.UserCourses.Where(i => i.CourseId == id && i.UserId == userId).FirstOrDefault().CoderRole == CoderRole.Teacher);
+        }
     }
 }
 

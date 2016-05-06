@@ -60,8 +60,6 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
-
-            ViewBag.Role = userCourse.CoderRole;
             
             return View(project);
         }
