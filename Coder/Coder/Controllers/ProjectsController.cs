@@ -62,7 +62,12 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
-            
+
+            if (coursesRepository.IsTeacherInCourse(project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            {
+                ViewBag.IsTeacher = true;
+            }
+
             return View(project);
         }
 

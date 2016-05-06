@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Coder.Models.Entity.Project>
-
+@using Microsoft.AspNet.Identity;
 @{
     ViewBag.Title = "Projects";
 }
@@ -53,13 +53,17 @@
                     @Html.DisplayFor(modelItem => item.Value)
                 </td>
                 <td>
-                    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
-                    {
-                        <a href=@Url.Action("Edit", "Projects", new { id = item.Id })><i class="fa fa-pencil"></i></a>
+                    @{ 
+                        bool isTeacher = false;
+                        if (!User.IsInRole("Administrator"))
+                        {
+                            isTeacher = item.Course.UserCourses.FirstOrDefault(x => x.UserId == User.Identity.GetUserId()).CoderRole == Coder.Models.Entity.CoderRole.Teacher;
+                        }
                     }
 
-                    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+                    @if (User.IsInRole("Administrator") || isTeacher)
                     {
+                        <a href=@Url.Action("Edit", "Projects", new { id = item.Id })><i class="fa fa-pencil"></i></a>
                         <a href=@Url.Action("Delete", "Projects", new { id = item.Id })><i class="fa fa-trash"></i></a>
                     }
                 </td>
