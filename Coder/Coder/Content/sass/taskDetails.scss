@@ -1,18 +1,22 @@
 ﻿#projectName {
+    width: 100%;
     float: left;
     display: block;
 }
 
 #taskName {
     display: block;
+    font-size: large;
 }
 
 #bestSub {
+    width: 100%;
     float: right;
     text-align: right;
 }
 
 .small {
+    text-align: left;
     display: inline-block;
 
     .left {

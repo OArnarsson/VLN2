@@ -5,20 +5,24 @@
 }
 
 <div class="container">
-    <div class="projectBox col-lg-12">
+    <div class="projectBox col-lg-12 clearfix">
         <div class="small left col-lg-6">
-            <h1 id="projectName">@Model.Project.Name</h1>
-            <span id="taskName">@Model.Name - @Model.Project.Course.Name</span>
+            <h1 id="projectName">@Model.Name (@Html.DisplayFor(model => model.Value)%)</h1>
+            <span id="taskName">@Html.ActionLink(@Model.Project.Name, "Details", "Projects", new { id = Model.Project.Id }, null) - @Html.ActionLink(@Model.Project.Course.Name, "Details", "Courses", new { id = Model.Project.Course.Id }, null)</span>
             @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
         </div>
         <div class="small right col-lg-6">
-            <h1 id="bestSub">Best Submission</h1>
+            <h1 id="bestSub">Best Submission<i class="fa fa-check-square" aria-hidden="true"></i></h1>
         </div>
-        <div class="small  col-lg-12">
-            @Html.DisplayFor(model => model.Description)
-            @Html.DisplayNameFor(model => model.Value)
-            @Html.DisplayFor(model => model.Value)
-            WHAT THE HELL
+        <div class="small otherTasks">
+            @foreach (var item in Model.Project.ProjectTasks)
+            {
+                <p>
+                    @Html.ActionLink(item.Name, "Details", "ProjectTasks", new { id = item.Id }, null)
+                    (@Html.DisplayFor(modelItem => item.Value)%)
+                    <br>
+                </p>
+            }
         </div>
     </div>
 
@@ -41,16 +45,39 @@
     </div>
 
     <div class="projectBox col-lg-12">
-        <div class="small left col-lg-6">Group Skil</div>
+        <div class="small left col-lg-6">
+            <h1>Hand in</h1>
+            <p>@User.Identity.Name</p>
+        </div>
 
         <div class="small col-lg-12">Upload files</div>
     </div>
 
     <div class="projectBox col-lg-12">
-        Table submissions
+        <table class="coder-table">
+            <caption>Submissions</caption>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Users</th>
+                    <th>Status</th>
+                    <th>More info</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>3</td>
+                    <td>Nonni & Bibbi</td>
+                    <td>Accepted</td>
+                    <td><i class="glyphicon glyphicon-plus"></i></td>
+                </tr>
+            </tbody>
+        </table>
+
     </div>
 
     <div class="projectBox col-lg-12">
-        commentheader
+        <h3>Comments</h3>
     </div>
 </div>
