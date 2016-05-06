@@ -44,9 +44,15 @@
                     @Html.DisplayFor(modelItem => item.Value)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+                    {
+                        <a href=@Url.Action("Edit", "ProjectTasks", new { id = item.Id })><i class="fa fa-pencil"></i></a>
+                    }
+
+                    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+                    {
+                        <a href=@Url.Action("Delete", "ProjectTasks", new { id = item.Id })><i class="fa fa-trash"></i></a>
+                    }
                 </td>
             </tr>
         }

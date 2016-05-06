@@ -6,7 +6,7 @@
 
 <h1>Projects</h1>
 
-@if (User.IsInRole("Administrator"))
+@if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
 {
     <p>@Html.ActionLink("Create New", "Create")</p>
 }
@@ -58,7 +58,7 @@
                         <a href=@Url.Action("Edit", "Projects", new { id = item.Id })><i class="fa fa-pencil"></i></a>
                     }
 
-                    @if (User.IsInRole("Administrator"))
+                    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
                     {
                         <a href=@Url.Action("Delete", "Projects", new { id = item.Id })><i class="fa fa-trash"></i></a>
                     }

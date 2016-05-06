@@ -19,6 +19,11 @@
     <div class="projectBox fluid">
         <h1>User Details</h1>
 
+        @if (User.IsInRole("Administrator"))
+        {
+            <a href=@Url.Action("Edit", "Users", new { id = Model.UserId })><i class="fa fa-pencil"></i></a>
+        }
+
         <dd>
             <hr />
             <dl class="dl-horizontal">

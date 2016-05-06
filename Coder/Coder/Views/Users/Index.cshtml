@@ -10,6 +10,7 @@
 {
     <p>@Html.ActionLink("Create New", "Create")</p>
 }
+
 <table class="coder-table">
     <thead>
         <tr>
@@ -39,7 +40,7 @@
             @Html.DisplayFor(modelItem => item.PhoneNumber)
         </td>
         <td>
-            @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+            @if (User.IsInRole("Administrator"))
             {
                 <a href=@Url.Action("Edit", "Users", new { id = item.Id })><i class="fa fa-pencil"></i></a>
             }
