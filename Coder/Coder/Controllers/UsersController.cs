@@ -19,6 +19,7 @@ using MvcSiteMapProvider.Web.Mvc.Filters;
 
 namespace Coder.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class UsersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
