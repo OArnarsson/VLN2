@@ -69,6 +69,7 @@ namespace Coder.Controllers
         }
 
         // GET: Courses/Create
+        [Authorize(Roles = "Administrator")]
         public ActionResult Create()
         {
             return View();
@@ -79,6 +80,7 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Create([Bind(Include = "Id,Name,Description,Title,Start,End")] Course course)
         {
             if (ModelState.IsValid)
@@ -175,6 +177,7 @@ namespace Coder.Controllers
 
         // GET: Courses/Delete/5
         //[SiteMapTitle("title")]
+        [Authorize(Roles = "Administrator")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -200,6 +203,7 @@ namespace Coder.Controllers
         // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public ActionResult DeleteConfirmed(int id)
         {
             coursesRepository.RemoveCourse(coursesRepository.GetCourseFromId(id));

@@ -6,7 +6,10 @@
 
 <h1>Courses</h1>
 
-<p>@Html.ActionLink("Create New", "Create")</p>
+@if (User.IsInRole("Administrator"))
+{
+    <p>@Html.ActionLink("Create New", "Create")</p>
+}
 
 <div class="allCourses row">
     @foreach (var item in Model)
