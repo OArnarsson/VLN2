@@ -63,6 +63,11 @@ namespace Coder.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
 
+            if (coursesRepository.IsTeacherInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            {
+                ViewBag.IsTeacher = true;
+            }
+
             course = coursesRepository.GetCourseFromId(id, User.Identity.GetUserId(), User.IsInRole("Administrator"));
 
             return View(course);
@@ -108,7 +113,7 @@ namespace Coder.Controllers
                 return HttpNotFound();
             }
 
-            if (!User.IsInRole("Administrator") && !coursesRepository.IsTeacherInCourse(id, User.Identity.GetUserId()))
+            if (!User.IsInRole("Administrator") && !coursesRepository.IsTeacherInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
