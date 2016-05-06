@@ -6,9 +6,11 @@
 
 <h1>Tasks</h1>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+{
+    <p>@Html.ActionLink("Create New", "Create")</p>
+}
+
 <table class="coder-table">
     <thead>
         <tr>
