@@ -94,11 +94,26 @@ $(document).ready(function () {
 
     Dropzone.options.dropzoneForm = {
         init: function () {
+            //maxFilesize: 20,
             this.on("complete", function (data) {
                 //var res = eval('(' + data.xhr.responseText + ')');
                 var res = JSON.parse(data.xhr.responseText);
             });
+
+            this.on("error", function (data, errorMessage, xhr) {
+                $(".dz-error-message").show();
+                $(".dz-error-message").html("<p>" + errorMessage.Message + "</p>");
+            });
+
+            this.on("processing", function (data) {
+                $(".alertError").hide();
+                $(".alertSuccess").hide();
+            });
+
+            this.on("success", function (data) {
+                $(".alertError").hide();
+                $(".alertSuccess").show();
+            });
         }
     };
-
 });
