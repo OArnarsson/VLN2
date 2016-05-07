@@ -8,6 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/theme.css")
     @Styles.Render("~/Content/font-awesome.min.css")
+    @Styles.Render("~/Content/dropzonescss");
     <link href="~/Content/circle.css" rel="stylesheet" />
     <link href="~/Content/flipclock.css" rel="stylesheet" />
 </head>
@@ -59,5 +60,6 @@
     <script src="~/Scripts/CountDown.js"></script>
     @RenderSection("scripts", required: false)
     @Scripts.Render("~/scripts/site.js")
+    @Scripts.Render("~/bundles/dropzonescripts");
 </body>
 </html>

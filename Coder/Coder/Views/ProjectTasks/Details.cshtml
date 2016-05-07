@@ -4,6 +4,17 @@
     ViewBag.Title = "Details";
 }
 
+<style type="text/css">
+    #dropZone {
+        background: gray;
+        border: black dashed 3px;
+        width: 200px;
+        padding: 50px;
+        text-align: center;
+        color: white;
+    }
+</style>
+
 <div class="container">
     <div class="projectBox col-lg-12 clearfix">
         <div class="small left col-lg-6">
@@ -55,8 +66,6 @@
             <h1>Hand in</h1>
             <p>@User.Identity.Name</p>
         </div>
-
-        <div class="small col-lg-12">Upload files</div>
     </div>
 
     <div class="projectBox col-lg-12">
@@ -81,6 +90,26 @@
             </tbody>
         </table>
 
+    </div>
+
+    <div class="jumbotron">
+        <h2>Upload files</h2>
+        
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "taskEditForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        
+    </div>
+}
+
+        <form action="~/ProjectTasks/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm">
+            <div class="fallback">
+                <input name="file" type="file" multiple />
+                <input type="submit" value="Upload" />
+            </div>
+        </form>
     </div>
 
     <div class="projectBox col-lg-12">
