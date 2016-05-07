@@ -95,12 +95,15 @@ $(document).ready(function () {
     Dropzone.options.dropzoneForm = {
         init: function () {
             //maxFilesize: 20,
+            dictDefaultMessage: "Drop files or click here to upload",
             this.on("complete", function (data) {
                 //var res = eval('(' + data.xhr.responseText + ')');
                 var res = JSON.parse(data.xhr.responseText);
             });
 
             this.on("error", function (data, errorMessage, xhr) {
+                $(".alertError").hide();
+                $(".alertSuccess").hide();
                 $(".dz-error-message").show();
                 $(".dz-error-message").html("<p>" + errorMessage.Message + "</p>");
             });
