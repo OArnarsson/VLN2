@@ -93,9 +93,9 @@ namespace Coder.Repositories
             return false;
         }
 
-        public bool IsTeacherInAnyCourse(string userId)
+        public bool IsTeacherInAnyCourse(string userId, bool isAdmin)
         {
-            return (db.UserCourses.Where(i => i.UserId == userId).FirstOrDefault().CoderRole == CoderRole.Teacher);
+            return isAdmin || (db.UserCourses.Where(i => i.UserId == userId).FirstOrDefault().CoderRole == CoderRole.Teacher);
         }
     }
 }

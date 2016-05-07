@@ -74,7 +74,7 @@ namespace Coder.Controllers
         // GET: Projects/Create
         public ActionResult Create()
         {
-            if (!coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId()) && !User.IsInRole("Administrator"))
+            if (!coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
