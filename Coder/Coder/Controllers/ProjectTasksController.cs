@@ -186,26 +186,38 @@ namespace Coder.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult SaveUploadedFile(FormCollection form)
+        public ActionResult SaveUploadedFile(int Id)
         {
             bool isSavedSuccessfully = true;
             string fName = "";
             try
             {
+                bool fileMatches = false;
                 foreach (string fileName in Request.Files)
                 {
                     // TODO: Check if fileName is in FilesRequired for this ProjectTask
+                    ProjectTask task = db.ProjectTasks.FirstOrDefault(x => x.Id == Id);
+                    
+                    foreach(FileRequired fileRequired in task.FilesRequired)
+                    {
+                        if (fileRequired.Name == fileName)
+                        {
+                            fileMatches = true;
+                        }
+                    }
 
-                    var projectTaskId = form["ProjectTaskId"];
-                    var ProjectTaskID = ViewBag.ProjectTaskId;
-
+                    if (!task.FilesRequired.Any(i => i.Name == fileName)) {
+                        Response.StatusCode = (int)HttpStatusCode.NotAcceptable;
+                        Response.ContentType = "text/plain";
+                        Response.Write("Unable to connect to database on ");
+                        return Json(new { error = "File not allowed " + fileName });
+                    }
 
                     HttpPostedFileBase file = Request.Files[fileName];
                     //Save file content goes here
                     fName = file.FileName;
                     if (file != null && file.ContentLength > 0)
                     {
-
                         var originalDirectory = new DirectoryInfo(string.Format("{0}Uploads\\Submissions", Server.MapPath(@"\")));
 
                         string pathString = System.IO.Path.Combine(originalDirectory.ToString(), "imagepath");

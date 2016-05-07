@@ -43,7 +43,7 @@
     <div id="tests">
         @{ int counter = 1; }
         @foreach (var test in Model.TaskTests)
-            {
+        {
             <div class="test clearfix">
                 <h3>Test @counter</h3>
                 <div class="tests-wrap row">
@@ -94,17 +94,11 @@
 
     <div class="jumbotron">
         <h2>Upload files</h2>
-        
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "taskEditForm" }))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        
-    </div>
-}
-
-        <form action="~/ProjectTasks/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm">
+        <p></p>
+        @{ 
+            string actionURL = "/ProjectTasks/SaveUploadedFile?Id=" + Model.Id;
+        }
+        <form action="@actionURL" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm">
             <div class="fallback">
                 <input name="file" type="file" multiple />
                 <input type="submit" value="Upload" />
