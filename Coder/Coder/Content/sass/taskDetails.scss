@@ -42,7 +42,8 @@
 }
 
 .upload-area {
-    /*position: relative;
+    position: relative;
+    max-height: auto !important;
 
     i {
         transition: 0.2s ease all;
@@ -50,7 +51,7 @@
     
     &:hover {
         i {
-            margin-bottom: 40px !important;
+            margin-bottom: 20px !important;
         }
     }
     
@@ -66,8 +67,9 @@
     }
 
     .dz-message {
-        height: 100%;
-        position: absolute;
+        height: 80px;
+        position: relative;
+        margin: 60px 0;
         top: 0;
         right: 0;
         bottom: 0;
@@ -86,5 +88,21 @@
                 margin-bottom: 10px;
             }
         }
-    }*/
+    }
+
+    .dz-preview {
+        margin-bottom: 40px;
+
+        .dz-success-mark svg g {
+            fill: green;
+        }
+
+        .dz-error-mark svg g {
+            fill: red;
+        }
+
+        .dz-error-message p {
+            font-weight: 800;
+        }
+    }
 }
