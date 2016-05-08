@@ -4,13 +4,15 @@
     ViewBag.Title = "Error";
 }
 
-<h1>@Model.StatusCode</h1>
-<h2>@Model.Message</h2>
+<div class="http-error-box">
+    <div class="container">
+        <h1>@Model.StatusCode</h1>
+        <h2>@Model.Message</h2>
 
-<p>Something went terribly wrong!</p>
-
-<div>
-    <button onclick="javascript:history.back()">Go back</button>
-    <button>Contact us</button>
-    @*Todo-- add contact action*@
+        <div class="error-buttons">
+            <a class="btn-lg btn-primary error-button" onclick="javascript:history.back()">Go back</a>
+            <a class="btn-lg btn-primary error-button" href="mailto:scsoffice@ru.is">Contact us</a>
+        </div>
+    </div>
 </div>
+
