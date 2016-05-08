@@ -193,10 +193,10 @@ namespace Coder.Controllers
             string fName = "";
             try
             {
+                // Checking if all files are required
+                bool validSolution = false;
                 foreach (string fileName in Request.Files)
                 {
-
-                    // TODO: Check if fileName is in FilesRequired for this ProjectTask
                     ProjectTask task = db.ProjectTasks.FirstOrDefault(x => x.Id == Id);
 
                     HttpPostedFileBase file = Request.Files[fileName];
@@ -211,22 +211,38 @@ namespace Coder.Controllers
                         Response.ContentType = "application/json";
                         return Json(new { Message = "File is not in this Task. See required files above.", JsonRequestBehavior.AllowGet });
                     }
-                    
-                    if (file != null && file.ContentLength > 0)
+
+                    if (Request.Files.Count == task.FilesRequired.Count)
                     {
-                        var originalDirectory = new DirectoryInfo(string.Format("{0}Uploads\\Submissions", Server.MapPath(@"\")));
+                        validSolution = true;
+                    }
+                }
 
-                        string pathString = System.IO.Path.Combine(originalDirectory.ToString(), "imagepath");
+                if (validSolution)
+                {
+                    // All files are valid and all files are there, so we save them
+                    foreach (string fileName in Request.Files)
+                    {
+                        ProjectTask task = db.ProjectTasks.FirstOrDefault(x => x.Id == Id);
 
-                        var fileName1 = Path.GetFileName(file.FileName);
+                        HttpPostedFileBase file = Request.Files[fileName];
 
-                        bool isExists = System.IO.Directory.Exists(pathString);
+                        if (file != null && file.ContentLength > 0)
+                        {
+                            var originalDirectory = new DirectoryInfo(string.Format("{0}Uploads\\Submissions", Server.MapPath(@"\")));
 
-                        if (!isExists)
-                            System.IO.Directory.CreateDirectory(pathString);
+                            string pathString = System.IO.Path.Combine(originalDirectory.ToString(), "imagepath");
 
-                        var path = string.Format("{0}\\{1}", pathString, file.FileName);
-                        file.SaveAs(path);
+                            var fileName1 = Path.GetFileName(file.FileName);
+
+                            bool isExists = System.IO.Directory.Exists(pathString);
+
+                            if (!isExists)
+                                System.IO.Directory.CreateDirectory(pathString);
+
+                            var path = string.Format("{0}\\{1}", pathString, file.FileName);
+                            file.SaveAs(path);
+                        }
                     }
                 }
             }
