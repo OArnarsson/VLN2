@@ -1,9 +1,7 @@
 ﻿@model Coder.Models.Entity.ProjectTask
-
 @{
     ViewBag.Title = "Details";
 }
-
 <div class="container">
     <div class="projectBox col-lg-12 clearfix">
         <div class="small left col-lg-6">
@@ -28,7 +26,6 @@
             }
         </div>
     </div>
-
     <div id="tests">
         @{ int counter = 1; }
         @foreach (var test in Model.TaskTests)
@@ -49,14 +46,12 @@
             counter = counter + 1;
         }
     </div>
-
     <div class="projectBox col-lg-12">
         <div class="small left col-lg-6">
             <h1>Hand in</h1>
             <p>@User.Identity.Name</p>
         </div>
     </div>
-
     <div class="projectBox col-lg-12">
         <table class="coder-table">
             <caption>Submissions</caption>
@@ -68,7 +63,6 @@
                     <th>More info</th>
                 </tr>
             </thead>
-
             <tbody>
                 <tr>
                     <td>3</td>
@@ -78,27 +72,48 @@
                 </tr>
             </tbody>
         </table>
-
     </div>
-
     <div class="projectBox col-lg-12 upload-area">
-        @{ 
-            string actionURL = "/ProjectTasks/SaveUploadedFile?Id=" + Model.Id;
-        }
-        <form action="@actionURL" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm">
-            <div class="fallback">
-                <input name="file" type="file" multiple />
-                <input type="submit" value="Upload" />
-            </div>
-            <!--<div class="dz-message" data-dz-message><span><i class="fa fa-upload"></i>Drop files or click here to upload</span></div>-->
-        </form>
+
+        <div id="taskFiles" class="coderDropzone"></div>
+        <a class="btn btn-primary" href="#" id="submitTask">Submit task</a>
+
     </div>
-
-    <!--<div class="projectBox col-lg-12">
-        <h3>Comments</h3>
-    </div>-->
 </div>
-
 @section Scripts {
-    @Scripts.Render("~/scripts/ace/ace.js");
+    @Scripts.Render("~/bundles/dropzonescripts")
+    <script>
+        $(document).ready(function () {
+            Dropzone.autoDiscover = false;
+
+            var myDropzone = new Dropzone("#taskFiles", {
+                url: "/ProjectTasks/SaveUploadedFile?Id=" + @Model.Id,
+                autoProcessQueue: false,
+                createImageThumbnails: false,
+                addRemoveLinks: true,
+            });
+
+            myDropzone.on("error", function (data, errorMessage, xhr) {
+                $(".alertError").hide();
+                $(".alertSuccess").hide();
+                $(".dz-error-message").show();
+                $(".dz-error-message").html("<p>" + errorMessage.Message + "</p>");
+            }),
+            myDropzone.on("processing", function (data) {
+                $(".alertError").hide();
+                $(".alertSuccess").hide();
+            }),
+            myDropzone.on("success", function (data) {
+                $(".alertError").hide();
+                $(".alertSuccess").show();
+            })
+
+        $('#submitTask').click(function (e) {
+            myDropzone.processQueue();
+            e.preventDefault();
+        });
+        });
+    </script>
+
+    @Scripts.Render("~/scripts/ace/ace.js")
 }

@@ -10,6 +10,7 @@ using Coder.Models;
 using Coder.Models.Entity;
 using MvcSiteMapProvider.Web.Mvc.Filters;
 using System.IO;
+using System.Diagnostics;
 
 namespace Coder.Controllers
 {
@@ -202,11 +203,11 @@ namespace Coder.Controllers
                     //Save file content goes here
                     fName = file.FileName;
 
-                    if (!task.FilesRequired.Any(i => i.Name == fileName)) {
+                    if (!task.FilesRequired.Any(i => i.Name == fName)) {
                         Response.ClearHeaders();
                         Response.ClearContent();
-                        Response.StatusCode = 500;
-                        Response.StatusDescription = "Internal Error";
+                        Response.StatusCode = 400;
+                        Response.StatusDescription = "File not allowed";
                         Response.ContentType = "application/json";
                         return Json(new { Message = "File is not in this Task. See required files above.", JsonRequestBehavior.AllowGet });
                     }

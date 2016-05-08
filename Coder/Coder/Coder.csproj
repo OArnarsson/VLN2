@@ -240,6 +240,8 @@
     <Content Include="Content\sass\footer.scss" />
     <Content Include="Content\sass\content.scss" />
     <Content Include="Content\sass\ace.scss" />
+    <Content Include="Content\sass\basic.scss" />
+    <Content Include="Content\sass\dropzone.scss" />
     <None Include="Content\sass\layout.scss" />
     <Content Include="Content\sass\theme.scss" />
     <Content Include="Content\sass\login.scss" />

@@ -92,7 +92,7 @@ $(document).ready(function () {
         selector: 'textarea.codertiny'
     });
 
-    Dropzone.options.dropzoneForm = {
+    /*Dropzone.options.dropzoneForm = {
         init: function () {
             //maxFilesize: 20,
             dictDefaultMessage: "Drop files or click here to upload",
@@ -118,5 +118,5 @@ $(document).ready(function () {
                 $(".alertSuccess").show();
             });
         }
-    };
+    };*/
 });
