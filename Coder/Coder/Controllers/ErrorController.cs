@@ -28,7 +28,17 @@ namespace Coder.Controllers
 
         public ActionResult NotFound()
         {
-            return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { StatusCode = (int)HttpStatusCode.BadRequest, Message = "Not found" });
+            return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { StatusCode = (int)HttpStatusCode.NotFound, Message = "Not found" });
+        }
+
+        public ActionResult Unauthorized()
+        {
+            return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { StatusCode = (int)HttpStatusCode.Unauthorized, Message = "Unautorized" });
+        }
+
+        public ActionResult InternalServerError()
+        {
+            return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { StatusCode = (int)HttpStatusCode.InternalServerError, Message = "Internal Server Error" });
         }
     }
 }
