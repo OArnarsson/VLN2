@@ -106,6 +106,8 @@
                 autoProcessQueue: false,
                 createImageThumbnails: false,
                 addRemoveLinks: true,
+                parallelUploads: 100,
+                uploadMultiple: true,
             });
 
             myDropzone.on("error", function (data, errorMessage, xhr) {
