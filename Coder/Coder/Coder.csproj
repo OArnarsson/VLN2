@@ -245,6 +245,7 @@
     <Content Include="Content\sass\ace.scss" />
     <Content Include="Content\sass\basic.scss" />
     <Content Include="Content\sass\dropzone.scss" />
+    <Content Include="Content\sass\errors.scss" />
     <None Include="Content\sass\layout.scss" />
     <Content Include="Content\sass\theme.scss" />
     <Content Include="Content\sass\login.scss" />

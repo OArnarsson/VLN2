@@ -49,22 +49,19 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "That is not a valid request. What did you do?!");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
             Course course = coursesRepository.GetCourseFromId(id);
 
             if (course == null)
             {
-                throw new HttpException((int)HttpStatusCode.NotFound, "NOT FOUND. What did you do?!");
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
             
             if (!coursesRepository.IsInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "FORBIDDEN. What did you do?!");
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             if (coursesRepository.IsTeacherInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
