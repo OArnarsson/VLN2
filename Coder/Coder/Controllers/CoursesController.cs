@@ -143,7 +143,7 @@ namespace Coder.Controllers
                 course.Start = courseViewModel.Start;
                 course.End = courseViewModel.End;
 
-                userCoursesRepository.RemoveAllUserCoursesForCourse(course);
+                userCoursesRepository.RemoveAllUserCoursesForCourseId(course.Id);
 
                 foreach (var x in getUserCoursesFromFormCollection(form, course.Id))
                 {
