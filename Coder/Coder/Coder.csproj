@@ -213,6 +213,7 @@
     <Compile Include="Repositories\CommentsRepository.cs" />
     <Compile Include="Repositories\CoursesRepository.cs" />
     <Compile Include="Repositories\ProjectsRepository.cs" />
+    <Compile Include="Repositories\ProjectTasksRepository.cs" />
     <Compile Include="Repositories\UserCoursesRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
     <Compile Include="Startup.cs" />

@@ -11,6 +11,7 @@ using Coder.Models.Entity;
 using MvcSiteMapProvider.Web.Mvc.Filters;
 using System.IO;
 using System.Diagnostics;
+using Coder.Repositories;
 
 namespace Coder.Controllers
 {
@@ -19,11 +20,17 @@ namespace Coder.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        private readonly ProjectTasksRepository projectTasksRepository;
+
+        public ProjectTasksController()
+        {
+            projectTasksRepository = new ProjectTasksRepository(db);
+        }
+
         // GET: ProjectTasks
         public ActionResult Index()
         {
-            var projectTasks = db.ProjectTasks.Include(p => p.Project);
-            return View(projectTasks.ToList());
+            return View(projectTasksRepository.GetAllProjectTasks().ToList());
         }
 
         // GET: ProjectTasks/Details/5
@@ -34,7 +41,9 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProjectTask projectTask = db.ProjectTasks.Find(id);
+
+            ProjectTask projectTask = projectTasksRepository.GetProjectTaskById(id);
+
             if (projectTask == null)
             {
                 return HttpNotFound();
@@ -58,8 +67,7 @@ namespace Coder.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ProjectTasks.Add(projectTask);
-                db.SaveChanges();
+                projectTasksRepository.AddProjectTask(projectTask);
                 return RedirectToAction("Index");
             }
 
@@ -75,7 +83,9 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProjectTask projectTask = db.ProjectTasks.Find(id);
+
+            ProjectTask projectTask = projectTasksRepository.GetProjectTaskById(id);
+
             if (projectTask == null)
             {
                 return HttpNotFound();
@@ -93,19 +103,11 @@ namespace Coder.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(projectTask).State = EntityState.Modified;
-                db.SaveChanges();
+                projectTasksRepository.UpdateState(EntityState.Modified, projectTask);
+                projectTasksRepository.SaveChanges();
 
-
-                foreach (var i in db.TaskTests.Where(x => x.ProjectTaskId == projectTask.Id))
-                {
-                    db.TaskTests.Remove(i);
-                }
-
-                foreach (var f in db.FilesRequired.Where(i => i.ProjectTaskId == projectTask.Id))
-                {
-                    db.FilesRequired.Remove(f);
-                }
+                projectTasksRepository.RemoveAllTaskTestsForProjectTask(projectTask);
+                projectTasksRepository.RemoveAllFilesRequiredForProjectTask(projectTask);
 
                 foreach (var file in form.GetValue("files").AttemptedValue.Split(','))
                 {
@@ -113,7 +115,7 @@ namespace Coder.Controllers
                     {
                         continue;
                     }
-                    db.FilesRequired.Add(new FileRequired { Name = file.Trim(), ProjectTaskId = projectTask.Id });
+                    projectTasksRepository.AddFilesRequired(new FileRequired { Name = file.Trim(), ProjectTaskId = projectTask.Id });
                 }
 
                 for (int i = 0; i < form.Count; i++)
@@ -125,16 +127,13 @@ namespace Coder.Controllers
                         var counter = key.Split('_')[1];
                         string input = form.GetValue("test_" + counter + "_input").AttemptedValue.Replace("&quot;", "\"");
                         string output = form.GetValue("test_" + counter + "_output").AttemptedValue.Replace("&quot;", "\"");
-                        db.TaskTests.Add(new TaskTest { Input = input, Output = output, ProjectTaskId = projectTask.Id });
+                        projectTasksRepository.AddTaskTests(new TaskTest { Input = input, Output = output, ProjectTaskId = projectTask.Id });
                     }
                 }
 
-                db.SaveChanges();
-
+                projectTasksRepository.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            
 
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", projectTask.ProjectId);
             return View(projectTask);
@@ -159,7 +158,9 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProjectTask projectTask = db.ProjectTasks.Find(id);
+
+            ProjectTask projectTask = projectTasksRepository.GetProjectTaskById(id);
+
             if (projectTask == null)
             {
                 return HttpNotFound();
@@ -172,9 +173,7 @@ namespace Coder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ProjectTask projectTask = db.ProjectTasks.Find(id);
-            db.ProjectTasks.Remove(projectTask);
-            db.SaveChanges();
+            projectTasksRepository.RemoveProjectTask(projectTasksRepository.GetProjectTaskById(id));
             return RedirectToAction("Index");
         }
 
@@ -193,7 +192,7 @@ namespace Coder.Controllers
             string fName = "";
             try
             {
-                ProjectTask task = db.ProjectTasks.FirstOrDefault(x => x.Id == Id);
+                ProjectTask task = projectTasksRepository.GetProjectTaskById(Id);
                 // Checking if all files are required
                 foreach (string fileName in Request.Files)
                 {
