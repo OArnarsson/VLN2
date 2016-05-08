@@ -11,6 +11,7 @@ namespace Coder.Controllers
         // GET: Error
         public ViewResult Index()
         {
+
             return View("Error");
         }
 
