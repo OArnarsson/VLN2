@@ -21,7 +21,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a id="headLogo" href="#"class="logo"><span class="logo">@Html.Raw(File.ReadAllText(Server.MapPath("~/Content/images/logo.svg")))</span></a>
+                <a id="headLogo" href='@Url.Action("Index", "Home")' class="logo"><span class="logo">@Html.Raw(File.ReadAllText(Server.MapPath("~/Content/images/logo.svg")))</span></a>
                 @Html.ActionLink("Coder", "Index", "Home", new { area = "" }, new { @class = "navbar-brand logoTitle" })
             </div>
             <div class="navbar-collapse collapse">
