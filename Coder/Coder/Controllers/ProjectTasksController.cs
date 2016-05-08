@@ -193,12 +193,10 @@ namespace Coder.Controllers
             string fName = "";
             try
             {
+                ProjectTask task = db.ProjectTasks.FirstOrDefault(x => x.Id == Id);
                 // Checking if all files are required
-                bool validSolution = false;
                 foreach (string fileName in Request.Files)
                 {
-                    ProjectTask task = db.ProjectTasks.FirstOrDefault(x => x.Id == Id);
-
                     HttpPostedFileBase file = Request.Files[fileName];
                     //Save file content goes here
                     fName = file.FileName;
@@ -211,20 +209,13 @@ namespace Coder.Controllers
                         Response.ContentType = "application/json";
                         return Json(new { Message = "File is not in this Task. See required files above.", JsonRequestBehavior.AllowGet });
                     }
-
-                    if (Request.Files.Count == task.FilesRequired.Count)
-                    {
-                        validSolution = true;
-                    }
                 }
 
-                if (validSolution)
+                if (Request.Files.Count == task.FilesRequired.Count)
                 {
                     // All files are valid and all files are there, so we save them
                     foreach (string fileName in Request.Files)
                     {
-                        ProjectTask task = db.ProjectTasks.FirstOrDefault(x => x.Id == Id);
-
                         HttpPostedFileBase file = Request.Files[fileName];
 
                         if (file != null && file.ContentLength > 0)
@@ -244,6 +235,15 @@ namespace Coder.Controllers
                             file.SaveAs(path);
                         }
                     }
+                }
+                else
+                {
+                    Response.ClearHeaders();
+                    Response.ClearContent();
+                    Response.StatusCode = 400;
+                    Response.StatusDescription = "Test requires " + task.FilesRequired.Count + " but the submission only had " + Request.Files.Count;
+                    Response.ContentType = "application/json";
+                    return Json(new { Message = "Test requires " + task.FilesRequired.Count + " files, but the submission only had " + Request.Files.Count + ".", JsonRequestBehavior.AllowGet });
                 }
             }
             catch (Exception ex)
