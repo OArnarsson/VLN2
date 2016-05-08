@@ -39,15 +39,18 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
             ProjectTask projectTask = projectTasksRepository.GetProjectTaskById(id);
 
             if (projectTask == null)
             {
-                return HttpNotFound();
+                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
+
+            /* CHECK FOR PERMISSION */
+
             return View(projectTask);
         }
 
@@ -81,14 +84,14 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
             ProjectTask projectTask = projectTasksRepository.GetProjectTaskById(id);
 
             if (projectTask == null)
             {
-                return HttpNotFound();
+                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", projectTask.ProjectId);
             return View(projectTask);
@@ -156,15 +159,16 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
             ProjectTask projectTask = projectTasksRepository.GetProjectTaskById(id);
 
             if (projectTask == null)
             {
-                return HttpNotFound();
+                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
+
             return View(projectTask);
         }
 

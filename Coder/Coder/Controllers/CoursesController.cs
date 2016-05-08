@@ -104,19 +104,19 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
             Course course = coursesRepository.GetCourseFromId(id);
 
             if (course == null)
             {
-                return HttpNotFound();
+                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
 
             if (!User.IsInRole("Administrator") && !coursesRepository.IsTeacherInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             course = coursesRepository.GetCourseFromId(id, User.Identity.GetUserId(), User.IsInRole("Administrator"));
@@ -189,19 +189,19 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
             if (!User.IsInRole("Administrator"))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }
             
             Course course = coursesRepository.GetCourseFromId(id);
 
             if (course == null)
             {
-                return HttpNotFound();
+                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
 
             return View(course);

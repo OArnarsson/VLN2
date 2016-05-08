@@ -35,6 +35,8 @@ namespace Coder.Controllers
             store = new UserStore<ApplicationUser>(db);
             userManager = new UserManager<ApplicationUser>(store);
             usersRepository = new UsersRepository(db);
+            userCoursesRepository = new UserCoursesRepository(db);
+            coursesRepository = new CoursesRepository(db);
         }
 
         // GET: Users
@@ -49,14 +51,14 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
             ApplicationUser user = usersRepository.GetUserById(id);
 
             if (user == null)
             {
-                return HttpNotFound();
+                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
 
             var userViewModel = new UserViewModel(user);
@@ -119,14 +121,14 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
             ApplicationUser user = usersRepository.GetUserById(id);
 
             if (user == null)
             {
-                return HttpNotFound();
+                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
 
             var userViewModel = new UserViewModel(user);
@@ -202,15 +204,16 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
             ApplicationUser applicationUser = usersRepository.GetUserById(id);
 
             if (applicationUser == null)
             {
-                return HttpNotFound();
+                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
+
             return View(applicationUser);
         }
 
