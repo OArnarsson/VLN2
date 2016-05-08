@@ -25,9 +25,22 @@ namespace Coder.Repositories
             return db.UserCourses.Where(i => i.CourseId == courseId).ToList();
         }
 
-        public void RemoveAllUserCoursesForCourse(Course course)
+        public List<UserCourse> GetUserCoursesByUserId(string userId)
         {
-            foreach (var x in db.UserCourses.Where(i => i.CourseId == course.Id))
+            return db.UserCourses.Where(i => i.UserId == userId).ToList();
+        }
+
+        public void RemoveAllUserCoursesForCourseId(int courseId)
+        {
+            foreach (var x in db.UserCourses.Where(i => i.CourseId == courseId))
+            {
+                db.UserCourses.Remove(x);
+            }
+        }
+
+        public void RemoveAllUserCoursesForUserId(string userId)
+        {
+            foreach(var x in db.UserCourses.Where(i => i.UserId == userId))
             {
                 db.UserCourses.Remove(x);
             }

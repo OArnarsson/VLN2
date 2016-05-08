@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MvcSiteMapProvider.Web.Mvc.Filters;
+using Coder.Repositories;
 
 namespace Coder.Controllers
 {
@@ -25,17 +26,21 @@ namespace Coder.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserStore<ApplicationUser> store;
         private UserManager<ApplicationUser> userManager;
+        private readonly UsersRepository usersRepository;
+        private readonly UserCoursesRepository userCoursesRepository;
+        private readonly CoursesRepository coursesRepository;
 
         public UsersController()
         {
             store = new UserStore<ApplicationUser>(db);
             userManager = new UserManager<ApplicationUser>(store);
+            usersRepository = new UsersRepository(db);
         }
 
         // GET: Users
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            return View(usersRepository.GetAllUsers());
         }
 
         // GET: Users/Details/5
@@ -47,7 +52,7 @@ namespace Coder.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ApplicationUser user = db.Users.Find(id);
+            ApplicationUser user = usersRepository.GetUserById(id);
 
             if (user == null)
             {
@@ -55,8 +60,8 @@ namespace Coder.Controllers
             }
 
             var userViewModel = new UserViewModel(user);
-            userViewModel.Courses = db.Courses.ToList();
-            userViewModel.UserCourses = db.UserCourses.Where(i => i.UserId == user.Id).ToList();
+            userViewModel.Courses = coursesRepository.GetAllCourses().ToList();
+            userViewModel.UserCourses = userCoursesRepository.GetUserCoursesByUserId(id);
 
             return View(userViewModel);
         }
@@ -66,7 +71,7 @@ namespace Coder.Controllers
         {
             CreateUserViewModel userViewModel = new CreateUserViewModel()
             {
-                Courses = db.Courses.ToList()
+                Courses = coursesRepository.GetAllCourses().ToList()
             };
 
             return View(userViewModel);
@@ -90,11 +95,11 @@ namespace Coder.Controllers
                 
                 foreach (var i in getUserCoursesFromFormCollection(form, newUser.Id))
                 {
-                    db.UserCourses.Add(i);
+                    userCoursesRepository.AddUserCourse(i);
                 }
 
-                db.Users.Add(newUser);
-                db.SaveChanges();
+                usersRepository.AddUser(newUser);
+                userCoursesRepository.SaveChanges();
 
                 if (userViewModel.Admin)
                 {
@@ -117,7 +122,7 @@ namespace Coder.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ApplicationUser user = db.Users.Find(id);
+            ApplicationUser user = usersRepository.GetUserById(id);
 
             if (user == null)
             {
@@ -125,8 +130,8 @@ namespace Coder.Controllers
             }
 
             var userViewModel = new UserViewModel(user);
-            userViewModel.Courses = db.Courses.ToList();
-            userViewModel.UserCourses = db.UserCourses.Where(i => i.UserId == user.Id).ToList();
+            userViewModel.Courses = coursesRepository.GetAllCourses().ToList();
+            userViewModel.UserCourses = userCoursesRepository.GetUserCoursesByUserId(id);
             userViewModel.Admin = userManager.IsInRole(user.Id, "Administrator");
             
             return View(userViewModel);
@@ -141,7 +146,7 @@ namespace Coder.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = db.Users.FirstOrDefault(i => i.Id == userViewModel.UserId);
+                ApplicationUser user = usersRepository.GetUserById(userViewModel.UserId);
                 user.Name = userViewModel.Name;
                 user.Email = userViewModel.Email;
 
@@ -151,14 +156,11 @@ namespace Coder.Controllers
                     userManager.AddPassword(user.Id, userViewModel.Password);
                 }
 
-                foreach (var x in db.UserCourses.Where(i => i.UserId == user.Id))
-                {
-                    db.UserCourses.Remove(x);
-                }
+                userCoursesRepository.RemoveAllUserCoursesForUserId(userViewModel.UserId);
 
                 foreach (var x in getUserCoursesFromFormCollection(form, user.Id))
                 {
-                    db.UserCourses.Add(x);
+                    userCoursesRepository.AddUserCourse(x);
                 }
 
                 if (userViewModel.Admin)
@@ -170,8 +172,8 @@ namespace Coder.Controllers
                     userManager.RemoveFromRole(user.Id, "Administrator");
                 }
 
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
+                usersRepository.UpdateState(EntityState.Modified, user);
+                usersRepository.SaveChanges();
 
                 return RedirectToAction("Index");
             }
@@ -202,7 +204,9 @@ namespace Coder.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser applicationUser = db.Users.Find(id);
+
+            ApplicationUser applicationUser = usersRepository.GetUserById(id);
+
             if (applicationUser == null)
             {
                 return HttpNotFound();
@@ -215,13 +219,10 @@ namespace Coder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            ApplicationUser user = db.Users.Find(id);
-            foreach (var c in db.UserCourses.Where(i => i.UserId == id))
-            {
-                db.UserCourses.Remove(c);
-            }
-            db.Users.Remove(user);
-            db.SaveChanges();
+            userCoursesRepository.RemoveAllUserCoursesForUserId(id);
+            usersRepository.RemoveUser(usersRepository.GetUserById(id));
+            usersRepository.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
