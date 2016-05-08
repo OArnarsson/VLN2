@@ -1,31 +1,15 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
+﻿@model Coder.Models.ViewModels.ErrorViewModel
 @{
     Layout = "_Layout.cshtml";
     ViewBag.Title = "Error";
 }
 
+<h1>@Model.StatusCode</h1>
+<h2>@Model.Message</h2>
 
-<h1>Todo z</h1>
-@*<div class="list-header clearfix">
-    <span>Error</span>
+<p>Blablabla</p>
+
+<div>
+    <button>Back</button>
+    <button>Contact us</button>
 </div>
-<div class="list-sfs-holder">
-    <div class="alert alert-error">
-        An unexpected error has occurred. Please contact the system administrator.
-    </div>
-    @if (Model != null && HttpContext.Current.IsDebuggingEnabled)
-    {
-        <div>
-            <p>
-                <b>Exception:</b> @Model.Exception.Message<br />
-                <b>Controller:</b> @Model.ControllerName<br />
-                <b>Action:</b> @Model.ActionName
-            </p>
-            <div style="overflow:scroll">
-                <pre>
-@Model.Exception.StackTrace
-                </pre>
-            </div>
-        </div>
-    }
-</div>*@

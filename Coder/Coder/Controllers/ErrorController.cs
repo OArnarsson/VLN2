@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Coder.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -9,21 +11,24 @@ namespace Coder.Controllers
     public class ErrorController : Controller
     {
         // GET: Error
-        public ViewResult Index()
+        public ActionResult Index()
         {
-
-            return View("Error");
+            return View();
         }
 
-        public ViewResult BadRequest()
+        public ActionResult Forbidden()
         {
-            return View("BadRequest");
+            return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { StatusCode = (int)HttpStatusCode.Forbidden, Message = "Forbidden" });
         }
 
-        public ViewResult NotFound()
+        public ActionResult BadRequest()
         {
-            Response.StatusCode = 404;
-            return View("NotFound");
+            return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { StatusCode = (int)HttpStatusCode.BadRequest, Message = "Bad request" });
+        }
+
+        public ActionResult NotFound()
+        {
+            return View("~/Views/Shared/Error.cshtml", new ErrorViewModel { StatusCode = (int)HttpStatusCode.BadRequest, Message = "Not found" });
         }
     }
 }

@@ -49,6 +49,7 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "That is not a valid request. What did you do?!");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
@@ -56,11 +57,13 @@ namespace Coder.Controllers
 
             if (course == null)
             {
-                return HttpNotFound();
+                throw new HttpException((int)HttpStatusCode.NotFound, "NOT FOUND. What did you do?!");
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
             
             if (!coursesRepository.IsInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "FORBIDDEN. What did you do?!");
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
 
