@@ -58,7 +58,13 @@
                 }
             }
         }
-        <input placeholder="Filenames seperated by ," type="text" name="files" value="@files"/>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="files">Files:</label>
+            <div class="col-md-10">
+                <input class="form-control text-box single-line" id="files" placeholder="Filenames seperated by ," type="text" name="files" value="@files" />
+            </div>
+        </div>
+        
 
         <div id="tests">
             @{ int counter = 1; }

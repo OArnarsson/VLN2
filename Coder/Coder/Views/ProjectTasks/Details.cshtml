@@ -3,8 +3,8 @@
     ViewBag.Title = "Details";
 }
 <div class="container">
-    <div class="projectBox col-lg-12 clearfix">
-        <div class="small left col-lg-6">
+    <div class="projectBox col-md-12 clearfix">
+        <div class="small left col-md-6">
             <h1 id="projectName">@Model.Name (@Html.DisplayFor(model => model.Value)%)</h1>
             @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
             {
@@ -12,7 +12,7 @@
             }
             <span id="taskName">@Html.ActionLink(@Model.Project.Course.Name, "Details", "Courses", new { id = Model.Project.Course.Id }, null) - @Html.ActionLink(@Model.Project.Name, "Details", "Projects", new { id = Model.Project.Id }, null)</span>
         </div>
-        <div class="small right col-lg-6">
+        <div class="small right col-md-6">
             <h1 id="bestSub">Best Submission<i class="fa fa-check-square" aria-hidden="true"></i></h1>
         </div>
         <div class="small otherTasks">
@@ -24,6 +24,9 @@
                     <br>
                 </p>
             }
+        </div>
+        <div class="description">
+            @Html.Raw(Model.Description)
         </div>
     </div>
     <div id="tests">
@@ -46,19 +49,27 @@
             counter = counter + 1;
         }
     </div>
-    <div class="projectBox col-lg-12">
-        <div class="small left col-lg-6">
+    <div class="projectBox col-md-12">
+        <div class="small left col-md-6">
             <h1>Hand in</h1>
             <p>@User.Identity.Name</p>
         </div>
-        <div class="col-lg-12 upload-area">
-
+        <div class="col-md-12 upload-area">
+            <div>
+                <p>Files required:</p>
+                <ul>
+                    @foreach (var i in Model.FilesRequired)
+                    {
+                        <li>@i.Name</li>
+                    }
+                </ul>
+            </div>
             <div id="taskFiles" class="coderDropzone"></div>
             <a class="btn btn-primary" href="#" id="submitTask">Submit task</a>
 
         </div>
     </div>
-    <div class="projectBox col-lg-12">
+    <div class="projectBox col-md-12">
         <table class="coder-table">
             <caption>Submissions</caption>
             <thead>
@@ -80,7 +91,7 @@
         </table>
     </div>
 
-     <div class="projectBox col-lg-12">
+     <div class="projectBox col-md-12">
          <h3>Comments</h3>
     </div>
 </div>

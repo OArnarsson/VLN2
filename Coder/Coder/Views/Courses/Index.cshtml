@@ -15,11 +15,11 @@
     @foreach (var item in Model)
     {
         <div class="course-box clearfix">           
-            <div class="col-lg-4">
+            <div class="col-md-4">
                 <h3>@Html.ActionLink(item.Name, "Details", new { id = item.Id }) (@Html.DisplayFor(modelItem => item.Title))</h3>
                 <p>@Html.Raw(item.Description)</p>
             </div>
-            <div class="col-lg-8">
+            <div class="col-md-8">
                 <table class="coder-table">
                     <thead>
                         <tr>

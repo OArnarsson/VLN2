@@ -89,7 +89,13 @@ $(document).ready(function () {
     coder.taskTests.init();
 
     tinymce.init({
-        selector: 'textarea.codertiny'
+        selector: 'textarea.codertiny',
+        plugins: [
+            "code"
+        ],
+        toolbar: [
+                "undo redo | styleselect | bold italic | link image | alignleft aligncenter alignright | charmap code"
+        ]
     });
 
     /*Dropzone.options.dropzoneForm = {
