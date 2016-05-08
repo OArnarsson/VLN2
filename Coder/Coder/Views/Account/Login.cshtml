@@ -20,8 +20,7 @@
         <div class="container body-content">
             <div class="container">
                 <div class="loginCenter">
-                    <div class="logo">@
-                    (File.ReadAllText(Server.MapPath("~/Content/images/logo.svg")))</div>
+                    <div class="logo">@Html.Raw(File.ReadAllText(Server.MapPath("~/Content/images/logo.svg")))</div>
                     <section id="loginForm">
                         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                         {
