@@ -51,6 +51,12 @@
             <h1>Hand in</h1>
             <p>@User.Identity.Name</p>
         </div>
+        <div class="col-lg-12 upload-area">
+
+            <div id="taskFiles" class="coderDropzone"></div>
+            <a class="btn btn-primary" href="#" id="submitTask">Submit task</a>
+
+        </div>
     </div>
     <div class="projectBox col-lg-12">
         <table class="coder-table">
@@ -72,12 +78,6 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div class="projectBox col-lg-12 upload-area">
-
-        <div id="taskFiles" class="coderDropzone"></div>
-        <a class="btn btn-primary" href="#" id="submitTask">Submit task</a>
-
     </div>
 </div>
 @section Scripts {
