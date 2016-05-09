@@ -98,115 +98,90 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Date</th>
                     <th>Users</th>
                     <th>Status</th>
                     <th>More info</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (Coder.Models.Entity.Submission s in Model.Submissions.Where(i => i.ApplicationUsers.Any(j => j.Id == User.Identity.GetUserId()))) // TODO: Only current user
+                @foreach (Coder.Models.Entity.Submission s in Model.Submissions.Where(i => i.ApplicationUsers.Any(j => j.Id == User.Identity.GetUserId())).OrderByDescending(i => i.Id)) // TODO: Only current user
                 {
-                    <tr> @*TODO: Add users, status and more*@
-                        <td><a href="@Url.Action("Details", "Submissions", s.Id)">@s.Id</a></td>
+                    <tr>
+                        @*TODO: Add users, status and more*@
+                        <td>@Html.ActionLink(s.Id.ToString(), "Details", "Submissions", new { id = s.Id }, null)</td>
+                        <td>@s.Created</td>
                         <td>
-                                @foreach (var u in s.ApplicationUsers)
-                                {
-                                    <span>
-                                        @u.Name
-                                    </span>
-                                }
+                            @foreach (var u in s.ApplicationUsers)
+                            {
+                                <span>
+                                    @u.Name
+                                </span>
+                            }
                         </td>
                         <td>@s.Status</td>
+                        
                         <td><i class="glyphicon glyphicon-plus"></i></td>
                     </tr>
                 }
-                
+
             </tbody>
         </table>
     </div>
 
-     <div class="projectBox col-md-12">
-         <h3>Comments</h3>
+    <div class="projectBox col-md-12">
+        <h3>Comments</h3>
     </div>
 </div>
-<<<<<<< HEAD
-<a href=@Url.Action("Index", "Projects")>
-    <i class="fa fa-arrow-left"></i></aclass="backArrow">
-    @section Scripts {
-        @Scripts.Render("~/bundles/dropzonescripts")
-        <script>
-            $(document).ready(function () {
-                Dropzone.autoDiscover = false;
-=======
+
+<a class="backArrow" href=@Url.Action("Index", "Projects")><i class="fa fa-arrow-left"></i></a>
+
 @{
     var allfiles = "";
-    foreach(var f in Model.FilesRequired)
+    foreach (var f in Model.FilesRequired)
     {
         allfiles += f.Name + ",";
     }
 }
+
 @section Scripts {
     @Scripts.Render("~/bundles/dropzonescripts")
     <script>
         $(document).ready(function () {
             Dropzone.autoDiscover = false;
->>>>>>> origin/master
+            var myDropzone = new Dropzone("#taskFiles", {
+                url: "/ProjectTasks/SaveUploadedFile?Id=" + @Model.Id,
+                autoProcessQueue: false,
+                createImageThumbnails: false,
+                addRemoveLinks: true,
+                parallelUploads: 100,
+                uploadMultiple: true
+            });
 
-                var myDropzone = new Dropzone("#taskFiles", {
-                    url: "/ProjectTasks/SaveUploadedFile?Id=" + @Model.Id,
-                    autoProcessQueue: false,
-                    createImageThumbnails: false,
-                    addRemoveLinks: true,
-                    parallelUploads: 100,
-                    uploadMultiple: true
-                });
-
-<<<<<<< HEAD
-                myDropzone.on("error", function (data, errorMessage, xhr) {
-                    $(".alertError").hide();
-                    $(".alertSuccess").hide();
-                    $(".dz-error-message").show();
-                    $(".dz-error-message").html("<p>" + errorMessage.Message + "</p>");
-                });
-                myDropzone.on("processingmultiple", function (data) {
-                    $(".alertError").hide();
-                    $(".alertSuccess").hide();
-                });
-                myDropzone.on("successmultiple", function (data) {
-                    $(".alertError").hide();
-                    $(".alertSuccess").show();
-                });
-                myDropzone.on("sendingmultiple", function (file, xhr, formData) {
-                    $.each($('.user-select'), function(key, value) {
-                        console.log($(value).attr('name'));
-                        console.log($(value).val());
-                        console.log('---------');
-                        formData.append($(value).attr('name'), $(value).val());
-                    });
-                });
-=======
             myDropzone.on("errormultiple", function (data, errorMessage, xhr) {
                 $('#submissionStatus').html('<div class="alert alert-danger">Something went wrong... Did you upload the correct files?</div>');
             });
+
             myDropzone.on("processingmultiple", function (data) {
                 $('#submissionStatus').html('');
             });
+
             myDropzone.on("sendingmultiple", function (file, xhr, formData) {
                 $.each($('.user-select'), function(key, value) {
                     formData.append($(value).attr('name'), $(value).val());
                 });
             });
+
             myDropzone.on("successmultiple", function (data) {
                 location.reload(); // TODO: Use ajax to get the new item and add it to the table.
             });
->>>>>>> origin/master
 
-                $('#submitTask').click(function (e) {
-                    myDropzone.processQueue();
-                    e.preventDefault();
-                });
+            $('#submitTask').click(function (e) {
+                myDropzone.processQueue();
+                e.preventDefault();
             });
-        </script>
+        });
+    </script>
 
-        @Scripts.Render("~/scripts/ace/ace.js")
-    }
+    @Scripts.Render("~/scripts/ace/ace.js")
+}
