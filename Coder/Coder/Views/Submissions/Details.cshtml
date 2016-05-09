@@ -19,11 +19,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.State)
+            @Html.DisplayNameFor(model => model.Status)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.State)
+            @Html.DisplayFor(model => model.Status)
         </dd>
 
         <dt>
@@ -33,18 +33,5 @@
         <dd>
             @Html.DisplayFor(model => model.ProjectTaskId)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Output)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Output)
-        </dd>
-
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

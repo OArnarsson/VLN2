@@ -263,7 +263,7 @@ namespace Coder.Controllers
                         Response.StatusCode = 400;
                         Response.StatusDescription = "File not allowed";
                         Response.ContentType = "application/json";
-                        return Json(new { Message = "File is not in this Task. See required files above.", JsonRequestBehavior.AllowGet });
+                        return Json(new { Message = "File is not in this Task. See required files above." });
                     }
                 }
 

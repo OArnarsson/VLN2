@@ -34,6 +34,11 @@ namespace Coder.Repositories
             db.SaveChanges();
         }
 
+        public Submission GetSubmissionById(int? id)
+        {
+            return db.Submissions.Find(id);
+        }
+
         /*public Project GetProjectById(int? id)
         {
             return db.Projects.Find(id);
