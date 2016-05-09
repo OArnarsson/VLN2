@@ -381,6 +381,12 @@ span.text-caption {
   font-weight: 600;
 }
 
+.breadcrumbs {
+    margin: 25px 0;
+    word-spacing: 8px;
+    font-size: 16px;
+}
+
 .breadcrumbs a {
   color: #333;
   font-weight: 800;
