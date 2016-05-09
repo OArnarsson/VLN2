@@ -129,6 +129,15 @@
          <h3>Comments</h3>
     </div>
 </div>
+<<<<<<< HEAD
+<a href=@Url.Action("Index", "Projects")>
+    <i class="fa fa-arrow-left"></i></aclass="backArrow">
+    @section Scripts {
+        @Scripts.Render("~/bundles/dropzonescripts")
+        <script>
+            $(document).ready(function () {
+                Dropzone.autoDiscover = false;
+=======
 @{
     var allfiles = "";
     foreach(var f in Model.FilesRequired)
@@ -141,16 +150,41 @@
     <script>
         $(document).ready(function () {
             Dropzone.autoDiscover = false;
+>>>>>>> origin/master
 
-            var myDropzone = new Dropzone("#taskFiles", {
-                url: "/ProjectTasks/SaveUploadedFile?Id=" + @Model.Id,
-                autoProcessQueue: false,
-                createImageThumbnails: false,
-                addRemoveLinks: true,
-                parallelUploads: 100,
-                uploadMultiple: true
-            });
+                var myDropzone = new Dropzone("#taskFiles", {
+                    url: "/ProjectTasks/SaveUploadedFile?Id=" + @Model.Id,
+                    autoProcessQueue: false,
+                    createImageThumbnails: false,
+                    addRemoveLinks: true,
+                    parallelUploads: 100,
+                    uploadMultiple: true
+                });
 
+<<<<<<< HEAD
+                myDropzone.on("error", function (data, errorMessage, xhr) {
+                    $(".alertError").hide();
+                    $(".alertSuccess").hide();
+                    $(".dz-error-message").show();
+                    $(".dz-error-message").html("<p>" + errorMessage.Message + "</p>");
+                });
+                myDropzone.on("processingmultiple", function (data) {
+                    $(".alertError").hide();
+                    $(".alertSuccess").hide();
+                });
+                myDropzone.on("successmultiple", function (data) {
+                    $(".alertError").hide();
+                    $(".alertSuccess").show();
+                });
+                myDropzone.on("sendingmultiple", function (file, xhr, formData) {
+                    $.each($('.user-select'), function(key, value) {
+                        console.log($(value).attr('name'));
+                        console.log($(value).val());
+                        console.log('---------');
+                        formData.append($(value).attr('name'), $(value).val());
+                    });
+                });
+=======
             myDropzone.on("errormultiple", function (data, errorMessage, xhr) {
                 $('#submissionStatus').html('<div class="alert alert-danger">Something went wrong... Did you upload the correct files?</div>');
             });
@@ -165,13 +199,14 @@
             myDropzone.on("successmultiple", function (data) {
                 location.reload(); // TODO: Use ajax to get the new item and add it to the table.
             });
+>>>>>>> origin/master
 
-            $('#submitTask').click(function (e) {
-                myDropzone.processQueue();
-                e.preventDefault();
+                $('#submitTask').click(function (e) {
+                    myDropzone.processQueue();
+                    e.preventDefault();
+                });
             });
-        });
-    </script>
+        </script>
 
-    @Scripts.Render("~/scripts/ace/ace.js")
-}
+        @Scripts.Render("~/scripts/ace/ace.js")
+    }

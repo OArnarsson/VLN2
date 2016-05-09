@@ -64,7 +64,7 @@
             <th>
                 Status
             </th>
-            @if (ViewBag.Role == Coder.Models.Entity.CoderRole.Teacher || User.IsInRole("Administrator"))
+            @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
             {
                 <th>@*Edit/Delete*@</th>
             }
@@ -95,3 +95,4 @@
     </tbody>
 
 </table>
+<a href=@Url.Action("Index", "Projects")><i class="fa fa-arrow-left"></i></aclass="backArrow">
