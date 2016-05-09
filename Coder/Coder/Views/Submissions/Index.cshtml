@@ -5,39 +5,38 @@
 }
 
 <h2>Submissions</h2>
-
-<table class="coder-table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Task</th>
-            <th>Submitted</th>
-            <th>Project</th>
-            <th>Course</th>
-            <th>Status</th>
-            @if (User.IsInRole("Administrator") || ViewBag.IsTeacher)
-            {
-                <th>Users</th>
-                <th>Action</th>
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="whiteBox">
+    <table class="coder-table" id="submissionTable">
+        <thead>
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                <td>@Html.DisplayFor(modelItem => item.ProjectTask.Name)
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                <td>@Html.DisplayFor(modelItem => item.ProjectTask.Project.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.ProjectTask.Project.Course.Name)</td>
-                <td> @Html.DisplayFor(modelItem => item.Status)</td>
+                <th>ID</th>
+                <th>Task</th>
+                <th>Submitted</th>
+                <th>Project</th>
+                <th>Course</th>
+                <th>Status</th>
                 @if (User.IsInRole("Administrator") || ViewBag.IsTeacher)
-                {
-                    <td data-toggle="modal" data-id="@item.Id" data-target="#bs-example-modal-sm_@item.Id"><p class="btn btn-primary users-button">@item.ApplicationUsers.Count</p></td>
-                    <td><a href=@Url.Action("Delete", "Submissions", new { id = item.Id })><i class="fa fa-pencil"></i></a></td>
+            {
+                    <th>Users</th>
+                    <th>Action</th>
                 }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ProjectTask.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ProjectTask.Project.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ProjectTask.Project.Course.Name)</td>
+                    <td> @Html.DisplayFor(modelItem => item.Status)</td>
+                    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher)
+                    {
+                        <td data-toggle="modal" data-id="@item.Id" data-target="#bs-example-modal-sm_@item.Id"><p class="btn btn-primary users-button">@item.ApplicationUsers.Count</p></td>
+                        <td><a href=@Url.Action("Delete", "Submissions", new { id = item.Id })><i class="fa fa-pencil"></i></a></td>
+                    }
             </tr>
         }
     </tbody>
@@ -75,7 +74,4 @@
         </div>
     </div>
 }
-
-@section Scripts {
-    
-}
+</div>

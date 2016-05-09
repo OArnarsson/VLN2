@@ -14,7 +14,7 @@
 <div class="allCourses row">
     @foreach (var item in Model)
     {
-        <div class="course-box clearfix">           
+        <div class="course-box clearfix whiteBox">           
             <div class="col-md-4">
                 <h3>@Html.ActionLink(item.Name, "Details", new { id = item.Id }) (@Html.DisplayFor(modelItem => item.Title))</h3>
                 <p>@Html.Raw(item.Description)</p>
@@ -34,8 +34,8 @@
                         {
                             <tr>
                                 <td>@Html.ActionLink(x.Name, "Details", "Projects", new { id = x.Id }, null)</td>
-                                <td>@Html.DisplayFor(modelItem => x.Start)</td>
-                                <td>@Html.DisplayFor(modelItem => x.End)</td>                                
+                                <td>@x.Start.ToString("dddd, d MMM")</td>
+                                <td>@x.End.ToString("dddd, d MMM")</td>                                
                             </tr>
                         }                       
                     </tbody>
