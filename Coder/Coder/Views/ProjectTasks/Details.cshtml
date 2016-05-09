@@ -88,6 +88,9 @@
             <a class="btn btn-primary" href="#" id="submitTask">Submit task</a>
 
         </div>
+        <div id="submissionStatus">
+
+        </div>
     </div>
     <div class="projectBox col-md-12">
         <table class="coder-table">
@@ -104,12 +107,14 @@
                 @foreach (Coder.Models.Entity.Submission s in Model.Submissions.Where(i => i.ApplicationUsers.Any(j => j.Id == User.Identity.GetUserId()))) // TODO: Only current user
                 {
                     <tr> @*TODO: Add users, status and more*@
-                        <td>@s.Id</td>
+                        <td><a href="@Url.Action("Details", "Submissions", s.Id)">@s.Id</a></td>
                         <td>
-                            @foreach (var u in s.ApplicationUsers)
-                            {
-                                @u.Name
-                            }
+                                @foreach (var u in s.ApplicationUsers)
+                                {
+                                    <span>
+                                        @u.Name
+                                    </span>
+                                }
                         </td>
                         <td>@s.Status</td>
                         <td><i class="glyphicon glyphicon-plus"></i></td>
@@ -124,6 +129,13 @@
          <h3>Comments</h3>
     </div>
 </div>
+@{
+    var allfiles = "";
+    foreach(var f in Model.FilesRequired)
+    {
+        allfiles += f.Name + ",";
+    }
+}
 @section Scripts {
     @Scripts.Render("~/bundles/dropzonescripts")
     <script>
@@ -139,27 +151,19 @@
                 uploadMultiple: true
             });
 
-            myDropzone.on("error", function (data, errorMessage, xhr) {
-                $(".alertError").hide();
-                $(".alertSuccess").hide();
-                $(".dz-error-message").show();
-                $(".dz-error-message").html("<p>" + errorMessage.Message + "</p>");
+            myDropzone.on("errormultiple", function (data, errorMessage, xhr) {
+                $('#submissionStatus').html('<div class="alert alert-danger">Something went wrong... Did you upload the correct files?</div>');
             });
             myDropzone.on("processingmultiple", function (data) {
-                $(".alertError").hide();
-                $(".alertSuccess").hide();
-            });
-            myDropzone.on("successmultiple", function (data) {
-                $(".alertError").hide();
-                $(".alertSuccess").show();
+                $('#submissionStatus').html('');
             });
             myDropzone.on("sendingmultiple", function (file, xhr, formData) {
                 $.each($('.user-select'), function(key, value) {
-                    console.log($(value).attr('name'));
-                    console.log($(value).val());
-                    console.log('---------');
                     formData.append($(value).attr('name'), $(value).val());
                 });
+            });
+            myDropzone.on("successmultiple", function (data) {
+                location.reload(); // TODO: Use ajax to get the new item and add it to the table.
             });
 
             $('#submitTask').click(function (e) {
