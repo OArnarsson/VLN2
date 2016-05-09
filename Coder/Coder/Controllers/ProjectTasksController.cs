@@ -13,6 +13,7 @@ using System.IO;
 using System.Diagnostics;
 using Coder.Repositories;
 using Coder.Helpers;
+using Microsoft.AspNet.Identity;
 
 namespace Coder.Controllers
 {
@@ -52,6 +53,7 @@ namespace Coder.Controllers
 
             /* CHECK FOR PERMISSION */
 
+            ViewBag.AllUsers = db.Users.ToList();
             return View(projectTask);
         }
 
@@ -217,7 +219,23 @@ namespace Coder.Controllers
 
                 if (Request.Files.Count == task.FilesRequired.Count)
                 {
-                    Submission newSubmission = new Submission { ProjectTaskId = task.Id, Created = DateTime.Now };
+                    Submission newSubmission = new Submission { ProjectTaskId = task.Id, Created = DateTime.Now, ApplicationUsers = new List<ApplicationUser>()};
+
+                    // Add group members to submission
+                    foreach (var k in Request.Form.Keys)
+                    {
+                        string key = k.ToString();
+                        var userId = Request.Form[key];
+                        if (key.StartsWith("user") && !string.IsNullOrEmpty(userId))
+                        {
+                            newSubmission.ApplicationUsers.Add(db.Users.FirstOrDefault(i => i.Id == userId));
+                            db.Submissions.Add(newSubmission);
+                        }
+                    }
+                    // Add current user to submission
+                    var currentUserId = User.Identity.GetUserId();
+                    var currentUser = db.Users.FirstOrDefault(i => i.Id == currentUserId);
+                    newSubmission.ApplicationUsers.Add(currentUser);
                     db.Submissions.Add(newSubmission);
                     db.SaveChanges();
 
@@ -243,7 +261,7 @@ namespace Coder.Controllers
                             file.SaveAs(path);
                         }
                     }
-                    SubmissionsHelper subHelper = new SubmissionsHelper();
+                    SubmissionsHelper subHelper = new SubmissionsHelper(db);
                     subHelper.createCppSubmission(task, newSubmission);
                 }
                 else

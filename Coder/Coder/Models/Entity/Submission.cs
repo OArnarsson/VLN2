@@ -11,6 +11,7 @@ namespace Coder.Models.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTime Created { get; set; }
+        public TestResultStatus Status { get; set; }
 
         public int ProjectTaskId { get; set; }
         [ForeignKey("ProjectTaskId")]
@@ -18,5 +19,14 @@ namespace Coder.Models.Entity
 
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
         public virtual ICollection<SubmissionTestResult> SubmissionTestResults { get; set; }
+    }
+
+    public enum TestResultStatus
+    {
+        None = 0,
+        Accepted = 1,
+        CompileError = 2,
+        MemoryError = 3,
+        WrongOutput = 4
     }
 }
