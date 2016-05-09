@@ -137,6 +137,12 @@ namespace Coder.Controllers
             if (ModelState.IsValid)
             {
                 Course course = coursesRepository.GetCourseFromId(courseViewModel.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator"));
+
+                if (!User.IsInRole("Administrator") && !coursesRepository.IsTeacherInCourse(course.Id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
+                {
+                    throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                }
+
                 course.Name = courseViewModel.Name;
                 course.Description = courseViewModel.Description;
                 course.Title = courseViewModel.Title;
