@@ -32,6 +32,10 @@ namespace Coder.Controllers
         {
             var projects = projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator"));
 
+            if (coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            {
+                ViewBag.IsTeacher = true;
+            }
             if (projects == null)
             {
                 return View();

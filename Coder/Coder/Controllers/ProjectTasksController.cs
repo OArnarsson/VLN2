@@ -35,6 +35,10 @@ namespace Coder.Controllers
         // GET: ProjectTasks
         public ActionResult Index()
         {
+            if (coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            {
+                ViewBag.IsTeacher = true;
+            }
             if (User.IsInRole("Administrator"))
             {
                 return View(projectTasksRepository.GetAllProjectTasks());
