@@ -30,12 +30,9 @@
             //The percentage of circle colored.
             ViewBag.pvalue = "p" + @item.Value;
 
-            //This is used to pass endDate data for countdown.
-            <input class="TimeLeft" type="hidden" value="@item.End.ToString("MM.dd.yy H:mm:ss")" id="@item.Id" />
-
             <div class="col-md-4">
                 <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
-                    <div class="projectBox @ViewBag.ActiveProject">
+                    <div class="projectBox @ViewBag.ActiveProject ">
                         <p class="name">@item.Name</p>
                         <span class="course">@item.Course.Title</span>
 
@@ -58,8 +55,8 @@
         }
     </div>
 
-    <div class="col-md-4 projectBox">
-        <table class="table sidecoder-table">
+    <div class="col-md-4 projectBox right">
+        <table class="table coder-table">
             <caption>Previous projects</caption>
             <thead>
                 <tr>
@@ -70,42 +67,21 @@
             </thead>
 
             <tbody>
-                <tr>
-                    <td>Proj1</td>
-                    <td>T107-GSKI</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>Proj2</td>
-                    <td>T107-GSKI</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>Proj3</td>
-                    <td>T107-GSKI</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>Proj4</td>
-                    <td>T107-GSKI</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>Proj5</td>
-                    <td>T107-GSKI</td>
-                    <td>8</td>
-                </tr>
-                <tr>
-                    <td>Proj6</td>
-                    <td>T107-GSKI</td>
-                    <td>9</td>
-                </tr>
+                @foreach (var x in Model.Projects)
+                {
+
+                    <tr>
+                        <td>@x.Name</td>
+                        <td>@x.Course.Name</td>
+                        <td>10</td>
+                    </tr>
+                }               
             </tbody>
         </table>
     </div>
 
-    <div class="col-md-4 projectBox">
-        <table class="recentSubs table sidecoder-table">
+    <div class="col-md-4 projectBox right">
+        <table class="recentSubs table coder-table">
             <caption>Recent submissions</caption>
             <thead>
                 <tr>
@@ -155,13 +131,3 @@
         </table>
     </div>
 </div>
-
-<p>Courses: @Model.Courses.Count()</p>
-<p>Projects: @Model.Projects.Count()</p>
-<p>Users: @Model.Users.Count()</p>
-
-@section Scripts {
-    @*When we have done everything for dis view we should make bundle for dem script files!*@
-    <script src="~/Scripts/flipclock.min.js"></script>
-    <script src="~/Scripts/CountDown.js"></script>
-}
