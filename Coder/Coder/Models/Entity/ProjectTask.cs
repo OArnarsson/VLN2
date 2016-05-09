@@ -17,6 +17,7 @@ namespace Coder.Models.Entity
         [AllowHtml]
         public string Description { get; set; }
 
+        [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Value must be a natural number")]
         public double Value { get; set; }
 
         public int MaxGroupSize { get; set; }
