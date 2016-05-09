@@ -13,6 +13,7 @@ using System.IO;
 using System.Diagnostics;
 using Coder.Repositories;
 using Coder.Helpers;
+using Microsoft.AspNet.Identity;
 
 namespace Coder.Controllers
 {
@@ -20,7 +21,6 @@ namespace Coder.Controllers
     public class ProjectTasksController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
         private readonly ProjectTasksRepository projectTasksRepository;
 
         public ProjectTasksController()
@@ -31,7 +31,12 @@ namespace Coder.Controllers
         // GET: ProjectTasks
         public ActionResult Index()
         {
-            return View(projectTasksRepository.GetAllProjectTasks().ToList());
+            if (User.IsInRole("Administrator"))
+            {
+                return View(projectTasksRepository.GetAllProjectTasks());
+            }
+
+            return View(projectTasksRepository.GetAllProjectTasksForUserId(User.Identity.GetUserId()));
         }
 
         // GET: ProjectTasks/Details/5
