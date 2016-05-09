@@ -125,14 +125,16 @@ namespace Coder.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            if (!coursesRepository.IsTeacherInCourse(projectsRepository.GetProjectById(id).CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+            Project project = projectsRepository.GetProjectById(id);
+
+            if (project != null)
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                if (!coursesRepository.IsTeacherInCourse(project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+                {
+                    throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                }
             }
-
-            Project project = db.Projects.Find(id);
-
-            if (project == null)
+            else
             {
                 throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
@@ -189,14 +191,17 @@ namespace Coder.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            if (!coursesRepository.IsTeacherInCourse(projectsRepository.GetProjectById(id).CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
-            {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
-            }
 
             Project project = projectsRepository.GetProjectById(id);
 
-            if (project == null)
+            if (project != null)
+            {
+                if (!coursesRepository.IsTeacherInCourse(project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+                {
+                    throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                }
+            }
+            else
             {
                 throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
