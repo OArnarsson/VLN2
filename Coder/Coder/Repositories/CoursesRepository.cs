@@ -88,7 +88,12 @@ namespace Coder.Repositories
         {
             if (!isAdmin)
             {
-                return (db.UserCourses.Where(i => i.CourseId == id && i.UserId == userId).FirstOrDefault().CoderRole == CoderRole.Teacher);
+                UserCourse userCourse = db.UserCourses.Where(i => i.CourseId == id && i.UserId == userId).FirstOrDefault();
+
+                if (userCourse != null)
+                {
+                    return (userCourse.CoderRole == CoderRole.Teacher);
+                }
             }
             return false;
         }

@@ -48,19 +48,19 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
             Project project = projectsRepository.GetProjectById(id);
 
             if (project == null)
             {
-                return HttpNotFound();
+                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
             
             if (!coursesRepository.IsInCourse(project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             if (coursesRepository.IsTeacherInCourse(project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")))
@@ -76,7 +76,7 @@ namespace Coder.Controllers
         {
             if (!coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             if (User.IsInRole("Administrator"))
@@ -122,19 +122,21 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            if (!coursesRepository.IsTeacherInCourse(projectsRepository.GetProjectById(id).CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+            Project project = projectsRepository.GetProjectById(id);
+
+            if (project != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                if (!coursesRepository.IsTeacherInCourse(project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+                {
+                    throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                }
             }
-
-            Project project = db.Projects.Find(id);
-
-            if (project == null)
+            else
             {
-                return HttpNotFound();
+                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
 
             if (User.IsInRole("Administrator"))
@@ -160,7 +162,7 @@ namespace Coder.Controllers
             {
                 if (!coursesRepository.IsTeacherInCourse(project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                    throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
                 }
 
                 projectsRepository.UpdateState(EntityState.Modified, project);
@@ -186,19 +188,22 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            if (!coursesRepository.IsTeacherInCourse(projectsRepository.GetProjectById(id).CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            }
 
             Project project = projectsRepository.GetProjectById(id);
 
-            if (project == null)
+            if (project != null)
             {
-                return HttpNotFound();
+                if (!coursesRepository.IsTeacherInCourse(project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+                {
+                    throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                }
+            }
+            else
+            {
+                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
 
             return View(project);
@@ -211,7 +216,7 @@ namespace Coder.Controllers
         {
             if (!coursesRepository.IsTeacherInCourse(projectsRepository.GetProjectById(id).CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             projectsRepository.RemoveProject(projectsRepository.GetProjectById(id));
