@@ -1,0 +1,39 @@
+﻿
+.users-button {
+    background: $color-action;
+    border: none;
+
+    &:hover {
+        background: $color-action-darker;
+    }
+}
+
+.modal-content {
+    border-radius: 0;
+
+    .modal-header {
+        border-bottom: none;
+        padding: 40px;
+        padding-bottom: 10px;
+
+        button {
+            margin-top: -5px;
+             
+            span {
+                font-size: 30px;
+                color: $color-first;
+            }
+        }
+    }
+
+    .modal-body {
+        padding: 40px;
+        padding-top: 0;
+    }
+}
+
+.submissions-table {
+    th:first-child {
+        text-align: center;
+    }
+}

@@ -253,6 +253,7 @@
     <Content Include="Content\sass\theme.scss" />
     <Content Include="Content\sass\login.scss" />
     <Content Include="Content\sass\taskDetails.scss" />
+    <Content Include="Content\sass\submissions.scss" />
     <None Include="Content\sass\variables.scss" />
     <Content Include="package.json" />
     <Content Include="Mvc.sitemap" />

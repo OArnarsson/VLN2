@@ -27,20 +27,51 @@
             {
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProjectTask.Name)
-                </td>
-                <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                <td>@Html.DisplayFor(modelItem => item.ProjectTask.Project.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.ProjectTask.Project.Course.Name)</td>
-                <td> @Html.DisplayFor(modelItem => item.Status)</td>
-                @if (User.IsInRole("Administrator") || ViewBag.IsTeacher)
-                {
-                    <td><a href="#">@Html.DisplayFor(modelItem => item.ApplicationUsers.Count)</a></td>
-                    <td><a href=@Url.Action("Delete", "Submissions", new { id = item.Id })><i class="fa fa-pencil"></i></a></td>
-                }
+                    <td>@Html.DisplayFor(modelItem => item.ProjectTask.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ProjectTask.Project.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ProjectTask.Project.Course.Name)</td>
+                    <td> @Html.DisplayFor(modelItem => item.Status)</td>
+                    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher)
+                    {
+                        <td data-toggle="modal" data-id="@item.Id" data-target="#bs-example-modal-sm_@item.Id"><p class="btn btn-primary users-button">@item.ApplicationUsers.Count</p></td>
+                        <td><a href=@Url.Action("Delete", "Submissions", new { id = item.Id })><i class="fa fa-pencil"></i></a></td>
+                    }
             </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
+
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="bs-example-modal-sm_@item.Id" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Users in this submission</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="coder-table submissions-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in item.ApplicationUsers)
+                            {
+                                <tr>
+                                    <td>@user.Name</td>
+                                    <td>@user.Email</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+        </div>
+    </div>
+}
 </div>
