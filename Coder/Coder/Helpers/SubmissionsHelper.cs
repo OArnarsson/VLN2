@@ -1,7 +1,9 @@
 ﻿using Coder.Models;
 using Coder.Models.Entity;
+using Coder.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
@@ -10,14 +12,18 @@ namespace Coder.Helpers
 {
     public class SubmissionsHelper
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private SubmissionsRepository submissionRepository;
+
+        public SubmissionsHelper(ApplicationDbContext context)
+        {
+            submissionRepository = new SubmissionsRepository(context);
+        }
 
         public bool createCppSubmission(ProjectTask task, Submission submission)
         {
-            TestResultStatus status = TestResultStatus.Accepted;
+            TestResultStatus submissionStatus = TestResultStatus.Accepted;
             Debug.AutoFlush = true;
 
-            var compilerFolder = "C:\\tools\\mingw64\\";
             var workingFolder = System.IO.Directory.GetCurrentDirectory();
             var projectRoot = System.AppDomain.CurrentDomain.BaseDirectory;
             var submissionFolder = System.IO.Path.Combine(projectRoot, "Uploads\\Submissions\\" + submission.Id);
@@ -46,7 +52,7 @@ namespace Coder.Helpers
             string compilerError = compiler.StandardError.ReadToEnd();
             if (!string.IsNullOrEmpty(compilerError))
             {
-                //status = TestResultStatus.CompileError;
+                submissionStatus = TestResultStatus.CompileError;
             }
 
             compiler.WaitForExit();
@@ -56,7 +62,7 @@ namespace Coder.Helpers
             // Run tests
             foreach (var test in task.TaskTests)
             {
-                status = TestResultStatus.Accepted;
+                var testStatus = TestResultStatus.Accepted;
                 var processInfoExe = new ProcessStartInfo(program, "");
                 processInfoExe.UseShellExecute = false;
                 processInfoExe.RedirectStandardOutput = true;
@@ -72,20 +78,25 @@ namespace Coder.Helpers
 
                     if (output != test.Output)
                     {
-                        status = TestResultStatus.WrongOutput;
+                        submissionStatus = TestResultStatus.WrongOutput;
+                        testStatus = TestResultStatus.WrongOutput;
                     }
 
-                    db.SubmissionTestResults.Add(new SubmissionTestResult
+                    submissionRepository.AddSubmissionTestResult(new SubmissionTestResult
                     {
                         Input = test.Input,
                         Output = test.Output,
                         ObtainedOutput = output,
                         SubmissionId = submission.Id,
-                        Status = (int)status
+                        Status = (int)testStatus
                     });
                 }
             }
-            db.SaveChanges();
+
+            submission.Status = submissionStatus;
+            submissionRepository.UpdateState(EntityState.Modified, submission);
+            submissionRepository.SaveChanges();
+
 
             return true;
         }

@@ -19,12 +19,4 @@ namespace Coder.Models.Entity
         [ForeignKey("SubmissionId")]
         public virtual Submission Submission { get; set; }
     }
-
-    public enum TestResultStatus
-    {
-        Accepted = 1,
-        CompileError = 2,
-        MemoryError = 3,
-        WrongOutput = 4
-    }
 }

@@ -102,9 +102,7 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<a href=@Url.Action("Details", "Users", new { id = Model.UserId })><i class="fa fa-arrow-left"></i></a>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

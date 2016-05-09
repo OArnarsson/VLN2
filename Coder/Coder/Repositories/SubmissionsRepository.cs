@@ -2,18 +2,36 @@
 using Coder.Models.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
 namespace Coder.Repositories
 {
-    public class SubmissionRepository
+    public class SubmissionsRepository
     {
         private readonly ApplicationDbContext db;
 
-        public SubmissionRepository(ApplicationDbContext context)
+        public SubmissionsRepository(ApplicationDbContext context)
         {
             db = context ?? new ApplicationDbContext();
+        }
+
+        public void AddSubmission(Submission submission)
+        {
+            db.Submissions.Add(submission);
+            db.SaveChanges();
+        }
+
+        public void UpdateState(EntityState state, Submission submission)
+        {
+            db.Entry(submission).State = state;
+        }
+
+        public void AddSubmissionTestResult(SubmissionTestResult result)
+        {
+            db.SubmissionTestResults.Add(result);
+            db.SaveChanges();
         }
 
         /*public Project GetProjectById(int? id)
