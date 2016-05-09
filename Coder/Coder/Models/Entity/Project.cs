@@ -18,11 +18,11 @@ namespace Coder.Models.Entity
         public string Description { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:ddddinn d MMMM yy}", ApplyFormatInEditMode = true)]
         public DateTime Start { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:ddddinn d MMMM yy}", ApplyFormatInEditMode = true)]
         public DateTime End { get; set; }
 
         public double Value { get; set; }
