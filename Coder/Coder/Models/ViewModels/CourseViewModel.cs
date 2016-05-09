@@ -23,9 +23,13 @@ namespace Coder.Models.ViewModels
         public string Title { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Start { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime End { get; set; }
 
         public List<ApplicationUser> ApplicationUsers { get; set; }
