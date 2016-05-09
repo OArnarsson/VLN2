@@ -25,6 +25,7 @@ namespace Coder.Models.Entity
         [DisplayFormat(DataFormatString = "{0:dddd, d MMMM yy}", ApplyFormatInEditMode = true)]
         public DateTime End { get; set; }
 
+        [RegularExpression("([0-9][0-9]*)", ErrorMessage = "Value must be a natural number")]
         public double Value { get; set; }
 
         public int CourseId { get; set; }
