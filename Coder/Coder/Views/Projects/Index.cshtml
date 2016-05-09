@@ -44,10 +44,10 @@
                     @Html.ActionLink(item.Course.Name, "Details", "Courses", new { id = item.Course.Id }, null)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Start)
+                    @item.Start.ToString("dddd, d MMM")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.End)
+                    @item.End.ToString("dddd, d MMM")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Value)

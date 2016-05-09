@@ -34,8 +34,8 @@
                         {
                             <tr>
                                 <td>@Html.ActionLink(x.Name, "Details", "Projects", new { id = x.Id }, null)</td>
-                                <td>@Html.DisplayFor(modelItem => x.Start)</td>
-                                <td>@Html.DisplayFor(modelItem => x.End)</td>                                
+                                <td>@x.Start.ToString("dddd, d MMM")</td>
+                                <td>@x.End.ToString("dddd, d MMM")</td>                                
                             </tr>
                         }                       
                     </tbody>
