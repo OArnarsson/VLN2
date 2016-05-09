@@ -10,6 +10,7 @@ using Coder.Models;
 using Coder.Models.Entity;
 using Coder.Helpers;
 using Coder.Repositories;
+using Microsoft.AspNet.Identity;
 
 namespace Coder.Controllers
 {
@@ -18,16 +19,22 @@ namespace Coder.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         private readonly SubmissionsRepository submissionsRepository;
+        private readonly CoursesRepository coursesRepository;
 
         public SubmissionsController()
         {
             submissionsRepository = new SubmissionsRepository(db);
+            coursesRepository = new CoursesRepository(db);
         }
 
         // GET: All submissions
         public ActionResult Index()
         {
-            return View(db.Submissions.ToList());
+            // Check if teacher in course, return all submissions for that course
+            // Check if admin, return all submissions
+
+            ViewBag.IsTeacher = coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator"));
+            return View(submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()));
         }
 
         public ActionResult Details(int? id)

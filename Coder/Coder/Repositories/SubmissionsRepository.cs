@@ -11,10 +11,20 @@ namespace Coder.Repositories
     public class SubmissionsRepository
     {
         private readonly ApplicationDbContext db;
+        private readonly UsersRepository usersRepository;
 
         public SubmissionsRepository(ApplicationDbContext context)
         {
             db = context ?? new ApplicationDbContext();
+            usersRepository = new UsersRepository(db);
+        }
+
+        public IEnumerable<Submission> GetSubmissionsForUserId(string userId)
+        {
+            return (from s in db.Submissions
+                    from u in s.ApplicationUsers
+                    where u.Id == userId
+                    select s).ToList();
         }
 
         public void AddSubmission(Submission submission)

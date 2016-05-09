@@ -1,51 +1,42 @@
 ﻿@model IEnumerable<Coder.Models.Entity.Submission>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Submissions";
 }
 
-<h2>Index</h2>
+<h2>Submissions</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="coder-table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Created)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.State)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProjectTaskId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Output)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.State)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProjectTaskId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Output)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Task</th>
+            <th>Submitted</th>
+            <th>Project</th>
+            <th>Course</th>
+            <th>Status</th>
+            @if (User.IsInRole("Administrator") || ViewBag.IsTeacher)
+            {
+                <th>Action</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@Html.DisplayFor(modelItem => item.Id)</th>
+                <td>@Html.DisplayFor(modelItem => item.ProjectTask.Name)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Created)</td>
+                <td>@Html.DisplayFor(modelItem => item.ProjectTask.Project.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.ProjectTask.Project.Course.Name)</td>
+                <td> @Html.DisplayFor(modelItem => item.Status)</td>
+                @if (User.IsInRole("Administrator") || ViewBag.IsTeacher)
+                {
+                    <td><a href=@Url.Action("Delete", "Submissions", new { id = item.Id })><i class="fa fa-pencil"></i></a></td>
+                }
+            </tr>
+        }
+    </tbody>
 </table>
