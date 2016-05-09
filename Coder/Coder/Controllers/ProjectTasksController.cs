@@ -12,6 +12,7 @@ using MvcSiteMapProvider.Web.Mvc.Filters;
 using System.IO;
 using System.Diagnostics;
 using Coder.Repositories;
+using Coder.Helpers;
 
 namespace Coder.Controllers
 {
@@ -212,6 +213,10 @@ namespace Coder.Controllers
 
                 if (Request.Files.Count == task.FilesRequired.Count)
                 {
+                    Submission newSubmission = new Submission { ProjectTaskId = task.Id, Created = DateTime.Now };
+                    db.Submissions.Add(newSubmission);
+                    db.SaveChanges();
+
                     // All files are valid and all files are there, so we save them
                     foreach (string fileName in Request.Files)
                     {
@@ -221,7 +226,7 @@ namespace Coder.Controllers
                         {
                             var originalDirectory = new DirectoryInfo(string.Format("{0}Uploads\\Submissions", Server.MapPath(@"\")));
 
-                            string pathString = System.IO.Path.Combine(originalDirectory.ToString(), "imagepath");
+                            string pathString = System.IO.Path.Combine(originalDirectory.ToString(), newSubmission.Id.ToString());
 
                             var fileName1 = Path.GetFileName(file.FileName);
 
@@ -234,6 +239,8 @@ namespace Coder.Controllers
                             file.SaveAs(path);
                         }
                     }
+                    SubmissionsHelper subHelper = new SubmissionsHelper();
+                    subHelper.createCppSubmission(task, newSubmission);
                 }
                 else
                 {
@@ -250,7 +257,6 @@ namespace Coder.Controllers
                 isSavedSuccessfully = false;
             }
 
-            isSavedSuccessfully = false;
             if (isSavedSuccessfully)
             {
                 return Json(new { Message = fName });

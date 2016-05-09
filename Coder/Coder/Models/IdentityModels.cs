@@ -30,6 +30,7 @@ namespace Coder.Models
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectTask> ProjectTasks { get; set; }
         public DbSet<Submission> Submissions { get; set; }
+        public DbSet<SubmissionTestResult> SubmissionTestResults { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<TaskTest> TaskTests { get; set; }
         public DbSet<FileRequired> FilesRequired { get; set; }

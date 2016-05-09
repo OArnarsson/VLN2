@@ -81,12 +81,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>3</td>
-                    <td>Nonni & Bibbi</td>
-                    <td>Accepted</td>
-                    <td><i class="glyphicon glyphicon-plus"></i></td>
-                </tr>
+                @foreach (Coder.Models.Entity.Submission s in Model.Submissions) // TODO: Only current user
+                {
+                    <tr> @*TODO: Add users, status and more*@
+                        <td>@s.Id</td>
+                        <td></td>
+                        <td>Accepted</td>
+                        <td><i class="glyphicon glyphicon-plus"></i></td>
+                    </tr>
+                }
+                
             </tbody>
         </table>
     </div>
@@ -107,7 +111,7 @@
                 createImageThumbnails: false,
                 addRemoveLinks: true,
                 parallelUploads: 100,
-                uploadMultiple: true,
+                uploadMultiple: true
             });
 
             myDropzone.on("error", function (data, errorMessage, xhr) {
@@ -115,20 +119,24 @@
                 $(".alertSuccess").hide();
                 $(".dz-error-message").show();
                 $(".dz-error-message").html("<p>" + errorMessage.Message + "</p>");
-            }),
-            myDropzone.on("processing", function (data) {
+            });
+            myDropzone.on("processingmultiple", function (data) {
                 $(".alertError").hide();
                 $(".alertSuccess").hide();
-            }),
-            myDropzone.on("success", function (data) {
+            });
+            myDropzone.on("successmultiple", function (data) {
                 $(".alertError").hide();
                 $(".alertSuccess").show();
-            })
+            });
+            myDropzone.on("sendingmultiple", function (file, xhr, formData) {
+                // Append users here
+                // formData.append('flerpderp', 'asdfasdf');
+            });
 
-        $('#submitTask').click(function (e) {
-            myDropzone.processQueue();
-            e.preventDefault();
-        });
+            $('#submitTask').click(function (e) {
+                myDropzone.processQueue();
+                e.preventDefault();
+            });
         });
     </script>
 
