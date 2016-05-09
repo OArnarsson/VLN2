@@ -20,7 +20,7 @@ using Coder.Repositories;
 
 namespace Coder.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [AuthorizeAttribute(Roles = "Administrator")]
     public class UsersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
