@@ -9,6 +9,7 @@
             @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
             {
                 <a href=@Url.Action("Edit", "ProjectTasks", new { id = Model.Id })><i class="fa fa-pencil"></i></a>
+                <a href=@Url.Action("Delete", "ProjectTasks", new { id = Model.Id })><i class="fa fa-trash"></i></a>
             }
             <span id="taskName">@Html.ActionLink(@Model.Project.Course.Name, "Details", "Courses", new { id = Model.Project.Course.Id }, null) - @Html.ActionLink(@Model.Project.Name, "Details", "Projects", new { id = Model.Project.Id }, null)</span>
         </div>
