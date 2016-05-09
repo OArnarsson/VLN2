@@ -51,7 +51,7 @@ namespace Coder.Controllers
                 throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
 
-            return View();
+            return View(submission);
         }
     }
 }

@@ -34,4 +34,39 @@
             @Html.DisplayFor(model => model.ProjectTaskId)
         </dd>
     </dl>
+    <div id="tests">
+        @{ int counter = 1; }
+        @foreach (var test in Model.SubmissionTestResults)
+        {
+            var status = (Coder.Models.Entity.TestResultStatus)test.Status;
+            if ((Coder.Models.Entity.TestResultStatus)test.Status == Coder.Models.Entity.TestResultStatus.WrongOutput)
+            {
+                <div class="test clearfix">
+                    <h3>Test @counter</h3>
+                    <p>Status: @status</p>
+                    <div class="input-wrap">
+                        <p>Input</p>
+                        <div class="editor input readonly">@test.Input</div>
+                    </div>
+
+                    <div class="tests-wrap row">
+                        <div class="output-wrap col-sm-6">
+                            <p>Obtained Output</p>
+                            <div class="editor output readonly">@test.ObtainedOutput</div>
+                        </div>
+                        <div class="output-wrap col-sm-6">
+                            <p>Expected Output</p>
+                            <div class="editor output readonly">@test.Output</div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            counter = counter + 1;
+        }
+    </div>
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/scripts/ace/ace.js")
+}
