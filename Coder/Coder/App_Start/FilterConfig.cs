@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using Coder.Helpers;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Coder
@@ -8,7 +9,7 @@ namespace Coder
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new AuthorizeAttribute());
+            filters.Add(new CustomAuthorizeAttribute());
         }
     }
 }

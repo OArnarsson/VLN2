@@ -17,10 +17,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MvcSiteMapProvider.Web.Mvc.Filters;
 using Coder.Repositories;
+using Coder.Helpers;
 
 namespace Coder.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [CustomAuthorizeAttribute(Roles = "Administrator")]
     public class UsersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
