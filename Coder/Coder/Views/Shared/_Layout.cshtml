@@ -42,17 +42,19 @@
     </div>
     <div id="main">
         <div class="container body-content">
-                @{
-                    <div class="breadcrumbs">
-                        @if (Request.Url.PathAndQuery != "/")
-                        {
-                            @Html.MvcSiteMap().SiteMapPath()
-                        }
-                        
-                    </div>
+            @{
+                <div class="breadcrumbs">
+                    @if (Request.Url.PathAndQuery != "/")
+                    {
+                        @Html.MvcSiteMap().SiteMapPath()
                     }
+
+                </div>
+            }
             @RenderBody()
+        </div>
     </div>
+
     <footer id="footer">
         <div class="container">
             <p>&copy; @DateTime.Now.Year - Coder</p>
