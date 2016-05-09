@@ -6,7 +6,7 @@
 
 <h2>Submissions</h2>
 <div class="whiteBox">
-    <table class="coder-table" id="submissionTable">
+    <table class="order-column stripe coder-table" id="submissionTable">
         <thead>
             <tr>
                 <th>ID</th>
@@ -75,3 +75,19 @@
     </div>
 }
 </div>
+
+@section Scripts {
+<script>
+    $(document).ready(function () {
+        $('#submissionTable').DataTable({
+            "aoColumnDefs": [{ 'bSortable': false, 'aTargets': [7] }],
+            "language": {
+                "paginate": {
+                    "next": ">>",
+                    "previous": "<<"
+                }
+            }
+        });
+    });
+</script>
+}
