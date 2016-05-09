@@ -13,7 +13,7 @@ namespace Coder.Models.Entity
         public string Input { get; set; }
         public string Output { get; set; }
         public string ObtainedOutput { get; set; }
-        public int Status { get; set; }
+        public TestResultStatus Status { get; set; }
 
         public int SubmissionId { get; set; }
         [ForeignKey("SubmissionId")]

@@ -62,6 +62,9 @@ namespace Coder.Controllers
                 throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
 
+            SubmissionsHelper helper = new SubmissionsHelper(db);
+            ViewBag.submissionFolder = helper.getSubmissionFolder(submission);
+
             return View(submission);
         }
     }

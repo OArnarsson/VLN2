@@ -31,7 +31,7 @@ coder.taskTests = {
 
         $("#taskEditForm").submit(function (e) {
             var i = 1;
-            
+
             // Get all tests
             var $allTests = $('.test', '#tests');
             $.each($allTests, function (key, value) {
@@ -53,7 +53,7 @@ coder.taskTests = {
         coder.taskTests.bindRemove();
     },
 
-    bindRemove: function() {
+    bindRemove: function () {
         // Remove button
         $('.remove-test', '#tests').click(function (e) {
             $(this).parent().remove();
@@ -68,6 +68,13 @@ coder.taskTests = {
             maxLines: Infinity,
             readOnly: $(value).hasClass('readonly')
         });
+        // If editor has data-filename attribute, we autoselect the correct mode (syntax highlighting) for the editor.
+        var attr = $(value).attr('data-filename');
+        if (typeof attr !== typeof undefined && attr !== false) {
+            var modelist = ace.require("ace/ext/modelist");
+            var mode = modelist.getModeForPath(attr).mode;
+            editor.session.setMode(mode);
+        }
     },
 
     getNewTestHtml: function () {
@@ -80,7 +87,7 @@ coder.taskTests = {
         $testsWrap.append($('<div class="output-wrap col-sm-6"><div class="editor output"></div></div>'));
 
         $test.append($testsWrap);
-        
+
         return $test;
     }
 }
@@ -97,32 +104,4 @@ $(document).ready(function () {
                 "undo redo | styleselect | bold italic | link image | alignleft aligncenter alignright | charmap code"
         ]
     });
-
-    /*Dropzone.options.dropzoneForm = {
-        init: function () {
-            //maxFilesize: 20,
-            dictDefaultMessage: "Drop files or click here to upload",
-            this.on("complete", function (data) {
-                //var res = eval('(' + data.xhr.responseText + ')');
-                var res = JSON.parse(data.xhr.responseText);
-            });
-
-            this.on("error", function (data, errorMessage, xhr) {
-                $(".alertError").hide();
-                $(".alertSuccess").hide();
-                $(".dz-error-message").show();
-                $(".dz-error-message").html("<p>" + errorMessage.Message + "</p>");
-            });
-
-            this.on("processing", function (data) {
-                $(".alertError").hide();
-                $(".alertSuccess").hide();
-            });
-
-            this.on("success", function (data) {
-                $(".alertError").hide();
-                $(".alertSuccess").show();
-            });
-        }
-    };*/
 });
