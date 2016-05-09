@@ -30,10 +30,21 @@ namespace Coder.Controllers
         // GET: All submissions
         public ActionResult Index()
         {
-            // Check if teacher in course, return all submissions for that course
-            // Check if admin, return all submissions
-
             ViewBag.IsTeacher = coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator"));
+
+            if (User.IsInRole("Administrator"))
+            {
+                return View(submissionsRepository.GetAllSubmissions());
+            }
+
+            if (coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            {
+                var submissionsAsTeacher = submissionsRepository.GetSubmissionsForTeacherId(User.Identity.GetUserId());
+                var submissionsAsStudent = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId());
+                // ToDo: Also display submissions that the teacher is with role student in
+                return View(submissionsAsStudent.Concat(submissionsAsTeacher));
+            }
+            
             return View(submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()));
         }
 

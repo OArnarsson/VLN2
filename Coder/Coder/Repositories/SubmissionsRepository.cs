@@ -12,18 +12,40 @@ namespace Coder.Repositories
     {
         private readonly ApplicationDbContext db;
         private readonly UsersRepository usersRepository;
+        private readonly CoursesRepository coursesRepository;
 
         public SubmissionsRepository(ApplicationDbContext context)
         {
             db = context ?? new ApplicationDbContext();
-            usersRepository = new UsersRepository(db);
+            coursesRepository = new CoursesRepository(db);
         }
 
+        public IEnumerable<Submission> GetAllSubmissions()
+        {
+            return db.Submissions.ToList();
+        }
+
+        // Gets all submissions for user, no matter the role he's in
         public IEnumerable<Submission> GetSubmissionsForUserId(string userId)
         {
             return (from s in db.Submissions
                     from u in s.ApplicationUsers
                     where u.Id == userId
+                    select s).ToList();
+        }
+
+        // Gets all submissions in courses where the user is a teacher
+        public IEnumerable<Submission> GetSubmissionsForTeacherId(string userId)
+        {
+            return GetSubmissionsForCourses(coursesRepository.GetCoursesForTeacherWithTeacherRole(userId));
+        }
+
+        public IEnumerable<Submission> GetSubmissionsForCourses(IEnumerable<Course> courses)
+        {
+            return (from c in courses
+                    join p in db.Projects on c.Id equals p.CourseId
+                    join pt in db.ProjectTasks on p.Id equals pt.ProjectId
+                    join s in db.Submissions on pt.Id equals s.ProjectTaskId
                     select s).ToList();
         }
 
