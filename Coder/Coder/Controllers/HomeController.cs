@@ -7,31 +7,42 @@ using Coder.Models;
 using Microsoft.AspNet.Identity;
 using Coder.Models.ViewModels;
 using Coder.Helpers;
+using Coder.Repositories;
 
 namespace Coder.Controllers
 {
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ProjectsRepository projectsRepository;
+        private readonly CoursesRepository coursesRepository;
+        private readonly UsersRepository usersRepository;
+
+        public HomeController()
+        {
+            projectsRepository = new ProjectsRepository(db);
+            coursesRepository = new CoursesRepository(db);
+            usersRepository = new UsersRepository(db);
+        }
 
         public ActionResult Index()
         {
-            DashboardViewModel viewModel = new DashboardViewModel()
-            {
-                Courses = db.Courses.ToList(),
-                Users = db.Users.ToList(),
-                //Tries to take only projects that are still active, ordered by time remaining. 
-                Projects = (from x in db.Projects.ToList() where x.End >= DateTime.Now orderby x.End select x).Take(9).ToList()
-            };
+            DashboardViewModel viewModel = new DashboardViewModel();
 
+            viewModel.Courses = coursesRepository.GetCoursesForUser(User.Identity.GetUserId()).ToList();
+
+            viewModel.Projects = (from x in (projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList()) orderby x.End ascending select x).Take(9).ToList();
+
+            viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;
+           
             
-            if (viewModel.Projects.Count() < 10)
-            {
-                //Filling up the list with inactive projects, ordered by most recent.
-                var y = viewModel.Projects.ToList();
-                y.AddRange((from x in db.Projects.ToList() where x.End < DateTime.Now orderby x.End descending select x).Take(9 - viewModel.Projects.Count()).ToList());
-                viewModel.Projects = y.ToList();
-            }
+            //if (viewModel.Projects.Count() < 10)
+            //{
+            //    //Filling up the list with inactive projects, ordered by most recent.
+            //    var y = viewModel.Projects.ToList();
+            //    y.AddRange((from x in db.Projects.ToList() where x.End < DateTime.Now orderby x.End descending select x).Take(9 - viewModel.Projects.Count()).ToList());
+            //    viewModel.Projects = y.ToList();
+            //}
 
             return View(viewModel);
         }

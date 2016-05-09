@@ -18,6 +18,8 @@ namespace Coder.Models.Entity
         public string Description { get; set; }
 
         public double Value { get; set; }
+
+        public int MaxGroupSize { get; set; }
         
         public int ProjectId { get; set; }
 
