@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Coder.Models;
 using Coder.Models.Entity;
+using Coder.Helpers;
 
 namespace Coder.Controllers
 {
@@ -20,7 +21,7 @@ namespace Coder.Controllers
         {
             return View(db.Submissions.ToList());
         }
-
+        /*
         // GET: All submissions by userId
         public ActionResult User(string userId)
         {
@@ -50,22 +51,6 @@ namespace Coder.Controllers
                                                     
             return View(db.Submissions.ToList());
         }
-
-        // POST: Submissions/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Created,State,ProjectTaskId,Output")] Submission submission)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Submissions.Add(submission);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(submission);
-        }
+        */
     }
 }

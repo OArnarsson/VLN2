@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Coder.Models;
 using Microsoft.AspNet.Identity;
 using Coder.Models.ViewModels;
+using Coder.Helpers;
 
 namespace Coder.Controllers
 {

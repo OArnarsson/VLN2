@@ -193,6 +193,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\SubmissionsHelper.cs" />
     <Compile Include="Models\Entity\Comment.cs" />
     <Compile Include="Models\Entity\Course.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="Repositories\CoursesRepository.cs" />
     <Compile Include="Repositories\ProjectsRepository.cs" />
     <Compile Include="Repositories\ProjectTasksRepository.cs" />
+    <Compile Include="Repositories\SubmissionRepository.cs" />
     <Compile Include="Repositories\UserCoursesRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
     <Compile Include="Startup.cs" />
@@ -419,10 +421,7 @@
     <Content Include="Views\ProjectTasks\Details.cshtml" />
     <Content Include="Views\ProjectTasks\Edit.cshtml" />
     <Content Include="Views\ProjectTasks\Index.cshtml" />
-    <Content Include="Views\Submissions\Create.cshtml" />
-    <Content Include="Views\Submissions\Delete.cshtml" />
     <Content Include="Views\Submissions\Details.cshtml" />
-    <Content Include="Views\Submissions\Edit.cshtml" />
     <Content Include="Views\Submissions\Index.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
