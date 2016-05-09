@@ -8,6 +8,7 @@
     thead > tr {
         border-bottom: 1px solid $color-first;
         background-color: $color-first;
+
         th {
             font-weight: 400;
             padding: 20px 15px;
@@ -21,6 +22,7 @@
 
     tr {
         background-color: ghostwhite;
+
         td {
             padding: 15px 0;
             padding-left: 15px;
@@ -28,6 +30,7 @@
 
         td:not(:last-child) a {
             color: #333;
+
             &:hover {
                 color: $color-action;
             }
@@ -42,15 +45,15 @@
             background-color: #fff;
         }
     }
-
 }
-     #submissionTable{
-        tbody{
-            tr{
-                td:first-child{
-                    font-weight:bold;
-                }
+
+#submissionTable {
+    tbody {
+        tr {
+            td:first-child {
+                font-weight: bold;
             }
         }
- }
+    }
+}
 

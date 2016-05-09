@@ -11,38 +11,52 @@
     <a href=@Url.Action("Create", "Courses")><i class="fa fa-plus-square-o"></i></a>
 }
 
-<div class="allCourses row">
+<div class="allCourses row" id="coursesPanel">
     @foreach (var item in Model)
     {
-        <div class="course-box clearfix whiteBox">           
-            <div class="col-md-4">
-                <h3>@Html.ActionLink(item.Name, "Details", new { id = item.Id }) (@Html.DisplayFor(modelItem => item.Title))</h3>
-                <p>@Html.Raw(item.Description)</p>
+        <div class="coder-panel">
+            <div class="coder-panel-heading">
+                <a data-toggle="collapse" data-parent="#coursesPanel" href="#@item.Id">
+                    <h4><span class="glyphicon glyphicon-list"></span> @item.Name - @item.Title</h4>
+                </a>
             </div>
-            <div class="col-md-8">
-                <table class="coder-table">
-                    <thead>
-                        <tr>
-                            <th>Project Name</th>
-                            <th>Start date</th>
-                            <th>End date</th>
-                        </tr>
-                    </thead>
 
-                    <tbody>
-                        @foreach (var x in item.Projects)
-                        {
-                            <tr>
-                                <td>@Html.ActionLink(x.Name, "Details", "Projects", new { id = x.Id }, null)</td>
-                                <td>@x.Start.ToString("dddd, d MMM")</td>
-                                <td>@x.End.ToString("dddd, d MMM")</td>                                
-                            </tr>
-                        }                       
-                    </tbody>
-                </table>
+            <div class="clearfix whiteBox">
+                <div class="panel-collapse collapse" id="@item.Id">
+                    <div class="col-lg-4">
+                        <h3>
+                            @Html.ActionLink(item.Name, "Details", new { id = item.Id }) (@Html.DisplayFor(modelItem => item.Title))
+                        </h3>
+                        <p>@Html.Raw(item.Description)</p>
+                    </div>
+
+                    <div class="col-md-8">
+                        <table class="coder-table">
+                            <thead>
+                                <tr>
+                                    <th>Project Name</th>
+                                    <th>Start date</th>
+                                    <th>End date</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var x in item.Projects)
+                                {
+                                    <tr>
+                                        <td>@Html.ActionLink(x.Name, "Details", "Projects", new { id = x.Id }, null)</td>
+                                        <td>@x.Start.ToString("dddd, d MMM")</td>
+                                        <td>@x.End.ToString("dddd, d MMM")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
             </div>
-            
+
         </div>
     }
-    
+
 </div>

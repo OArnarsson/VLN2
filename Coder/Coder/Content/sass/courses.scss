@@ -1,22 +1,34 @@
 ﻿.allCourses {   
     margin-top: 10px;
+
 }
 
 .course-details {
     margin-bottom: 50px;
 }
 
-.course-box {
-    
-    margin-bottom: 50px;
-    h3 {
-        margin-top: 0;
-    }
-    .coder-table {
-        margin-top: 0;
-    }
-}
+
 
 #cancelCreate {
     font-size: 30px;
+}
+
+#coursesPanel{
+    
+    .coder-panel-heading{
+        border-bottom: 1px solid $color-first;
+        padding:10px;
+        background-color: $color-first;  
+     
+        a{
+            color:$color-action;
+
+            :hover{
+               color:$color-second;
+            }
+        }
+        span{
+            padding-right:5px;
+        }                  
+    }      
 }
