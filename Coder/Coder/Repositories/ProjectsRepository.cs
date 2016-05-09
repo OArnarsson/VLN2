@@ -38,6 +38,13 @@ namespace Coder.Repositories
             return db.Projects.Find(id);
         }
 
+        public List<Project> GetAllProjectsByCourseId(int id)
+        {
+            return (from c in db.Projects
+                   where c.CourseId == id
+                   select c).ToList();
+        }
+
         public void AddProject(Project project)
         {
             db.Projects.Add(project);

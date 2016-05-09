@@ -21,18 +21,26 @@ namespace Coder.Controllers
     public class ProjectTasksController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
         private readonly ProjectTasksRepository projectTasksRepository;
+        private readonly CoursesRepository coursesRepository;
+        private readonly ProjectsRepository projectsRepository;
 
         public ProjectTasksController()
         {
             projectTasksRepository = new ProjectTasksRepository(db);
+            coursesRepository = new CoursesRepository(db);
+            projectsRepository = new ProjectsRepository(db);
         }
 
         // GET: ProjectTasks
         public ActionResult Index()
         {
-            return View(projectTasksRepository.GetAllProjectTasks().ToList());
+            if (User.IsInRole("Administrator"))
+            {
+                return View(projectTasksRepository.GetAllProjectTasks());
+            }
+
+            return View(projectTasksRepository.GetAllProjectTasksForUserId(User.Identity.GetUserId()));
         }
 
         // GET: ProjectTasks/Details/5
@@ -50,17 +58,28 @@ namespace Coder.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
+            
+            if (!coursesRepository.IsInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+            }
 
-            /* CHECK FOR PERMISSION */
-
+            ViewBag.Teacher = (coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")));
             ViewBag.AllUsers = db.Users.ToList();
             return View(projectTask);
         }
 
         // GET: ProjectTasks/Create
         public ActionResult Create()
-        {
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
+        {   
+            if (!coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+            }
+
+            // Gets all projects if admin, else just the user's projects
+            ViewBag.ProjectId = new SelectList(projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")), "Id", "Name");
+            
             return View();
         }
 
@@ -71,13 +90,19 @@ namespace Coder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,Value,ProjectId")] ProjectTask projectTask)
         {
+            if (!coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+            }
+
             if (ModelState.IsValid)
             {
                 projectTasksRepository.AddProjectTask(projectTask);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", projectTask.ProjectId);
+
+            ViewBag.ProjectId = new SelectList(projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")), "Id", "Name", projectTask.ProjectId);
             return View(projectTask);
         }
 
@@ -96,7 +121,13 @@ namespace Coder.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", projectTask.ProjectId);
+
+            if (!coursesRepository.IsTeacherInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+            }
+
+            ViewBag.ProjectId = new SelectList(projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")), "Id", "Name", projectTask.ProjectId);
             return View(projectTask);
         }
 
@@ -107,6 +138,11 @@ namespace Coder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ProjectTask projectTask, FormCollection form)
         {
+            if (!coursesRepository.IsTeacherInCourse(projectTask.Id, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+            }
+
             if (ModelState.IsValid)
             {
                 projectTasksRepository.UpdateState(EntityState.Modified, projectTask);
@@ -172,6 +208,11 @@ namespace Coder.Controllers
                 throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
 
+            if (!coursesRepository.IsTeacherInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+            }
+
             return View(projectTask);
         }
 
@@ -180,6 +221,11 @@ namespace Coder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (!coursesRepository.IsTeacherInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+            }
+
             projectTasksRepository.RemoveProjectTask(projectTasksRepository.GetProjectTaskById(id));
             return RedirectToAction("Index");
         }

@@ -46,8 +46,8 @@
             <tr>
                 <td>@Html.ActionLink(item.Name, "Details", "Projects", new { id = item.Id }, null)</td>
                 <td>@item.Value.ToString()</td>
-                <td>@item.Start.ToString()</td>
-                <td>@item.End.ToString()</td>
+                <td>@item.Start.ToString("dddd, d MMMM yy") &nbsp @item.Start.ToString("HH:mm")</td>
+                <td>@item.End.ToString("dddd, d MMMM yy") &nbsp @item.End.ToString("HH:mm")</td>
                 <td>
                     @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
                     {

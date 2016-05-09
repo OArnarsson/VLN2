@@ -25,6 +25,16 @@ namespace Coder.Repositories
             return db.ProjectTasks.Include(x => x.Project);
         }
 
+        public IEnumerable<ProjectTask> GetAllProjectTasksForUserId(string userId)
+        {
+            return (from pt in db.ProjectTasks
+                    join p in db.Projects on pt.ProjectId equals p.Id
+                    join c in db.Courses on p.CourseId equals c.Id
+                    join uc in db.UserCourses on c.Id equals uc.CourseId
+                    where uc.UserId == userId
+                    select pt).ToList();
+        }
+
         public ProjectTask GetProjectTaskById(int? id)
         {
             return db.ProjectTasks.Find(id);
