@@ -5,29 +5,30 @@
 }
 
 <h2>Submissions</h2>
-
-<table class="coder-table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Task</th>
-            <th>Submitted</th>
-            <th>Project</th>
-            <th>Course</th>
-            <th>Status</th>
-            @if (User.IsInRole("Administrator") || ViewBag.IsTeacher)
-            {
-                <th>Users</th>
-                <th>Action</th>
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="whiteBox">
+    <table class="coder-table" id="submissionTable">
+        <thead>
             <tr>
-                <th>@Html.DisplayFor(modelItem => item.Id)</th>
-                <td>@Html.DisplayFor(modelItem => item.ProjectTask.Name)
+                <th>ID</th>
+                <th>Task</th>
+                <th>Submitted</th>
+                <th>Project</th>
+                <th>Course</th>
+                <th>Status</th>
+                @if (User.IsInRole("Administrator") || ViewBag.IsTeacher)
+            {
+                    <th>Users</th>
+                    <th>Action</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectTask.Name)
                 </td>
                 <td>@Html.DisplayFor(modelItem => item.Created)</td>
                 <td>@Html.DisplayFor(modelItem => item.ProjectTask.Project.Name)</td>
@@ -39,6 +40,7 @@
                     <td><a href=@Url.Action("Delete", "Submissions", new { id = item.Id })><i class="fa fa-pencil"></i></a></td>
                 }
             </tr>
-        }
-    </tbody>
-</table>
+            }
+        </tbody>
+    </table>
+</div>
