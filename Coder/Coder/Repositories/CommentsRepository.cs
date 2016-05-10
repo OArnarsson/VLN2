@@ -13,13 +13,25 @@ namespace Coder.Repositories
 {
     public class CommentsRepository
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ApplicationDbContext db;
 
-        public IEnumerable<Comment> getAllComments(int taskId)
+        public CommentsRepository(ApplicationDbContext context)
         {
-            return from comment in db.Comments.ToList()
-                   where comment.ProjectTaskId == taskId
-                   select comment;
+            db = context ?? new ApplicationDbContext();
+        }
+
+        public IEnumerable<Comment> getCommentsForProjectTaskId(int projectTaskId)
+        {
+            return (from comment in db.Comments.ToList()
+                   where comment.ProjectTaskId == projectTaskId
+                   orderby comment.Created descending
+                   select comment).ToList();
+        }
+
+        public void AddComment(Comment comment)
+        {
+            db.Comments.Add(comment);
+            db.SaveChanges();
         }
     }
 }

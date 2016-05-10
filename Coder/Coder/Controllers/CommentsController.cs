@@ -6,24 +6,42 @@ using System.Web;
 using System.Web.Mvc;
 using Coder.Models.Entity;
 using Coder.Repositories;
+using Microsoft.AspNet.Identity;
 
 namespace Coder.Controllers
 {
     public class CommentsController : Controller
     {
-        private CommentsRepository commentsRepo = new CommentsRepository();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
+        private CommentsRepository commentsRepo;
+        private ProjectTasksRepository projectTasksRepo;
+        private UsersRepository usersRepo;
+
+        public CommentsController()
+        {
+            commentsRepo = new CommentsRepository(db);
+            projectTasksRepo = new ProjectTasksRepository(db);
+            usersRepo = new UsersRepository(db);
+        }
 
         // GET: Comments
-        public ActionResult Index(int taskId)
+        public ActionResult CommentsForProjectTask(int projectTaskId)
         {
-            return View(commentsRepo.getAllComments(taskId));
+            return View("Comments", commentsRepo.getCommentsForProjectTaskId(projectTaskId));
         }
 
         // POST: Comments/Create
         [HttpPost]
         public ActionResult Create(Comment comment)
         {
-            return View();
+            comment.UserId = User.Identity.GetUserId();
+            comment.Created = DateTime.Now;
+            comment.ProjectTask = projectTasksRepo.GetProjectTaskById(comment.ProjectTaskId);
+            comment.ApplicationUser = usersRepo.GetUserById(User.Identity.GetUserId());
+            commentsRepo.AddComment(comment);
+
+            ViewBag.AllUsers = db.Users.ToList();
+            return View("~/Views/ProjectTasks/Details.cshtml", comment.ProjectTask);
         }
 
         // POST: Comments/Delete/5

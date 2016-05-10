@@ -46,42 +46,84 @@
     <ul>
         @foreach (var user in Model.ApplicationUsers)
         {
-            <li>@user.Name</li>
+            <li>@Html.ActionLink(user.Name, "Details", "Users", new { Id = user.Id }, null)</li>
         }
     </ul>
 
-    <div id="tests">
-        @{ int counter = 1; }
-        @foreach (var test in Model.SubmissionTestResults)
+    @if (Model.Status == Coder.Models.Entity.TestResultStatus.CompileError)
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <div id="files">
+        @{ int fileCounter = 0; }
+        @if (System.IO.Directory.Exists(ViewBag.submissionFolder))
         {
-            var status = (Coder.Models.Entity.TestResultStatus)test.Status;
-            var statusClass = (Coder.Models.Entity.TestResultStatus)test.Status == Coder.Models.Entity.TestResultStatus.Accepted ? "accepted" : "rejected";
-            <div class="test clearfix @statusClass">
-                <h3>Test @counter</h3>
-                <p>Status: @status</p>
-                <div class="input-wrap">
-                    <p>Input</p>
-                    <div class="editor input readonly">@test.Input</div>
-                </div>
+            foreach (string file in System.IO.Directory.EnumerateFiles(ViewBag.submissionFolder))
+            {
+                var filename = Path.GetFileName(file);
 
-                <div class="tests-wrap row">
-                    <div class="output-wrap col-sm-6">
-                        <p>Obtained Output</p>
-                        <div class="editor output readonly">@test.ObtainedOutput</div>
-                    </div>
-                    <div class="output-wrap col-sm-6">
-                        <p>Expected Output</p>
-                        <div class="editor output readonly">@test.Output</div>
-                    </div>
-                </div>
-            </div>
+                if (Model.ProjectTask.FilesRequired.Any(i => i.Name == filename))
+                {
 
-            counter = counter + 1;
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapse_@fileCounter">@filename</a>
+                                </h4>
+                            </div>
+                            <div id="collapse_@fileCounter" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div data-filename="@filename" class="editor">@File.ReadAllText(file)</div>
+                                </div>
+                                <div class="panel-footer"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    fileCounter += 1;
+                }
+
+            }
         }
+
     </div>
+    @if (Model.Status != Coder.Models.Entity.TestResultStatus.CompileError)
+    {
+        <div id="tests">
+            @{ int counter = 1; }
+            @foreach (var test in Model.SubmissionTestResults)
+                {
+                    var status = (Coder.Models.Entity.TestResultStatus)test.Status;
+                    var statusClass = (Coder.Models.Entity.TestResultStatus)test.Status == Coder.Models.Entity.TestResultStatus.Accepted ? "accepted" : "rejected";
+                <div class="test clearfix @statusClass">
+                    <h3>Test @counter</h3>
+                    <p>Status: @status</p>
+                    <div class="input-wrap">
+                        <p>Input</p>
+                        <div class="editor input readonly">@test.Input</div>
+                    </div>
+
+                    <div class="tests-wrap row">
+                        <div class="output-wrap col-sm-6">
+                            <p>Obtained Output</p>
+                            <div class="editor output readonly">@test.ObtainedOutput</div>
+                        </div>
+                        <div class="output-wrap col-sm-6">
+                            <p>Expected Output</p>
+                            <div class="editor output readonly">@test.Output</div>
+                        </div>
+                    </div>
+                </div>
+
+                counter = counter + 1;
+            }
+        </div>
+                }
 </div>
 
 @section Scripts {
-    
     @Scripts.Render("~/scripts/ace/ace.js")
+    @Scripts.Render("~/scripts/ace/ext-modelist.js")
 }
