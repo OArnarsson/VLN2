@@ -196,6 +196,7 @@
     <Compile Include="Helpers\CommentsHelper.cs" />
     <Compile Include="Helpers\CustomAuthorizeAttribute .cs" />
     <Compile Include="Helpers\DateUtility.cs" />
+    <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Helpers\SubmissionsHelper.cs" />
     <Compile Include="Models\Entity\Comment.cs" />
     <Compile Include="Models\Entity\Course.cs" />
@@ -453,6 +454,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Logs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

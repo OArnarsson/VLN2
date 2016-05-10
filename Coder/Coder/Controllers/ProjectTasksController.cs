@@ -350,6 +350,7 @@ namespace Coder.Controllers
             }
             catch (Exception ex)
             {
+                Logger.LogException(ex);
                 isSavedSuccessfully = false;
             }
 
