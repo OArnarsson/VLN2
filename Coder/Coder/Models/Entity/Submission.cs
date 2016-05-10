@@ -12,6 +12,7 @@ namespace Coder.Models.Entity
         public int Id { get; set; }
         public DateTime Created { get; set; }
         public TestResultStatus Status { get; set; }
+        public string ErrorMessage { get; set; }
 
         public int ProjectTaskId { get; set; }
         [ForeignKey("ProjectTaskId")]
@@ -27,6 +28,7 @@ namespace Coder.Models.Entity
         Accepted = 1,
         CompileError = 2,
         MemoryError = 3,
-        WrongOutput = 4
+        WrongOutput = 4,
+        TimeLimitExceeded = 5
     }
 }
