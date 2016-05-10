@@ -17,12 +17,14 @@ namespace Coder.Controllers
         private CommentsRepository commentsRepo;
         private ProjectTasksRepository projectTasksRepo;
         private UsersRepository usersRepo;
+        private CoursesRepository coursesRepo;
 
         public CommentsController()
         {
             commentsRepo = new CommentsRepository(db);
             projectTasksRepo = new ProjectTasksRepository(db);
             usersRepo = new UsersRepository(db);
+            coursesRepo = new CoursesRepository(db);
         }
 
         // GET: Comments
@@ -43,7 +45,9 @@ namespace Coder.Controllers
 
             if (Request.IsAjaxRequest())
             {
-                return Json(new { Comment = comment.Text, User = comment.ApplicationUser.Name, UserId = comment.UserId, Created = DateUtility.TimeAgoFromDateTime(comment.Created)}, JsonRequestBehavior.AllowGet);
+                bool canDeleteComment = (User.Identity.GetUserId() == comment.UserId || User.IsInRole("Administrator") || coursesRepo.IsTeacherInCourse(comment.ProjectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")));
+                
+                return Json(new { CommentId = comment.Id, Comment = comment.Text, User = comment.ApplicationUser.Name, UserId = comment.UserId, Created = DateUtility.TimeAgoFromDateTime(comment.Created), CanDelete = canDeleteComment}, JsonRequestBehavior.AllowGet);
             }
 
             ViewBag.AllUsers = db.Users.ToList();

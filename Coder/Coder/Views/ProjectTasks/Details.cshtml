@@ -196,8 +196,14 @@
                     dataType: 'json',
                     method: 'POST',
                     success: function (json) {
-                        console.log(json);
-                        $('.comments-table tbody','#comments').append($('<tr><td>' + json.User + '</td><td>' + json.Comment + '</td><td>' + json.Created + '</td></tr>'))
+                        if (json.CanDelete) {
+                            $('.comments-table tbody','#comments').append($('<tr><td>' + json.User + '</td><td>' + json.Comment + '</td><td>' + json.Created + '</td><td><a href="/Comments/Delete?id=' + json.CommentId + '"><i class="fa fa-trash"></i></a></td></tr>'));
+                        }
+                        else {
+                            $('.comments-table tbody','#comments').append($('<tr><td>' + json.User + '</td><td>' + json.Comment + '</td><td>' + json.Created + '</td></tr>'));
+                        }
+
+                        $('#comment-input').val('');
                     },
                     error: function(request, status, error) {
                         console.log("error");
