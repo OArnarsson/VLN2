@@ -27,12 +27,6 @@ namespace Coder.Controllers
             coursesRepo = new CoursesRepository(db);
         }
 
-        // GET: Comments
-        public ActionResult CommentsForProjectTask(int projectTaskId)
-        {
-            return View("Comments", commentsRepo.getCommentsForProjectTaskId(projectTaskId));
-        }
-
         // POST: Comments/Create
         [HttpPost]
         public ActionResult Create(Comment comment)
