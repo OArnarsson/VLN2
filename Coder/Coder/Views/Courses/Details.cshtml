@@ -4,64 +4,66 @@
     ViewBag.Title = @Html.DisplayFor(model => model.Name) + " Details";
 }
 
-<div class="course-details">
-    <h1>@Html.DisplayFor(model => model.Name)</h1>
-    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
-    {
-        <a href=@Url.Action("Edit", "Courses", new { id = Model.Id })><i class="fa fa-pencil"></i></a>
-        <a href=@Url.Action("Delete", "Courses", new { id = Model.Id })><i class="fa fa-trash"></i></a>
-    }
-    
-    <div class="details-box">
-        <span class="text-caption">@Html.DisplayNameFor(model => model.Title)</span>
-        <span class="text-value">@Html.DisplayFor(model => model.Title)</span>
-    </div>
-    
-    <div class="details-box">
-        <span class="text-caption">End date:</span>
-        <span class="text-value">@Html.DisplayFor(model => model.End)</span>
-    </div>
+<h1>@Html.DisplayFor(model => model.Name)</h1>
+@if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+{
+    <a href=@Url.Action("Edit", "Courses", new { id = Model.Id })><i class="fa fa-pencil"></i></a>
+    <a href=@Url.Action("Delete", "Courses", new { id = Model.Id })><i class="fa fa-trash"></i></a>
+}
+<div class="whiteBox box">
+    <div class="course-details">
 
-    <div class="details-box">
-        <div class="description">
-            @Html.Raw(Model.Description)
+        <div class="details-box">
+            <span class="text-caption">@Html.DisplayNameFor(model => model.Title)</span>
+            <span class="text-value">@Html.DisplayFor(model => model.Title)</span>
+        </div>
+
+        <div class="details-box">
+            <span class="text-caption">End date:</span>
+            <span class="text-value">@Html.DisplayFor(model => model.End)</span>
+        </div>
+
+        <div class="details-box">
+            <div class="description">
+                @Html.Raw(Model.Description)
+            </div>
         </div>
     </div>
-</div>
 
-<div>
-    <table class="coder-table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Value</th>
-                <th>Start date</th>
-                <th>End date</th>
-                <th></th>
-            </tr>
-        </thead>
+    <div>
+        <table class="coder-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Value</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th></th>
+                </tr>
+            </thead>
 
-        @foreach (var item in Model.Projects)
-        {
-            <tr>
-                <td>@Html.ActionLink(item.Name, "Details", "Projects", new { id = item.Id }, null)</td>
-                <td>@item.Value.ToString()</td>
-                <td>@item.Start.ToString("dddd, d MMMM yy") &nbsp @item.Start.ToString("HH:mm")</td>
-                <td>@item.End.ToString("dddd, d MMMM yy") &nbsp @item.End.ToString("HH:mm")</td>
-                <td>
-                    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
-                    {
-                        <a href=@Url.Action("Edit", "Projects", new { id = item.Id })><i class="fa fa-pencil"></i></a>
-                    }
+            @foreach (var item in Model.Projects)
+            {
+                <tr>
+                    <td>@Html.ActionLink(item.Name, "Details", "Projects", new { id = item.Id }, null)</td>
+                    <td>@item.Value.ToString()</td>
+                    <td>@item.Start.ToString("dddd, d MMMM yy") &nbsp @item.Start.ToString("HH:mm")</td>
+                    <td>@item.End.ToString("dddd, d MMMM yy") &nbsp @item.End.ToString("HH:mm")</td>
+                    <td>
+                        @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+                        {
+                            <a href=@Url.Action("Edit", "Projects", new { id = item.Id })><i class="fa fa-pencil"></i></a>
+                        }
 
-                    @if (User.IsInRole("Administrator"))
-                    {
-                        <a href=@Url.Action("Delete", "Projects", new { id = item.Id })><i class="fa fa-trash"></i></a>
-                    }
-                </td>
-            </tr>
-        }
-    </table>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <a href=@Url.Action("Delete", "Projects", new { id = item.Id })><i class="fa fa-trash"></i></a>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
 </div>
 <div>
     <a href=@Url.Action("Index", "Courses")><i class="fa fa-arrow-left"></i></aclass="backArrow">
