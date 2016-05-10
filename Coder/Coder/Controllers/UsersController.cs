@@ -21,7 +21,6 @@ using Coder.Helpers;
 
 namespace Coder.Controllers
 {
-    [CustomAuthorizeAttribute(Roles = "Administrator")]
     public class UsersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -41,6 +40,7 @@ namespace Coder.Controllers
         }
 
         // GET: Users
+        [CustomAuthorizeAttribute(Roles = "Administrator")]
         public ActionResult Index()
         {
             return View(usersRepository.GetAllUsers());
@@ -62,6 +62,11 @@ namespace Coder.Controllers
                 throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
 
+            if (user.Id != User.Identity.GetUserId() && !User.IsInRole("Administrator"))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+            }
+
             var userViewModel = new UserViewModel(user);
             userViewModel.Courses = coursesRepository.GetAllCourses().ToList();
             userViewModel.UserCourses = userCoursesRepository.GetUserCoursesByUserId(id);
@@ -70,6 +75,7 @@ namespace Coder.Controllers
         }
 
         // GET: Users/Create
+        [CustomAuthorizeAttribute(Roles = "Administrator")]
         public ActionResult Create()
         {
             CreateUserViewModel userViewModel = new CreateUserViewModel()
@@ -83,6 +89,7 @@ namespace Coder.Controllers
         // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [CustomAuthorizeAttribute(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateUserViewModel userViewModel, FormCollection form)
@@ -132,6 +139,11 @@ namespace Coder.Controllers
                 throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
 
+            if (user.Id != User.Identity.GetUserId() && !User.IsInRole("Administrator"))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!"); 
+            }
+
             var userViewModel = new UserViewModel(user);
             userViewModel.Courses = coursesRepository.GetAllCourses().ToList();
             userViewModel.UserCourses = userCoursesRepository.GetUserCoursesByUserId(id);
@@ -159,30 +171,34 @@ namespace Coder.Controllers
                     userManager.AddPassword(user.Id, userViewModel.Password);
                 }
 
-                userCoursesRepository.RemoveAllUserCoursesForUserId(userViewModel.UserId);
+                if (User.IsInRole("Administrator"))
+                {
+                    userCoursesRepository.RemoveAllUserCoursesForUserId(userViewModel.UserId);
 
-                foreach (var x in getUserCoursesFromFormCollection(form, user.Id))
-                {
-                    userCoursesRepository.AddUserCourse(x);
-                }
+                    foreach (var x in getUserCoursesFromFormCollection(form, user.Id))
+                    {
+                        userCoursesRepository.AddUserCourse(x);
+                    }
 
-                if (userViewModel.Admin)
-                {
-                    userManager.AddToRole(user.Id, "Administrator");
-                }
-                else
-                {
-                    userManager.RemoveFromRole(user.Id, "Administrator");
+                    if (userViewModel.Admin)
+                    {
+                        userManager.AddToRole(user.Id, "Administrator");
+                    }
+                    else
+                    {
+                        userManager.RemoveFromRole(user.Id, "Administrator");
+                    }
                 }
 
                 usersRepository.UpdateState(EntityState.Modified, user);
                 usersRepository.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { Id = user.Id });
             }
             return View(userViewModel);
         }
 
+        [CustomAuthorizeAttribute(Roles = "Administrator")]
         public List<UserCourse> getUserCoursesFromFormCollection(FormCollection form, string userId)
         {
             var userCourses = new List<UserCourse>();
@@ -201,6 +217,7 @@ namespace Coder.Controllers
         }
 
         // GET: Users/Delete/5
+        [CustomAuthorizeAttribute(Roles = "Administrator")]
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -219,6 +236,7 @@ namespace Coder.Controllers
         }
 
         // POST: Users/Delete/5
+        [CustomAuthorizeAttribute(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
@@ -230,6 +248,7 @@ namespace Coder.Controllers
             return RedirectToAction("Index");
         }
 
+        [CustomAuthorizeAttribute(Roles = "Administrator")]
         protected override void Dispose(bool disposing)
         {
             if (disposing)
