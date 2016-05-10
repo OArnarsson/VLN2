@@ -104,17 +104,29 @@
                         <p>Input</p>
                         <div class="editor input readonly">@test.Input</div>
                     </div>
+                    @if (test.Status == Coder.Models.Entity.TestResultStatus.WrongOutput)
+                    {
+                        
+                        <div id="flex-container">
+                            <div id="editor1">@test.ObtainedOutput</div>
+                            <div id="gutter"></div>
+                            <div id="editor2">@test.Output</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="tests-wrap row">
+                            <div class="output-wrap col-sm-6">
+                                <p>Obtained Output</p>
+                                <div class="editor output readonly">@test.ObtainedOutput</div>
+                            </div>
+                            <div class="output-wrap col-sm-6">
+                                <p>Expected Output</p>
+                                <div class="editor output readonly">@test.Output</div>
+                            </div>
+                        </div>
+                    }
 
-                    <div class="tests-wrap row">
-                        <div class="output-wrap col-sm-6">
-                            <p>Obtained Output</p>
-                            <div class="editor output readonly">@test.ObtainedOutput</div>
-                        </div>
-                        <div class="output-wrap col-sm-6">
-                            <p>Expected Output</p>
-                            <div class="editor output readonly">@test.Output</div>
-                        </div>
-                    </div>
                 </div>
 
                 counter = counter + 1;
@@ -124,6 +136,26 @@
 </div>
 
 @section Scripts {
+    <script src="/Scripts/diff_match_patch.js"></script>
+
+    @Scripts.Render("~/scripts/diff_match_patch.js")
     @Scripts.Render("~/scripts/ace/ace.js")
     @Scripts.Render("~/scripts/ace/ext-modelist.js")
+    @Scripts.Render("~/scripts/ace-diff.js")
+    
+
+    <script>
+        var differ = new AceDiff({
+            mode: 'ace/mode/text',
+            left: {
+                id: "editor1"
+            },
+            right: {
+                id: "editor2"
+            },
+            classes: {
+                gutterID: "gutter"
+            }
+        });
+    </script>
 }
