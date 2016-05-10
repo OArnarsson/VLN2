@@ -3,19 +3,22 @@
 @using Coder.Helpers
 
 <table class="table comments-table">
-@foreach (var item in Model) {
-    <tr>
-        <td>@Html.DisplayFor(modelItem => item.ApplicationUser.Name)</td>
-        <td>@Html.DisplayFor(modelItem => item.Text)</td>
-        <td>@DateUtility.TimeAgoFromDateTime(item.Created)</td>
-        <td>
-            @{
-                if (User.IsInRole("Administrator") || User.Identity.GetUserId() == item.UserId)
-                {
-                    <a href=@Url.Action("Delete", "Comments", new { id = item.Id })><i class="fa fa-trash"></i></a>
-                }
-            }
-        </td>
-    </tr>
-}
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ApplicationUser.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Text)</td>
+                <td>@DateUtility.TimeAgoFromDateTime(item.Created)</td>
+                <td>
+                    @{
+                        if (User.IsInRole("Administrator") || User.Identity.GetUserId() == item.UserId || ViewBag.Teacher)
+                        {
+                            <a href=@Url.Action("Delete", "Comments", new { id = item.Id })><i class="fa fa-trash"></i></a>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
