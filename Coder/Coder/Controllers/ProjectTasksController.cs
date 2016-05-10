@@ -82,8 +82,20 @@ namespace Coder.Controllers
             }
 
             // Gets all projects if admin, else just the user's projects
-            ViewBag.ProjectId = new SelectList(projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")), "Id", "Name");
-            
+
+            if (!User.IsInRole("Administrator"))
+            {
+                var allProjects = (projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator"))).ToList();
+
+                var teacherProjects = (from p in allProjects
+                                       where p.Course.UserCourses.FirstOrDefault(x => x.UserId == User.Identity.GetUserId()).CoderRole == Coder.Models.Entity.CoderRole.Teacher
+                                       select p).ToList();
+
+                ViewBag.ProjectId = new SelectList(teacherProjects, "Id", "Name");
+            }
+            else ViewBag.ProjectId = new SelectList(projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")), "Id", "Name");
+
+
             return View();
         }
 
@@ -126,7 +138,7 @@ namespace Coder.Controllers
                 throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
 
-            if (!coursesRepository.IsTeacherInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+            if (!coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
             {
                 throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }

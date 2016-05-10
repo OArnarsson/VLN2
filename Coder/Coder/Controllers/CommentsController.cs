@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Coder.Models.Entity;
 using Coder.Repositories;
 using Microsoft.AspNet.Identity;
+using Coder.Helpers;
 
 namespace Coder.Controllers
 {
@@ -39,6 +40,11 @@ namespace Coder.Controllers
             comment.ProjectTask = projectTasksRepo.GetProjectTaskById(comment.ProjectTaskId);
             comment.ApplicationUser = usersRepo.GetUserById(User.Identity.GetUserId());
             commentsRepo.AddComment(comment);
+
+            if (Request.IsAjaxRequest())
+            {
+                return Json(new { Comment = comment.Text, User = comment.ApplicationUser.Name, UserId = comment.UserId, Created = DateUtility.TimeAgoFromDateTime(comment.Created)}, JsonRequestBehavior.AllowGet);
+            }
 
             ViewBag.AllUsers = db.Users.ToList();
             return View("~/Views/ProjectTasks/Details.cshtml", comment.ProjectTask);
