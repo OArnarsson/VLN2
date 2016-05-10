@@ -10,7 +10,7 @@
         @Html.HiddenFor(model => model.ProjectTaskId)
         <div class="form-group">
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Text, new { htmlAttributes = new { placeholder = "Write a comment...", @class = "form-control" } })
+                @Html.EditorFor(model => model.Text, new { htmlAttributes = new { placeholder = "Write a comment...", @class = "form-control", id="comment-input" } })
                 @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
             </div>
         </div>
