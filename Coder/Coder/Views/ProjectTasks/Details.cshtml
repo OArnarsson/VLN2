@@ -190,11 +190,17 @@
                 var form = $(this);
                 console.log("submitting");
                 $.ajax({
+<<<<<<< HEAD
                     type: 'POST',
                     url: '/Comments/Create',
                     data: form.serialize(),
                     dataType: 'json',
                     method: 'POST',
+=======
+                    url: '/Comments/Create',
+                    data: form.serialize(),
+                    method: 'POST',
+>>>>>>> 8e2bf30e4429a189ac3d3a5cb8d998a873f429d0
                     success: function (json) {
                         console.log(json);
                         $('.comments-table tbody','#comments').append($('<tr><td>' + json.User + '</td><td>' + json.Comment + '</td><td>' + json.Created + '</td></tr>'))

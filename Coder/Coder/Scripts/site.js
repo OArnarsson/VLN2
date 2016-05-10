@@ -78,7 +78,7 @@ coder.taskTests = {
     },
 
     getNewTestHtml: function () {
-        var $test = $('<div class="test clearfix"></div>');
+        var $test = $('<div class="test clearfix whiteBox"></div>');
         $test.append('<h3>Test ' + coder.taskTests.counter + '</h3>');
         $test.append('<a href="#" class="remove-test"><i class="fa fa-trash " aria-hidden="true"></i></a>');
 
