@@ -24,7 +24,7 @@ namespace Coder.Repositories
         {
             return (from comment in db.Comments.ToList()
                    where comment.ProjectTaskId == projectTaskId
-                   orderby comment.Created descending
+                   orderby comment.Created ascending
                    select comment).ToList();
         }
 

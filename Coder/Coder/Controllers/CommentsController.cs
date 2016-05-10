@@ -40,9 +40,11 @@ namespace Coder.Controllers
 
             if (Request.IsAjaxRequest())
             {
-                bool canDeleteComment = (User.Identity.GetUserId() == comment.UserId || User.IsInRole("Administrator") || coursesRepo.IsTeacherInCourse(comment.ProjectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")));
-                
-                return Json(new { CommentId = comment.Id, Comment = comment.Text, User = comment.ApplicationUser.Name, UserId = comment.UserId, Created = DateUtility.TimeAgoFromDateTime(comment.Created), CanDelete = canDeleteComment}, JsonRequestBehavior.AllowGet);
+                CommentsHelper commentsHelper = new CommentsHelper();
+
+                var commentsFromProjectTask = commentsRepo.GetCommentsForProjectTaskId(comment.ProjectTaskId);
+                List<CommentViewModel> comments = commentsHelper.CommentViewModelsFromComments(commentsFromProjectTask, User.IsInRole("Administrator"), User.Identity.GetUserId()).ToList();
+                return Json(comments, JsonRequestBehavior.AllowGet);
             }
 
             ViewBag.AllUsers = db.Users.ToList();

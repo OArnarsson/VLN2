@@ -199,12 +199,15 @@
                     dataType: 'json',
                     method: 'POST',
                     success: function (json) {
-                        if (json.CanDelete) {
-                            $('.comments-table tbody','#comments').append($('<tr><td>' + json.User + '</td><td>' + json.Comment + '</td><td>' + json.Created + '</td><td><a href="/Comments/Delete?id=' + json.CommentId + '"><i class="fa fa-trash"></i></a></td></tr>'));
-                        }
-                        else {
-                            $('.comments-table tbody','#comments').append($('<tr><td>' + json.User + '</td><td>' + json.Comment + '</td><td>' + json.Created + '</td></tr>'));
-                        }
+                        $('.comments-table tbody','#comments').empty();
+                        $.each(json, function(i, item) {
+                            if (item.CanDelete) {
+                                $('.comments-table tbody','#comments').append($('<tr><td>' + item.Name + '</td><td>' + item.Text + '</td><td>' + item.Created + '</td><td><a href="/Comments/Delete/' + item.Id + '"><i class="fa fa-trash"></i></a></td></tr>'));
+                            }
+                            else {
+                                $('.comments-table tbody','#comments').append($('<tr><td>' + item.Name + '</td><td>' + item.Text + '</td><td>' + item.Created + '</td></tr>'));
+                            }
+                        });
 
                         $('#comment-input').val('');
                     },
@@ -218,34 +221,28 @@
                 return false;
             });
 
-            $('.delete-comment').click(function (e) {
-                var attr = $(this).attr('data-comment-id');
-                if (typeof attr !== typeof undefined && attr !== false) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Comments/Delete/' + attr,
-                        dataType: 'json',
-                        method: 'POST',
-                        success: function(json) {
-                            $('.comments-table tbody','#comments').empty();
-                            $.each(json, function(i, item) {
-                                console.log(item);
-                                if (item.CanDelete) {
-                                    $('.comments-table tbody','#comments').append($('<tr><td>' + item.Name + '</td><td>' + item.Text + '</td><td>' + item.Created + '</td><td><a href="/Comments/Delete?Id=' + item.Id + '"><i class="fa fa-trash"></i></a></td></tr>'));
-                                }
-                                else {
-                                    $('.comments-table tbody','#comments').append($('<tr><td>' + item.Name + '</td><td>' + item.Text + '</td><td>' + item.Created + '</td></tr>'));
-                                }
-                            });
-                        },
-                        error: function(request, status, error) {
-                            console.log("error");
-                            console.log(error);
-                            console.log(status);
-                            console.log(request);
-                        }
-                    });
-                }
+            $("#comments").on("click", 'a[href*="/Comments/Delete"]', function (e) {
+                console.log($(this).href);
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('href'),
+                    dataType: 'json',
+                    method: 'POST',
+                    success: function(json) {
+                        $('.comments-table tbody','#comments').empty();
+                        $.each(json, function(i, item) {
+                            if (item.CanDelete) {
+                                $('.comments-table tbody','#comments').append($('<tr><td>' + item.Name + '</td><td>' + item.Text + '</td><td>' + item.Created + '</td><td><a href="/Comments/Delete/' + item.Id + '"><i class="fa fa-trash"></i></a></td></tr>'));
+                            }
+                            else {
+                                $('.comments-table tbody','#comments').append($('<tr><td>' + item.Name + '</td><td>' + item.Text + '</td><td>' + item.Created + '</td><td></td></tr>'));
+                            }
+                        });
+                    },
+                    error: function(request, status, error) {
+                        console.log("error");
+                    }
+                });
 
                 e.preventDefault();
             });
