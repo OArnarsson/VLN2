@@ -75,7 +75,8 @@ namespace Coder.Controllers
 
         // GET: ProjectTasks/Create
         public ActionResult Create()
-        {   
+        {
+           
             if (!coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
                 throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
@@ -104,7 +105,7 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Value,ProjectId")] ProjectTask projectTask)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,Value,ProjectId,MaxGroupSize")] ProjectTask projectTask)
         {
             if (!coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
@@ -143,7 +144,18 @@ namespace Coder.Controllers
                 throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }
 
-            ViewBag.ProjectId = new SelectList(projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")), "Id", "Name", projectTask.ProjectId);
+            if (!User.IsInRole("Administrator"))
+            {
+                var allProjects = (projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator"))).ToList();
+
+                var teacherProjects = (from p in allProjects
+                                       where p.Course.UserCourses.FirstOrDefault(x => x.UserId == User.Identity.GetUserId()).CoderRole == Coder.Models.Entity.CoderRole.Teacher
+                                       select p).ToList();
+
+                ViewBag.ProjectId = new SelectList(teacherProjects, "Id", "Name");
+            }
+            else ViewBag.ProjectId = new SelectList(projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")), "Id", "Name");
+
             return View(projectTask);
         }
 

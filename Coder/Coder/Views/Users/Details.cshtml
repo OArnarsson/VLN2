@@ -16,8 +16,8 @@
 
 <div class="col-md-8">
 
-    <div class="projectBox fluid">
-        <h1>User Details</h1>
+    <div class="whiteBox fluid">
+        <h1 id="userDetails">User Details</h1>
 
         @if (User.IsInRole("Administrator") || User.Identity.GetUserId() == Model.UserId )
         {
@@ -50,7 +50,7 @@
             </dl>
     </div>
 
-    <div class="projectBox fluid">
+    <div class="whiteBox fluid">
         <table class="coder-table">
             <caption>Recent submissions</caption>
             <thead>
@@ -80,7 +80,7 @@
 </div>
 
 <div id="userDetailsRightSide" class="col-md-4">
-    <div class="projectBox fluid">
+    <div class="whiteBox fluid">
         <table class="table sidecoder-table">
             <caption>Enrollments</caption>
             <thead>
@@ -103,7 +103,7 @@
         </table>
     </div>
 
-    <div class="projectBox fluid">
+    <div class="whiteBox fluid">
         <table class="table sidecoder-table">
             <caption>Comments</caption>
             <thead>
