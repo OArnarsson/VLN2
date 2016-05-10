@@ -132,7 +132,9 @@
 
     <div class="whiteBox col-md-12">
         <h3>Comments</h3>
-        @Html.Partial("~/Views/Comments/Comments.cshtml", Model.Comments.ToList())
+        <div id="comments">
+            @Html.Partial("~/Views/Comments/Comments.cshtml", Model.Comments.ToList())
+        </div>
         @Html.Partial("~/Views/Comments/Create.cshtml", new Comment { ProjectTaskId = Model.Id })
     </div>
 </div>
@@ -186,16 +188,22 @@
 
             $('#commentForm').on('submit', function () {
                 var form = $(this);
-
+                console.log("submitting");
                 $.ajax({
+                    type: 'POST',
                     url: '/Comments/Create',
                     data: form.serialize(),
+                    dataType: 'json',
                     method: 'POST',
                     success: function (json) {
-                        
+                        console.log(json);
+                        $('.comments-table tbody','#comments').append($('<tr><td>' + json.User + '</td><td>' + json.Comment + '</td><td>' + json.Created + '</td></tr>'))
                     },
                     error: function(request, status, error) {
+                        console.log("error");
                         console.log(error);
+                        console.log(status);
+                        console.log(request);
                     }
                 });
                 return false;
