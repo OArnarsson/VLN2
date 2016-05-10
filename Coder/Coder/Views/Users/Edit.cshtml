@@ -33,20 +33,22 @@
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="form-group">
                 @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @if (User.IsInRole("Administrator"))
-                {
-                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } });
-                }
-                else
-                {
-                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } });
-                }
+                    {
 
-                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+                    }
+                    else
+                    {
+                        
+                        <input type="text" value="@Model.Email" class="form-control" disabled></input>
+                        @Html.HiddenFor(model => model.Email)
+                    }
                 </div>
             </div>
 
@@ -76,30 +78,30 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Courses, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>Course</td>
-                                    <td>Role</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var course in Model.Courses)
-                                {
-                                    enumList.ForEach(x => x.Selected = Model.UserCourses.Any(j => j.CourseId == course.Id) &&
-                                                                       (int.Parse(x.Value) == ((int)Model.UserCourses.FirstOrDefault(j => j.CourseId == course.Id).CoderRole)));
-                                    <tr>
-                                        <td>@course.Title</td>
-                                        <td>@Html.DropDownList(("Course_" + course.Id), enumList, "---")</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Courses, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <td>Course</td>
+                                            <td>Role</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var course in Model.Courses)
+                                        {
+                                            enumList.ForEach(x => x.Selected = Model.UserCourses.Any(j => j.CourseId == course.Id) &&
+                                                                               (int.Parse(x.Value) == ((int)Model.UserCourses.FirstOrDefault(j => j.CourseId == course.Id).CoderRole)));
+                                            <tr>
+                                                <td>@course.Title</td>
+                                                <td>@Html.DropDownList(("Course_" + course.Id), enumList, "---")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
             }
 
 
@@ -109,6 +111,9 @@
                 </div>
             </div>
         </div>
+
+
+
        </div>
 }
 
