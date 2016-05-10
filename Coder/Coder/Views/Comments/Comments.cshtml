@@ -14,7 +14,7 @@
                     @{
                         if (item.CanDelete)
                         {
-                            <a class="delete-comment" data-comment-id="@item.Id" href=@Url.Action("Delete", "Comments", new { id = item.Id })><i class="fa fa-trash"></i></a>
+                            <a href=@Url.Action("Delete", "Comments", new { id = item.Id })><i class="fa fa-trash"></i></a>
                         }
                     }
                 </td>
