@@ -193,6 +193,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CommentsHelper.cs" />
     <Compile Include="Helpers\CustomAuthorizeAttribute .cs" />
     <Compile Include="Helpers\DateUtility.cs" />
     <Compile Include="Helpers\SubmissionsHelper.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="Models\Entity\UserCourse.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\ViewModels\CourseViewModel.cs" />
     <Compile Include="Models\ViewModels\CreateUserViewModel.cs" />
     <Compile Include="Models\ViewModels\DashboardViewModel.cs" />

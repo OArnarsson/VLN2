@@ -20,7 +20,7 @@ namespace Coder.Repositories
             db = context ?? new ApplicationDbContext();
         }
 
-        public IEnumerable<Comment> getCommentsForProjectTaskId(int projectTaskId)
+        public IEnumerable<Comment> GetCommentsForProjectTaskId(int projectTaskId)
         {
             return (from comment in db.Comments.ToList()
                    where comment.ProjectTaskId == projectTaskId
@@ -28,10 +28,26 @@ namespace Coder.Repositories
                    select comment).ToList();
         }
 
+        public Comment GetCommentWithId(int id)
+        {
+            return db.Comments.Find(id);
+        }
+
         public void AddComment(Comment comment)
         {
             db.Comments.Add(comment);
             db.SaveChanges();
+        }
+
+        public void RemoveCommentWithId(int id)
+        {
+            Comment comment = GetCommentWithId(id);
+
+            if (comment != null)
+            {
+                db.Comments.Remove(comment);
+                db.SaveChanges();
+            }
         }
     }
 }

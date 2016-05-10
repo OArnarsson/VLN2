@@ -1,8 +1,10 @@
 ﻿@model Coder.Models.Entity.ProjectTask
 @using Microsoft.AspNet.Identity
 @using Coder.Models.Entity
+@using Coder.Helpers
 @{
     ViewBag.Title = "Details";
+    CommentsHelper commentsHelper = new CommentsHelper();
 }
 <div class="container">
     <div class="whiteBox col-md-12 clearfix">
@@ -134,7 +136,7 @@
     <div class="whiteBox col-md-12">
         <h3>Comments</h3>
         <div id="comments">
-            @Html.Partial("~/Views/Comments/Comments.cshtml", Model.Comments.ToList())
+            @Html.Partial("~/Views/Comments/Comments.cshtml", commentsHelper.CommentViewModelsFromComments(Model.Comments.ToList(), User.IsInRole("Administrator"), User.Identity.GetUserId()))
         </div>
         @Html.Partial("~/Views/Comments/Create.cshtml", new Comment { ProjectTaskId = Model.Id })
     </div>
@@ -214,6 +216,38 @@
                     }
                 });
                 return false;
+            });
+
+            $('.delete-comment').click(function (e) {
+                var attr = $(this).attr('data-comment-id');
+                if (typeof attr !== typeof undefined && attr !== false) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Comments/Delete/' + attr,
+                        dataType: 'json',
+                        method: 'POST',
+                        success: function(json) {
+                            $('.comments-table tbody','#comments').empty();
+                            $.each(json, function(i, item) {
+                                console.log(item);
+                                if (item.CanDelete) {
+                                    $('.comments-table tbody','#comments').append($('<tr><td>' + item.Name + '</td><td>' + item.Text + '</td><td>' + item.Created + '</td><td><a href="/Comments/Delete?Id=' + item.Id + '"><i class="fa fa-trash"></i></a></td></tr>'));
+                                }
+                                else {
+                                    $('.comments-table tbody','#comments').append($('<tr><td>' + item.Name + '</td><td>' + item.Text + '</td><td>' + item.Created + '</td></tr>'));
+                                }
+                            });
+                        },
+                        error: function(request, status, error) {
+                            console.log("error");
+                            console.log(error);
+                            console.log(status);
+                            console.log(request);
+                        }
+                    });
+                }
+
+                e.preventDefault();
             });
         });
     </script>

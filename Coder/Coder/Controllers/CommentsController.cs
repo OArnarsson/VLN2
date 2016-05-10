@@ -8,6 +8,7 @@ using Coder.Models.Entity;
 using Coder.Repositories;
 using Microsoft.AspNet.Identity;
 using Coder.Helpers;
+using Coder.Models.ViewModels;
 
 namespace Coder.Controllers
 {
@@ -50,18 +51,22 @@ namespace Coder.Controllers
 
         // POST: Comments/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            Comment comment = commentsRepo.GetCommentWithId(id);
+            commentsRepo.RemoveCommentWithId(id);
 
-                return RedirectToAction("Index");
-            }
-            catch
+            if (Request.IsAjaxRequest())
             {
-                return View();
+                CommentsHelper commentsHelper = new CommentsHelper();
+
+                var commentsFromProjectTask = commentsRepo.GetCommentsForProjectTaskId(comment.ProjectTaskId);
+                List<CommentViewModel> comments = commentsHelper.CommentViewModelsFromComments(commentsFromProjectTask, User.IsInRole("Administrator"), User.Identity.GetUserId()).ToList();
+                return Json(comments, JsonRequestBehavior.AllowGet);
             }
+
+            ViewBag.AllUsers = db.Users.ToList();
+            return View("~/Views/ProjectTasks/Details.cshtml", comment.ProjectTask);
         }
     }
 }

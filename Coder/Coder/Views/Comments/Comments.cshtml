@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Coder.Models.Entity.Comment>
+﻿@model IEnumerable<Coder.Models.ViewModels.CommentViewModel>
 @using Microsoft.AspNet.Identity
 @using Coder.Helpers
 
@@ -7,14 +7,14 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.ApplicationUser.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.Text)</td>
-                <td>@DateUtility.TimeAgoFromDateTime(item.Created)</td>
+                <td>@item.Name</td>
+                <td>@item.Text</td>
+                <td>@item.Created</td>
                 <td>
                     @{
-                        if (User.IsInRole("Administrator") || User.Identity.GetUserId() == item.UserId || ViewBag.Teacher)
+                        if (item.CanDelete)
                         {
-                            <a href=@Url.Action("Delete", "Comments", new { id = item.Id })><i class="fa fa-trash"></i></a>
+                            <a class="delete-comment" data-comment-id="@item.Id" href=@Url.Action("Delete", "Comments", new { id = item.Id })><i class="fa fa-trash"></i></a>
                         }
                     }
                 </td>
