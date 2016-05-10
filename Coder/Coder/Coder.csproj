@@ -194,6 +194,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\CustomAuthorizeAttribute .cs" />
+    <Compile Include="Helpers\DateUtility.cs" />
     <Compile Include="Helpers\SubmissionsHelper.cs" />
     <Compile Include="Models\Entity\Comment.cs" />
     <Compile Include="Models\Entity\Course.cs" />
@@ -445,10 +446,11 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
+    <Content Include="Views\Comments\Comments.cshtml" />
+    <Content Include="Views\Comments\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Comments\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
