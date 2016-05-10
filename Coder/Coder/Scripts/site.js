@@ -103,5 +103,16 @@ $(document).ready(function () {
         toolbar: [
                 "undo redo | styleselect | bold italic | link image | alignleft aligncenter alignright | charmap code"
         ]
+    });+
+
+
+    $('.coder-table.coder-datatable').DataTable({
+        //"aoColumnDefs": [{ 'bSortable': false, 'aTargets': [7] }], // TODO: Make action column not sortable
+        "language": {
+            "paginate": {
+                "next": ">>",
+                "previous": "<<"
+            }
+        }
     });
 });

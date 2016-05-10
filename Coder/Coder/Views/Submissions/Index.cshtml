@@ -6,7 +6,7 @@
 
 <h2>Submissions</h2>
 <div class="whiteBox">
-    <table class="order-column stripe coder-table" id="submissionTable">
+    <table class="order-column stripe coder-table coder-datatable" id="submissionTable">
         <thead>
             <tr>
                 <th>ID</th>
@@ -26,12 +26,12 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ProjectTask.Name)</td>
+                    <td>@Html.ActionLink(item.Id.ToString(), "Details", "Submissions", new { id = item.Id }, null)</td>
+                    <td>@Html.ActionLink(item.ProjectTask.Name, "Details", "ProjectTasks", new { id = item.ProjectTaskId }, null)</td>
                     <td>@Html.DisplayFor(modelItem => item.Created)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ProjectTask.Project.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ProjectTask.Project.Course.Name)</td>
-                    <td> @Html.DisplayFor(modelItem => item.Status)</td>
+                    <td>@Html.ActionLink(item.ProjectTask.Project.Name, "Details", "Projects", new { id = item.ProjectTask.ProjectId }, null)</td>
+                    <td>@Html.ActionLink(item.ProjectTask.Project.Course.Name, "Details", "Courses", new { id = item.ProjectTask.Project.CourseId }, null)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
                     @if (User.IsInRole("Administrator") || ViewBag.IsTeacher)
                     {
                         <td data-toggle="modal" data-id="@item.Id" data-target="#bs-example-modal-sm_@item.Id"><p class="btn btn-primary users-button">@item.ApplicationUsers.Count</p></td>
@@ -75,19 +75,3 @@
     </div>
 }
 </div>
-
-@section Scripts {
-<script>
-    $(document).ready(function () {
-        $('#submissionTable').DataTable({
-            "aoColumnDefs": [{ 'bSortable': false, 'aTargets': [7] }],
-            "language": {
-                "paginate": {
-                    "next": ">>",
-                    "previous": "<<"
-                }
-            }
-        });
-    });
-</script>
-}
