@@ -46,3 +46,12 @@ hr {
 .backArrow {
     margin-top: 10px;
 }
+
+.text-danger {
+    color: $color-action!important;
+}
+
+.input-validation-error{ 
+    background: pink; 
+    border: 1px solid $color-action; 
+}
