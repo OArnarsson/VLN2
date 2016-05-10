@@ -1,5 +1,5 @@
 ﻿@model Coder.Models.ViewModels.UserViewModel
-
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Details";
 
@@ -19,9 +19,15 @@
     <div class="projectBox fluid">
         <h1>User Details</h1>
 
-        @if (User.IsInRole("Administrator"))
+        @if (User.IsInRole("Administrator") || User.Identity.GetUserId() == Model.UserId )
         {
             <a href=@Url.Action("Edit", "Users", new { id = Model.UserId })><i class="fa fa-pencil"></i></a>
+        }
+
+
+        @if (User.IsInRole("Administrator"))
+        {
+            <a href=@Url.Action("Delete", "Users", new { id = Model.UserId })><i class="fa fa-trash"></i></a>
         }
 
         <dd>
@@ -65,7 +71,7 @@
                         <td>@userCourse.Course.Title</td>
                         <td>@userCourse.CoderRole</td>
                         <td>@userCourse.Course.Projects.Count</td>
-                        <td>@userCourse.Course.Start</td>
+                        <td>@userCourse.Course.Start.ToString("dddd, d MMMM yy")</td>
                     </tr>
                 }
             </tbody>
