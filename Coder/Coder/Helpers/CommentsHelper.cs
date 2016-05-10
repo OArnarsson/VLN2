@@ -19,6 +19,11 @@ namespace Coder.Helpers
             coursesRepo = new CoursesRepository(db);
         }
 
+        public bool CanDelete(Comment comment, string userId, bool isAdmin)
+        {
+            return (isAdmin || userId == comment.UserId || coursesRepo.IsTeacherInCourse(comment.ProjectTask.Project.CourseId, userId, isAdmin));
+        }
+
         public IEnumerable<CommentViewModel> CommentViewModelsFromComments(IEnumerable<Comment> comments, bool isAdmin, string userId)
         {
             List<CommentViewModel> commentsViewModel = new List<CommentViewModel>();
@@ -30,7 +35,7 @@ namespace Coder.Helpers
                     Name = c.ApplicationUser.Name,
                     Text = c.Text,
                     Created = DateUtility.TimeAgoFromDateTime(c.Created),
-                    CanDelete = (isAdmin || userId == c.UserId || coursesRepo.IsTeacherInCourse(c.ProjectTask.Project.CourseId, userId, isAdmin))
+                    CanDelete = CanDelete(c, userId, isAdmin)
                 };
                 commentsViewModel.Add(commentVM);
             }

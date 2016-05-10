@@ -11,11 +11,9 @@
                 <td>@item.Text</td>
                 <td>@item.Created</td>
                 <td>
-                    @{
-                        if (item.CanDelete)
-                        {
-                            <a href=@Url.Action("Delete", "Comments", new { id = item.Id })><i class="fa fa-trash"></i></a>
-                        }
+                    @if (item.CanDelete)
+                    {
+                        <a href=@Url.Action("Delete", "Comments", new { id = item.Id })><i class="fa fa-trash"></i></a>
                     }
                 </td>
             </tr>
