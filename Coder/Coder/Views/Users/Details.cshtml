@@ -13,14 +13,10 @@
         });
     }
 }
-
-<div class="NONONONO">
-
     <div class="whiteBox fluid">
 
         <h1 id="userDetails">@Html.DisplayFor(model => model.Name) &nbsp; </h1>
-        
-         
+
         @if (User.IsInRole("Administrator") || User.Identity.GetUserId() == Model.UserId)
             {
             <a href=@Url.Action("Edit", "Users", new { id = Model.UserId })><i class="fa fa-pencil"></i></a>
@@ -32,13 +28,10 @@
         }
 
         <h2>@Html.DisplayFor(model => model.Email)</h2>
-       
         <hr />
-
-
     </div>
 
-    <div class="col-md-4 whiteBox fluid" >
+    <div class="col-md-4 whiteBox fluid" id="EnrollmentID" >
             <table class="coder-table">
                 <caption>Enrollments</caption>
                 <thead>
@@ -49,9 +42,9 @@
                 </thead>
                 <tbody>
                     @foreach (var userCourse in Model.UserCourses)
-            {
-                enumList.ForEach(x => x.Selected = Model.UserCourses.Any(j => j.CourseId == userCourse.CourseId) &&
-                                                       (int.Parse(x.Value) == ((int)Model.UserCourses.FirstOrDefault(j => j.CourseId == userCourse.CourseId).CoderRole)));
+                    {
+                        enumList.ForEach(x => x.Selected = Model.UserCourses.Any(j => j.CourseId == userCourse.CourseId) &&
+                        (int.Parse(x.Value) == ((int)Model.UserCourses.FirstOrDefault(j => j.CourseId == userCourse.CourseId).CoderRole)));
                         <tr>
                             <td>@Html.ActionLink(userCourse.Course.Title, "Details", "Courses", new { id = userCourse.CourseId }, null)</td>
                             <td>@userCourse.CoderRole</td>
@@ -60,6 +53,7 @@
                 </tbody>
             </table>
         </div>
+
     <div class="whiteBox fluid col-md-8 right">
         <table class="coder-table">
             <caption>Recent submissions</caption>
@@ -129,24 +123,4 @@
                 </tbody>
             </table>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     *@
-</div>
