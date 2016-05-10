@@ -38,9 +38,9 @@ namespace Coder.Controllers
             comment.Created = DateTime.Now;
             comment.ProjectTask = projectTasksRepo.GetProjectTaskById(comment.ProjectTaskId);
             comment.ApplicationUser = usersRepo.GetUserById(User.Identity.GetUserId());
-
             commentsRepo.AddComment(comment);
 
+            ViewBag.AllUsers = db.Users.ToList();
             return View("~/Views/ProjectTasks/Details.cshtml", comment.ProjectTask);
         }
 
