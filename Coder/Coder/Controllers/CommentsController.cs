@@ -41,6 +41,12 @@ namespace Coder.Controllers
             commentsRepo.AddComment(comment);
 
             ViewBag.AllUsers = db.Users.ToList();
+
+            if (Request.IsAjaxRequest())
+            {
+                return Json(comment);
+            }
+            
             return View("~/Views/ProjectTasks/Details.cshtml", comment.ProjectTask);
         }
 

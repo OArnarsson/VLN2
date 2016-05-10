@@ -183,6 +183,23 @@
                 myDropzone.processQueue();
                 e.preventDefault();
             });
+
+            $('#commentForm').on('submit', function () {
+                var form = $(this);
+
+                $.ajax({
+                    url: '/Comments/Create',
+                    data: form.serialize(),
+                    method: 'POST',
+                    success: function (json) {
+                        
+                    },
+                    error: function(request, status, error) {
+                        console.log(error);
+                    }
+                });
+                return false;
+            });
         });
     </script>
 
