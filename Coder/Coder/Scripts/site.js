@@ -103,7 +103,7 @@ $(document).ready(function () {
         toolbar: [
                 "undo redo | styleselect | bold italic | link image | alignleft aligncenter alignright | charmap code"
         ]
-    });+
+    });
 
 
     $('.coder-table.coder-datatable').DataTable({
