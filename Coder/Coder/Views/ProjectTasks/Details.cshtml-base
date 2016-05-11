@@ -1,0 +1,256 @@
+﻿@model Coder.Models.Entity.ProjectTask
+@using Microsoft.AspNet.Identity
+@using Coder.Models.Entity
+@using Coder.Helpers
+@{
+    ViewBag.Title = "Details";
+    CommentsHelper commentsHelper = new CommentsHelper();
+}
+<div class="container">
+    <div class="whiteBox col-md-12 clearfix">
+        <div class="small left col-md-6">
+            <h1 id="projectName">@Model.Name (@Html.DisplayFor(model => model.Value)%)</h1>
+            @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+            {
+                <a href=@Url.Action("Edit", "ProjectTasks", new { id = Model.Id })><i class="fa fa-pencil"></i></a>
+                <a href=@Url.Action("Delete", "ProjectTasks", new { id = Model.Id })><i class="fa fa-trash"></i></a>
+            }
+            <span id="taskName">@Html.ActionLink(@Model.Project.Course.Name, "Details", "Courses", new { id = Model.Project.Course.Id }, null) - @Html.ActionLink(@Model.Project.Name, "Details", "Projects", new { id = Model.Project.Id }, null)</span>
+            <p>@foreach (var item in Model.Project.ProjectTasks)
+            {
+                <span>
+                    @Html.ActionLink(item.Name, "Details", "ProjectTasks", new { id = item.Id }, null) (@Html.DisplayFor(modelItem => item.Value)%) &nbsp;&nbsp;
+                </span>
+            }</p>
+        </div>
+        <div id="bestInTask" class="small right col-md-6">
+            <h1 id="bestSub">Best Submission<i class="fa fa-check-square" aria-hidden="true"></i></h1>
+            <p>#14 BestSub</p>
+        </div>
+
+        <div class="taskDescription row">
+            <p>
+                @Html.Raw(Model.Description)
+            </p>
+        </div>
+    </div>
+    <div id="tests">
+        @{ int counter = 1; }
+        @foreach (var test in Model.TaskTests)
+        {
+            <div class="test whiteBox clearfix">
+                <h3>Test @counter</h3>
+                <div class="tests-wrap row">
+                    <div class="input-wrap col-sm-6">
+                        <p>Input</p>
+                        <div class="editor input readonly">@test.Input</div>
+                    </div>
+                    <div class="output-wrap col-sm-6">
+                        <p>Output</p>
+                        <div class="editor output readonly">@test.Output</div>
+                    </div>
+                </div>
+            </div>
+            counter = counter + 1;
+        }
+    </div>
+    <div class="whiteBox col-md-12">
+        <div class="small left col-md-6">
+            <h1>Hand in</h1>
+            <p>@User.Identity.Name</p>
+        </div>
+        <div class="col-md-12 upload-area">
+            <div>
+                <p>Files required:</p>
+                <ul>
+                    @foreach (var i in Model.FilesRequired)
+                    {
+                        <li>@i.Name</li>
+                    }
+                </ul>
+            </div>
+            <div>
+                @if (Model.MaxGroupSize > 1)
+                {
+                    <p>Group members:</p>
+                }
+                @for (int i = 1; i < Model.MaxGroupSize; i++)
+                {
+                    <select class="form-control user-select" name="user_@i">
+                        <option value="">---</option>
+                        @foreach (var user in (List<Coder.Models.ApplicationUser>)ViewBag.AllUsers)
+                {
+                            <option value="@user.Id">
+                                @user.Name
+                            </option>
+                        }
+                    </select>
+                }
+            </div>
+            <div id="taskFiles" class="coderDropzone"></div>
+            <a class="btn btn-primary" href="#" id="submitTask">Submit task</a>
+
+        </div>
+        <div id="submissionStatus">
+
+        </div>
+    </div>
+    <div class="whiteBox col-md-12">
+        <table class="coder-table">
+            <caption>Submissions</caption>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Users</th>
+                    <th>Status</th>
+                    <th>More info</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Coder.Models.Entity.Submission s in Model.Submissions.Where(i => i.ApplicationUsers.Any(j => j.Id == User.Identity.GetUserId())).OrderByDescending(i => i.Id)) // TODO: Only current user
+                {
+                    <tr>
+                        @*TODO: Add users, status and more*@
+                        <td>@Html.ActionLink(s.Id.ToString(), "Details", "Submissions", new { id = s.Id }, null)</td>
+                        <td>@s.Created</td>
+                        <td>
+                            @foreach (var u in s.ApplicationUsers)
+                            {
+                                <span>
+                                    @u.Name
+                                </span>
+                            }
+                        </td>
+                        <td>@s.Status</td>
+
+                        <td><a href=@Url.Action("Details", "Submissions", new { id = s.Id }, null)><i class="fa fa-plus"></i></a></td>
+                        
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="whiteBox col-md-12">
+        <h3>Comments</h3>
+        <div id="comments">
+            @Html.Partial("~/Views/Comments/Comments.cshtml", commentsHelper.CommentViewModelsFromComments(Model.Comments.ToList(), User.IsInRole("Administrator"), User.Identity.GetUserId()))
+        </div>
+        @Html.Partial("~/Views/Comments/Create.cshtml", new Comment { ProjectTaskId = Model.Id })
+    </div>
+</div>
+
+<a class="backArrow" href=@Url.Action("Index", "ProjectTasks")><i class="fa fa-arrow-left"></i></a>
+
+@{
+    var allfiles = "";
+    foreach (var f in Model.FilesRequired)
+    {
+        allfiles += f.Name + ",";
+    }
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/dropzonescripts")
+    <script>
+        $(document).ready(function () {
+            Dropzone.autoDiscover = false;
+            var myDropzone = new Dropzone("#taskFiles", {
+                url: "/ProjectTasks/SaveUploadedFile?Id=" + @Model.Id,
+                autoProcessQueue: false,
+                createImageThumbnails: false,
+                addRemoveLinks: true,
+                parallelUploads: 100,
+                uploadMultiple: true
+            });
+
+            myDropzone.on("errormultiple", function (data, errorMessage, xhr) {
+                $('#submissionStatus').html('<div class="alert alert-danger">Something went wrong... Did you upload the correct files?</div>');
+            });
+
+            myDropzone.on("processingmultiple", function (data) {
+                $('#submissionStatus').html('');
+            });
+
+            myDropzone.on("sendingmultiple", function (file, xhr, formData) {
+                $.each($('.user-select'), function(key, value) {
+                    formData.append($(value).attr('name'), $(value).val());
+                });
+            });
+
+            myDropzone.on("successmultiple", function (data) {
+                location.reload(); // TODO: Use ajax to get the new item and add it to the table.
+            });
+
+            $('#submitTask').click(function (e) {
+                myDropzone.processQueue();
+                e.preventDefault();
+            });
+
+            $('#commentForm').on('submit', function () {
+                var form = $(this);
+                console.log("submitting");
+                $.ajax({
+                    type: 'POST',
+                    url: '/Comments/Create',
+                    data: form.serialize(),
+                    dataType: 'json',
+                    method: 'POST',
+                    success: function (json) {
+                        if (json.CanDelete) {
+                            $('.comments-table tbody','#comments').append($('<tr><td>' + json.User + '</td><td>' + json.Comment + '</td><td>' + json.Created + '</td><td><a href="/Comments/Delete?id=' + json.CommentId + '"><i class="fa fa-trash"></i></a></td></tr>'));
+                        }
+                        else {
+                            $('.comments-table tbody','#comments').append($('<tr><td>' + json.User + '</td><td>' + json.Comment + '</td><td>' + json.Created + '</td></tr>'));
+                        }
+
+                        $('#comment-input').val('');
+                    },
+                    error: function(request, status, error) {
+                        console.log("error");
+                        console.log(error);
+                        console.log(status);
+                        console.log(request);
+                    }
+                });
+                return false;
+            });
+
+            $('.delete-comment').click(function (e) {
+                var attr = $(this).attr('data-comment-id');
+                if (typeof attr !== typeof undefined && attr !== false) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Comments/Delete/' + attr,
+                        dataType: 'json',
+                        method: 'POST',
+                        success: function(json) {
+                            $('.comments-table tbody','#comments').empty();
+                            $.each(json, function(i, item) {
+                                console.log(item);
+                                if (item.CanDelete) {
+                                    $('.comments-table tbody','#comments').append($('<tr><td>' + item.Name + '</td><td>' + item.Text + '</td><td>' + item.Created + '</td><td><a href="/Comments/Delete?Id=' + item.Id + '"><i class="fa fa-trash"></i></a></td></tr>'));
+                                }
+                                else {
+                                    $('.comments-table tbody','#comments').append($('<tr><td>' + item.Name + '</td><td>' + item.Text + '</td><td>' + item.Created + '</td></tr>'));
+                                }
+                            });
+                        },
+                        error: function(request, status, error) {
+                            console.log("error");
+                            console.log(error);
+                            console.log(status);
+                            console.log(request);
+                        }
+                    });
+                }
+
+                e.preventDefault();
+            });
+        });
+    </script>
+
+    @Scripts.Render("~/scripts/ace/ace.js")
+}

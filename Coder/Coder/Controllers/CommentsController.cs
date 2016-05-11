@@ -9,6 +9,7 @@ using Coder.Repositories;
 using Microsoft.AspNet.Identity;
 using Coder.Helpers;
 using Coder.Models.ViewModels;
+using System.Net;
 
 namespace Coder.Controllers
 {
@@ -36,13 +37,21 @@ namespace Coder.Controllers
             comment.Created = DateTime.Now;
             comment.ProjectTask = projectTasksRepo.GetProjectTaskById(comment.ProjectTaskId);
             comment.ApplicationUser = usersRepo.GetUserById(User.Identity.GetUserId());
+
+            if (!(coursesRepo.IsInCourse(comment.ProjectTask.Project.Course.Id, comment.UserId, User.IsInRole("Administrator"))))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+            }
+
             commentsRepo.AddComment(comment);
 
             if (Request.IsAjaxRequest())
             {
-                bool canDeleteComment = (User.Identity.GetUserId() == comment.UserId || User.IsInRole("Administrator") || coursesRepo.IsTeacherInCourse(comment.ProjectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")));
-                
-                return Json(new { CommentId = comment.Id, Comment = comment.Text, User = comment.ApplicationUser.Name, UserId = comment.UserId, Created = DateUtility.TimeAgoFromDateTime(comment.Created), CanDelete = canDeleteComment}, JsonRequestBehavior.AllowGet);
+                CommentsHelper commentsHelper = new CommentsHelper();
+
+                var commentsFromProjectTask = commentsRepo.GetCommentsForProjectTaskId(comment.ProjectTaskId);
+                List<CommentViewModel> comments = commentsHelper.CommentViewModelsFromComments(commentsFromProjectTask, User.IsInRole("Administrator"), User.Identity.GetUserId()).ToList();
+                return Json(comments, JsonRequestBehavior.AllowGet);
             }
 
             ViewBag.AllUsers = db.Users.ToList();
@@ -54,12 +63,23 @@ namespace Coder.Controllers
         public ActionResult Delete(int id)
         {
             Comment comment = commentsRepo.GetCommentWithId(id);
+
+            if (comment == null)
+            {
+                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
+            }
+
+            CommentsHelper commentsHelper = new CommentsHelper();
+
+            if (!commentsHelper.CanDelete(comment, User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+            }
+
             commentsRepo.RemoveCommentWithId(id);
 
             if (Request.IsAjaxRequest())
             {
-                CommentsHelper commentsHelper = new CommentsHelper();
-
                 var commentsFromProjectTask = commentsRepo.GetCommentsForProjectTaskId(comment.ProjectTaskId);
                 List<CommentViewModel> comments = commentsHelper.CommentViewModelsFromComments(commentsFromProjectTask, User.IsInRole("Administrator"), User.Identity.GetUserId()).ToList();
                 return Json(comments, JsonRequestBehavior.AllowGet);
