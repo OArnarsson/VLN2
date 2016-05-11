@@ -11,6 +11,7 @@ using Coder.Models.Entity;
 using Coder.Helpers;
 using Coder.Repositories;
 using Microsoft.AspNet.Identity;
+using MvcSiteMapProvider.Web.Mvc.Filters;
 
 namespace Coder.Controllers
 {
@@ -28,6 +29,7 @@ namespace Coder.Controllers
         }
 
         // GET: All submissions
+        [SiteMapTitle("title")]
         public ActionResult Index()
         {
             ViewBag.IsTeacher = coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator"));
@@ -41,13 +43,13 @@ namespace Coder.Controllers
             {
                 var submissionsAsTeacher = submissionsRepository.GetSubmissionsForTeacherId(User.Identity.GetUserId());
                 var submissionsAsStudent = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId());
-                // ToDo: Also display submissions that the teacher is with role student in
                 return View(submissionsAsStudent.Concat(submissionsAsTeacher));
             }
             
             return View(submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()));
         }
 
+        [SiteMapTitle("title")]
         public ActionResult Details(int? id)
         {
             if (id == null)
