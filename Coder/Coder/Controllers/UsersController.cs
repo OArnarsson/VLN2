@@ -29,6 +29,7 @@ namespace Coder.Controllers
         private readonly UsersRepository usersRepository;
         private readonly UserCoursesRepository userCoursesRepository;
         private readonly CoursesRepository coursesRepository;
+        private readonly SubmissionsRepository submissionsRepository;
 
         public UsersController()
         {
@@ -37,6 +38,7 @@ namespace Coder.Controllers
             usersRepository = new UsersRepository(db);
             userCoursesRepository = new UserCoursesRepository(db);
             coursesRepository = new CoursesRepository(db);
+            submissionsRepository = new SubmissionsRepository(db);
         }
 
         // GET: Users
@@ -70,6 +72,7 @@ namespace Coder.Controllers
             var userViewModel = new UserViewModel(user);
             userViewModel.Courses = coursesRepository.GetAllCourses().ToList();
             userViewModel.UserCourses = userCoursesRepository.GetUserCoursesByUserId(id);
+            userViewModel.Submissions = submissionsRepository.GetSubmissionsForUserId(id);
 
             return View(userViewModel);
         }
