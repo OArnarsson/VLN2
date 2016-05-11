@@ -1,4 +1,6 @@
 ﻿using System;
+﻿using Foolproof;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,6 +24,7 @@ namespace Coder.Models.Entity
         public DateTime Start { get; set; }
 
         [DataType(DataType.Date)]
+        [GreaterThan("Start")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime End { get; set; }
 

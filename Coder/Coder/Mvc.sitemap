@@ -28,6 +28,11 @@
         <mvcSiteMapNode title="Edit" controller="Users" action="Edit" preservedRouteParameters="id,title"/>
       </mvcSiteMapNode>
     </mvcSiteMapNode>
+
+    <mvcSiteMapNode title="Submissions" controller="Submissions" action="Index">
+      <mvcSiteMapNode title="Details" controller="Submissions" action="Details" preservedRouteParameters="id,title">
+      </mvcSiteMapNode>
+    </mvcSiteMapNode>
     
   </mvcSiteMapNode>
 
