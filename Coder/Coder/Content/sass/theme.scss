@@ -1,17 +1,19 @@
-﻿@import 'variables.scss';
-@import 'layout.scss';
-@import 'header.scss';
-@import 'projects.scss';
-@import 'courses.scss';
-@import 'tables.scss';
-@import 'footer.scss';
-@import 'content.scss';
-@import 'login.scss';
-@import 'userDetails.scss';
+﻿// Needs to be first because the variables are used in the other files
+@import 'variables.scss';
+
 @import 'ace.scss';
-@import 'tasks.scss';
-@import 'basic.scss';
-@import 'dropzone.scss';
-@import 'errors.scss';
-@import 'submissions.scss';
+@import 'content.scss';
+@import 'courses.scss';
 @import 'datatables.scss';
+@import 'dropzone.scss';
+@import 'dropzonebasic.scss';
+@import 'errors.scss';
+@import 'footer.scss';
+@import 'header.scss';
+@import 'layout.scss';
+@import 'login.scss';
+@import 'projects.scss';
+@import 'submissions.scss';
+@import 'tables.scss';
+@import 'tasks.scss';
+@import 'users.scss';

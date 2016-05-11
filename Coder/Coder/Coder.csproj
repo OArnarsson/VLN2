@@ -253,26 +253,9 @@
     <Content Include="gulpfile.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Content\sass\header.scss" />
     <Content Include="ClassDiagram1.cd" />
-    <Content Include="Content\sass\courses.scss" />
-    <Content Include="Content\sass\projects.scss" />
-    <Content Include="Content\sass\tables.scss" />
     <Content Include="ClassDiagram2.cd" />
     <Content Include="ClassDiagram3.cd" />
-    <Content Include="Content\sass\footer.scss" />
-    <Content Include="Content\sass\content.scss" />
-    <Content Include="Content\sass\ace.scss" />
-    <Content Include="Content\sass\basic.scss" />
-    <Content Include="Content\sass\dropzone.scss" />
-    <Content Include="Content\sass\errors.scss" />
-    <Content Include="Content\sass\datatables.scss" />
-    <None Include="Content\sass\layout.scss" />
-    <Content Include="Content\sass\theme.scss" />
-    <Content Include="Content\sass\login.scss" />
-    <Content Include="Content\sass\taskDetails.scss" />
-    <Content Include="Content\sass\submissions.scss" />
-    <None Include="Content\sass\variables.scss" />
     <Content Include="package.json" />
     <Content Include="Mvc.sitemap" />
     <None Include="MvcSiteMapSchema.xsd">
@@ -465,6 +448,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\sass\" />
     <Folder Include="Logs\" />
   </ItemGroup>
   <ItemGroup>
