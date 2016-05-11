@@ -40,6 +40,12 @@ namespace Coder.Repositories
             return GetSubmissionsForCourses(coursesRepository.GetCoursesForTeacherWithTeacherRole(userId));
         }
 
+        // Gets all submissions in courses where the user is an assistant teacher
+        public IEnumerable<Submission> GetSubmissionsForAssistantTeacherId(string userId)
+        {
+            return GetSubmissionsForCourses(coursesRepository.GetCoursesForTeacherWithAssistantTeacherRole(userId));
+        }
+
         public IEnumerable<Submission> GetSubmissionsForCourses(IEnumerable<Course> courses)
         {
             return (from c in courses
