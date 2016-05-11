@@ -96,16 +96,8 @@
                         <td>@Html.ActionLink(item.ProjectTask.Project.Course.Name, "Details", "Courses", new { id = item.ProjectTask.Project.CourseId }, null)</td>
                         <td>@Html.DisplayFor(modelItem => item.Status)</td>
                         <td data-toggle="modal" data-id="@item.Id" data-target="#bs-example-modal-sm_@item.Id"><p class="btn btn-primary users-button">@item.ApplicationUsers.Count</p></td>
-
-                        @{
-                            bool isTeacher = false;
-                            if (!User.IsInRole("Administrator"))
-                            {
-                                isTeacher = item.ProjectTask.Project.Course.UserCourses.FirstOrDefault(x => x.UserId == User.Identity.GetUserId()).CoderRole == Coder.Models.Entity.CoderRole.Teacher;
-                            }
-                        }
                         <td>
-                            @if (User.IsInRole("Administrator") || isTeacher)
+                            @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
                             {
                                 <a href=@Url.Action("Delete", "Submissions", new { id = item.Id })><i class="fa fa-pencil"></i></a>
                             }

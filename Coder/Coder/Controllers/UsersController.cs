@@ -52,6 +52,10 @@ namespace Coder.Controllers
         [SiteMapTitle("title")]
         public ActionResult Details(string id)
         {
+            if (coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            {
+                ViewBag.IsTeacher = true;
+            }
             if (id == null)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
