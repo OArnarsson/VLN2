@@ -24,8 +24,9 @@
     }
 
     <a class="btn btn-default" data-toggle="modal" data-target=".course-users-list"><i class="fa fa-list"></i>Student list</a>
+    <a class="btn btn-default" data-toggle="modal" data-target=".course-teaching-assistant-list"><i class="fa fa-list"></i>Assistant teachers list</a>
 
-    <dl class="dl-horizontal">
+    <dl class="coder-dl">
         <dt>Name</dt>
         <dd>@Html.DisplayFor(model => model.Name)</dd>
 
@@ -50,19 +51,6 @@
                 </ul>
             </dd>
         }
-        @if (Model.UserCourses.Any(i => i.CoderRole == Coder.Models.Entity.CoderRole.TeachingAssistant))
-        {
-            <dt>Teaching Assistants</dt>
-            <dd>
-                <ul class="user-list">
-                @foreach (var ta in Model.UserCourses.Where(i => i.CoderRole == Coder.Models.Entity.CoderRole.TeachingAssistant))
-                {
-                    <li>@ta.ApplicationUser.Name</li>
-                }
-                </ul>
-            </dd>
-        }
-
     </dl>
 
     <div class="description-box">
@@ -84,8 +72,32 @@
                     @foreach (var user in Model.UserCourses.Where(i => i.CoderRole == Coder.Models.Entity.CoderRole.Student))
                     {
                         <tr>
-                            <td>@Html.ActionLink(user.ApplicationUser.Name, "Details", "Users", new { Id = user.ApplicationUser.Id }, null)</td>
-                            <td>@Html.ActionLink(user.ApplicationUser.Email, "Details", "Users", new { Id = user.ApplicationUser.Id }, null)</td>
+                            <td>@user.ApplicationUser.Name</td>
+                            <td><a href="mailto:@user.ApplicationUser.Email">@user.ApplicationUser.Email</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade course-teaching-assistant-list" tabindex="-1" role="dialog" aria-labelledby="Users in course">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <table class="coder-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.UserCourses.Where(i => i.CoderRole == Coder.Models.Entity.CoderRole.TeachingAssistant))
+                    {
+                        <tr>
+                            <td>@user.ApplicationUser.Name</td>
+                            <td><a href="mailto:@user.ApplicationUser.Email">@user.ApplicationUser.Email</a></td>
                         </tr>
                     }
                 </tbody>
@@ -99,6 +111,11 @@
         <h3>Projects</h3>
     </div>
     <div class="title-box-content">
+        @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+        {
+            <a class="btn btn-default" href=@Url.Action("Create", "Projects")><i class="fa fa-edit"></i>Create a new project</a>
+        }
+
         <table class="coder-table coder-datatable">
             <thead>
                 <tr>
