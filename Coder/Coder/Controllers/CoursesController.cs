@@ -240,7 +240,7 @@ namespace Coder.Controllers
                 return RedirectToAction("Delete", new { id = id });
             }
 
-           // coursesRepository.RemoveCourse(course);
+            coursesRepository.RemoveCourse(course);
             return RedirectToAction("Index");
         }
 
