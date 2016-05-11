@@ -276,6 +276,7 @@
     <Content Include="Content\sass\theme.scss" />
     <Content Include="Content\sass\users.scss" />
     <Content Include="Content\sass\variables.scss" />
+    <Content Include="Content\sass\breadcrumbs.scss" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>

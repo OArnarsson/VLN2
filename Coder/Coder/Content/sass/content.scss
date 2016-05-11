@@ -5,23 +5,15 @@ body {
     background-color: #ecf0f1;
 }
 
+// Headings
 
-h1,h2,h3,h4,h5,h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: 'Lato', sans-serif;
-}
-
-a {
-    color: $color-action;
-    transition: .4s ease all;
-
-    &:hover {
-        text-decoration: none;
-        color: darken($color-action, 30%);
-    }
-
-    &:focus {
-        text-decoration: none;
-    }
 }
 
 h1,
@@ -40,109 +32,34 @@ h6 {
 }
 
 h1 {
+    float: left;
     display: inline-block;
     padding-top: 10px;
+    margin: 10px 0 30px;
+
+    & + .btn {
+        float: left;
+        margin-left: 20px;
+        margin-top: 25px;
+    }
 }
 
 h2 {
     font-size: 24px;
 }
 
-span {
-    &.text-value,
-    &.text-caption {
-        padding: 10px 0;
+a {
+    color: $color-action;
+    transition: .4s ease all;
+
+    &:hover {
+        text-decoration: none;
+        color: darken($color-action, 30%);
     }
 
-    &.text-caption {
-        font-weight: 600;
+    &:focus {
+        text-decoration: none;
     }
-}
-
-.breadcrumbs {
-    padding: 10px 20px;
-    background: #e0e7e8;
-    margin-bottom: 40px;
-    clear: left;
-
-    a {
-        color: $color-text;
-        font-weight: 700;
-        &:hover {
-            color: $color-action;
-        }
-    }
-
-    ul {
-        list-style: none; 
-        padding-left: 0;
-        margin-bottom: 0;
-        li {
-            display: inline-block;
-            &:not(:last-child):after {
-                content:'\f105';
-                font-family: FontAwesome;
-                margin: 0 5px;
-            }
-            &:last-child {
-                a {
-                    color: #999;
-                    font-weight: 400;
-                }
-            }
-        }
-    }
-}
-
-.details-box {
-    margin: 10px 0;
-
-    .description {
-        margin-top: 30px;
-    }
-}
-
-.editButton {
-    display: inline-block;
-    margin-left: 10px;
-}
-
-.coder-table i.fa {
-    font-size: 20px;
-    margin-left: 20px;
-}
-
-.whiteBox {
-    position: relative;
-    width: 100%;
-    color: $color-text;
-    background: #fff !important;
-    padding: 30px 20px;
-    margin-bottom: 30px;
-    border: 1px solid $color-first;
-
-    .title, .sub-title {
-        margin-top: 0 !important;
-        
-    }
-
-    .title {
-        font-size: 24px;
-        display: inline-block;
-    }
-
-    .sub-title {
-        font-size: 18px;
-        display: block;
-    }
-}
-
-#projectTaskList, #submissionList {
-    padding: 10px;
-}
-
-h1 {
-    margin: 10px 0 30px;
 }
 
 .title-box {
@@ -171,6 +88,30 @@ h1 {
     }
 }
 
+.whiteBox {
+    position: relative;
+    width: 100%;
+    color: $color-text;
+    background: #fff !important;
+    padding: 30px 20px;
+    margin-bottom: 30px;
+    border: 1px solid $color-first;
+
+    .title, .sub-title {
+        margin-top: 0 !important;
+    }
+
+    .title {
+        font-size: 24px;
+        display: inline-block;
+    }
+
+    .sub-title {
+        font-size: 18px;
+        display: block;
+    }
+}
+
 .contentWrap {
     position: relative;
     max-width: 1230px;
@@ -178,6 +119,20 @@ h1 {
     padding-right: 15px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.description-box {
+    margin: 10px 0;
+}
+
+.editButton {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+#projectTaskList,
+#submissionList {
+    padding: 10px;
 }
 
 .btn .fa {
@@ -195,15 +150,6 @@ input[type="submit"] {
     & + * {
         clear: left;
     }
-}
-
-h1 {
-    float: left;
-}
-h1 + .btn {
-    float: left;
-    margin-left: 20px;
-    margin-top: 25px;
 }
 
 .btn-default + .btn-default {
