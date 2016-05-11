@@ -20,6 +20,8 @@
 
 
 <div class="whiteBox">
+
+
     @if (User.IsInRole("Administrator") || User.Identity.GetUserId() == Model.UserId)
             {
         <a class="btn btn-default" href=@Url.Action("Edit", "Users", new { id = Model.UserId })><i class="fa fa-pencil"></i>Edit user</a>
@@ -29,14 +31,9 @@
             {
         <a class="btn btn-default" href=@Url.Action("Delete", "Users", new { id = Model.UserId })><i class="fa fa-trash"></i>Delete user</a>
     }
-    <dl class="dl-horizontal">
-        <dt>
-            Email
-        </dt>
-        <dd>
-            @Model.Email
-        </dd>
-    </dl>
+
+    <h4><b>Email: &nbsp; </b> @Model.Email</h4>
+
 </div>
 
 <div class="title-box">
