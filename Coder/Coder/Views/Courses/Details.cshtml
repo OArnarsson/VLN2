@@ -23,6 +23,8 @@
         <a class="btn btn-default" href=@Url.Action("Delete", "Courses", new { id = Model.Id })><i class="fa fa-trash"></i>Delete course</a>
     }
 
+    <a class="btn btn-default" data-toggle="modal" data-target=".course-users-list"><i class="fa fa-list"></i>Student list</a>
+
     <dl class="dl-horizontal">
         <dt>Name</dt>
         <dd>@Html.DisplayFor(model => model.Name)</dd>
@@ -58,12 +60,26 @@
     </div>
 </div>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
-
-<div class="modal fade course-users-list" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+<div class="modal fade course-users-list" tabindex="-1" role="dialog" aria-labelledby="Users in course">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            
+            <table class="coder-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.UserCourses.Where(i => i.CoderRole == Coder.Models.Entity.CoderRole.Student))
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(user.ApplicationUser.Name, "Details", "Users", new { Id = user.ApplicationUser.Id }, null)</td>
+                            <td>@Html.ActionLink(user.ApplicationUser.Email, "Details", "Users", new { Id = user.ApplicationUser.Id }, null)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
