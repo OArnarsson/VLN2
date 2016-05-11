@@ -15,7 +15,7 @@
         <li>@Html.ActionLink(Model.ProjectTask.Project.Course.Name, "Details", "Courses", new { Id = Model.ProjectTask.Project.Course.Id }, null)</li>
         <li>@Html.ActionLink(Model.ProjectTask.Project.Name, "Details", "Projects", new { Id = Model.ProjectTask.Project.Id }, null)</li>
         <li>@Html.ActionLink(Model.ProjectTask.Name, "Details", "ProjectTasks", new { Id = Model.ProjectTask.Id }, null)</li>
-        <li>@Html.ActionLink(Model.Id.ToString(), "Details", "Submissions", new { Id = Model.Id }, null)</li>
+        <li>@Html.ActionLink("Submission " + Model.Id.ToString(), "Details", "Submissions", new { Id = Model.Id }, null)</li>
     </ul>
 }
 
