@@ -1,5 +1,7 @@
 ﻿@{
     ViewBag.Title = "Dashboard";
+    string color = "";
+    string activeProject = "";
 }
 
 @model Coder.Models.ViewModels.DashboardViewModel
@@ -7,57 +9,66 @@
 <div class="allOfIt row">
     <div class="allProjects col-md-8 row">
 
-        @foreach (var item in Model.Projects)
+        @if (Model.Projects.Count == 0)
         {
-            if (item.Value < 50)
+            <h1>No active/upcoming projects to show.</h1>
+        }
+        else
+        {
+            foreach (var item in Model.Projects)
             {
-                ViewBag.color = "red";
-            }
-            else if (item.Value >= 50 && item.Value < 100)
-            {
-                ViewBag.color = "orange";
-            }
-            else if (item.Value == 100)
-            {
-                ViewBag.color = "green";
-            }
+                activeProject = "";
+                color = "";
+                if (item.Value < 50)
+                {
+                    color = "red";
+                }
+                else if (item.Value >= 50 && item.Value < 100)
+                {
+                    color = "orange";
+                }
+                else if (item.Value == 100)
+                {
+                    color = "green";
+                }
 
-            if (@item.End < DateTime.Now)
-            {
-                ViewBag.ActiveProject = "oldBox";
-            }
+                if (@item.Start > DateTime.Now)
+                {
+                    activeProject = "oldBox";
+                }
 
-            //The percentage of circle colored.
-            ViewBag.pvalue = "p" + @item.Value;
+                //The percentage of circle colored.
+                string pvalue = "p" + @item.Value;
 
-            <div class="col-md-4">
-                <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
-                    <div class="projectBox @ViewBag.ActiveProject ">
-                        <p class="name">@item.Name</p>
-                        <span class="course">@item.Course.Title</span>
+                <div class="col-md-4">
+                    <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
+                        <div class="projectBox @activeProject">
+                            <p class="name">@item.Name</p>
+                            <span class="course">@item.Course.Title</span>
 
-                        <div class="proContainer">
-                            <div class="c100 center @ViewBag.pvalue small @ViewBag.color">
-                                <span id="proText">@item.Value%</span>
-                                <div class="slice">
-                                    <div class="bar"></div>
-                                    <div class="fill"></div>
+                            <div class="proContainer">
+                                <div class="c100 center @pvalue small @color">
+                                    <span id="proText">@item.Value%</span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
                                 </div>
                             </div>
+                            <p id="endDate">
+                                @item.End.ToString("dddd, d MMM") &nbsp;'@item.End.ToString("yy")<br>
+                                @item.End.ToString("HH:mm")
+                            </p>
                         </div>
-                        <p id="endDate">
-                            @item.End.ToString("dddd, d MMM") &nbsp;'@item.End.ToString("yy")<br>
-                            @item.End.ToString("HH:mm")
-                    </p>
+                    </a>
                 </div>
-            </a>
-        </div>
+            }
         }
     </div>
 
     <div class="col-md-4 projectBox right">
         <table class="table coder-table">
-            <caption>Previous projects</caption>
+            <caption>Previous projects</caption>    
             <thead>
                 <tr>
                     <th>Project Name</th>
@@ -67,7 +78,7 @@
             </thead>
 
             <tbody>
-                @foreach (var x in Model.Projects)
+                @foreach (var x in Model.Projects.Take(6))
                 {
 
                     <tr>
@@ -92,41 +103,14 @@
             </thead>
 
             <tbody>
-                <tr>
-                    <td>#1</td>
-                    <td>b</td>
-                    <td>Accepted</td>
-                </tr>
-                <tr>
-                    <td>#2</td>
-                    <td>c</td>
-                    <td>Accepted</td>
-                </tr>
-                <tr>
-                    <td>#3</td>
-                    <td>a</td>
-                    <td>Accepted</td>
-                </tr>
-                <tr>
-                    <td>#4</td>
-                    <td>a</td>
-                    <td>Memory Error</td>
-                </tr>
-                <tr>
-                    <td>#21</td>
-                    <td>d</td>
-                    <td>Memory Error</td>
-                </tr>
-                <tr>
-                    <td>#38</td>
-                    <td>c</td>
-                    <td>Compile Error</td>
-                </tr>
-                <tr>
-                    <td>#465</td>
-                    <td>a</td>
-                    <td>Accepted</td>
-                </tr>
+                @foreach (var submission in Model.Submissions.Take(6))
+                {
+                    <tr>
+                        <td>@Html.ActionLink(submission.Id.ToString(), "Details", "Submissions", new { id = submission.Id }, null)</td>
+                        <td>@Html.ActionLink(submission.ProjectTask.Name, "Details", "ProjectTasks", new { id = submission.ProjectTaskId }, null)</td>
+                        <td>@submission.Status</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

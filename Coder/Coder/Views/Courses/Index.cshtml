@@ -4,11 +4,11 @@
     ViewBag.Title = "Courses";
 }
 
-<h2>Courses</h2>
-
-@if (User.IsInRole("Administrator"))
-{
-    <a href=@Url.Action("Create", "Courses")><i class="fa fa-plus-square-o"></i></a>
+@section heading {
+    <h1>Courses @if (User.IsInRole("Administrator"))
+    {
+        <span>&nbsp; <a class="btn btn-default" href=@Url.Action("Create", "Projects")><i class="fa fa-edit"></i>Create a new course</a></span>
+    }</h1>
 }
 
 <div class="allCourses row" id="coursesPanel">

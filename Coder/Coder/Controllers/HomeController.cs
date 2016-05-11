@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Coder.Models.ViewModels;
 using Coder.Helpers;
 using Coder.Repositories;
+using Coder.Models.Entity;
 
 namespace Coder.Controllers
 {
@@ -17,12 +18,14 @@ namespace Coder.Controllers
         private readonly ProjectsRepository projectsRepository;
         private readonly CoursesRepository coursesRepository;
         private readonly UsersRepository usersRepository;
+        private readonly SubmissionsRepository submissionsRepository;
 
         public HomeController()
         {
             projectsRepository = new ProjectsRepository(db);
             coursesRepository = new CoursesRepository(db);
             usersRepository = new UsersRepository(db);
+            submissionsRepository = new SubmissionsRepository(db);
         }
 
         public ActionResult Index()
@@ -31,18 +34,23 @@ namespace Coder.Controllers
 
             viewModel.Courses = coursesRepository.GetCoursesForUser(User.Identity.GetUserId()).ToList();
 
-            viewModel.Projects = (from x in (projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList()) orderby x.End ascending select x).Take(9).ToList();
+            // Get active projects
+            var activeProjects = projectsRepository.GetActiveProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator"));
 
-            viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;
-           
+            // if active projects are less than nine, get 9-active of projects with start date > Today, order by date
+            var notStartedProjects = new List<Project>();
+            if (activeProjects.Count < 9)
+            {
+                notStartedProjects = projectsRepository.GetProjectsThatHaveNotStartedYet(User.Identity.GetUserId(), User.IsInRole("Administrator"), 9 - activeProjects.Count);
+            }
+
+            activeProjects.AddRange(notStartedProjects);
+            viewModel.Projects = activeProjects;
             
-            //if (viewModel.Projects.Count() < 10)
-            //{
-            //    //Filling up the list with inactive projects, ordered by most recent.
-            //    var y = viewModel.Projects.ToList();
-            //    y.AddRange((from x in db.Projects.ToList() where x.End < DateTime.Now orderby x.End descending select x).Take(9 - viewModel.Projects.Count()).ToList());
-            //    viewModel.Projects = y.ToList();
-            //}
+            // viewModel.Projects = (from x in (projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList()) orderby x.Start ascending select x).Take(9).ToList();
+
+            viewModel.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()).ToList();
+            viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;
 
             return View(viewModel);
         }

@@ -13,10 +13,10 @@ using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
+using Coder.Helpers;
 
 namespace Coder.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -150,7 +150,7 @@ namespace Coder.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [CustomAuthorizeAttribute(Roles = "Administrator")]
         public ActionResult Register()
         {
             return View();
@@ -159,8 +159,8 @@ namespace Coder.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [CustomAuthorizeAttribute(Roles = "Administrator")]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)

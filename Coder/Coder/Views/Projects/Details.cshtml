@@ -65,10 +65,7 @@
                     <th>Task</th>
                     <th>@Html.DisplayNameFor(model => model.Value)</th>
                     <th>Status</th>
-                    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
-                    {
-                        <th></th>
-                    }
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
