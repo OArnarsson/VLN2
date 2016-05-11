@@ -42,11 +42,23 @@
         {
             <dt>Teachers</dt>
             <dd>
-                <ul class="teachers-list">
-                    @foreach (var teacher in Model.UserCourses.Where(i => i.CoderRole == Coder.Models.Entity.CoderRole.Teacher))
+                <ul class="user-list">
+                @foreach (var teacher in Model.UserCourses.Where(i => i.CoderRole == Coder.Models.Entity.CoderRole.Teacher))
                 {
-                        <li>@teacher.ApplicationUser.Name</li>
-                    }
+                    <li>@teacher.ApplicationUser.Name</li>
+                }
+                </ul>
+            </dd>
+        }
+        @if (Model.UserCourses.Any(i => i.CoderRole == Coder.Models.Entity.CoderRole.TeachingAssistant))
+        {
+            <dt>Teaching Assistants</dt>
+            <dd>
+                <ul class="user-list">
+                @foreach (var ta in Model.UserCourses.Where(i => i.CoderRole == Coder.Models.Entity.CoderRole.TeachingAssistant))
+                {
+                    <li>@ta.ApplicationUser.Name</li>
+                }
                 </ul>
             </dd>
         }
