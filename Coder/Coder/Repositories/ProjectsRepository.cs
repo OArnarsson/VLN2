@@ -33,6 +33,24 @@ namespace Coder.Repositories
                     select p).ToList();
         }
 
+        public List<Project> GetActiveProjectsByUserId(string userId, bool isAdmin)
+        {
+            var projects = GetProjectsByUserId(userId, isAdmin);
+
+            return (from p in projects
+                   where p.Start < DateTime.Now && p.End > DateTime.Now
+                   select p).ToList();
+        }
+
+        public List<Project> GetProjectsThatHaveNotStartedYet(string userId, bool isAdmin, int count)
+        {
+            var projects = GetProjectsByUserId(userId, isAdmin);
+
+            return (from p in projects
+                    where p.Start > DateTime.Now
+                    select p).Take(count).ToList();
+        }
+
         public Project GetProjectById(int? id)
         {
             return db.Projects.Find(id);
