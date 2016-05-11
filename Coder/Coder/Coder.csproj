@@ -258,6 +258,24 @@
     <Content Include="ClassDiagram3.cd" />
     <Content Include="package.json" />
     <Content Include="Mvc.sitemap" />
+    <Content Include="Content\sass\ace.scss" />
+    <Content Include="Content\sass\content.scss" />
+    <Content Include="Content\sass\courses.scss" />
+    <Content Include="Content\sass\datatables.scss" />
+    <Content Include="Content\sass\dropzone.scss" />
+    <Content Include="Content\sass\dropzonebasic.scss" />
+    <Content Include="Content\sass\errors.scss" />
+    <Content Include="Content\sass\footer.scss" />
+    <Content Include="Content\sass\header.scss" />
+    <Content Include="Content\sass\layout.scss" />
+    <Content Include="Content\sass\login.scss" />
+    <Content Include="Content\sass\projects.scss" />
+    <Content Include="Content\sass\submissions.scss" />
+    <Content Include="Content\sass\tables.scss" />
+    <Content Include="Content\sass\tasks.scss" />
+    <Content Include="Content\sass\theme.scss" />
+    <Content Include="Content\sass\users.scss" />
+    <Content Include="Content\sass\variables.scss" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -448,7 +466,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\sass\" />
     <Folder Include="Logs\" />
   </ItemGroup>
   <ItemGroup>
