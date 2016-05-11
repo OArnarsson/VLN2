@@ -35,6 +35,8 @@ namespace Coder.Models.ViewModels
 
         public List<UserCourse> UserCourses { get; set; }
 
+        public IEnumerable<Submission> Submissions { get; set; }
+
         public UserViewModel()
         {
 
