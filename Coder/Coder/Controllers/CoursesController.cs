@@ -218,9 +218,17 @@ namespace Coder.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [CustomAuthorizeAttribute(Roles = "Administrator")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, FormCollection form)
         {
-            coursesRepository.RemoveCourse(coursesRepository.GetCourseFromId(id));
+            var course = coursesRepository.GetCourseFromId(id);
+
+            if (form["CourseTitle"] != course.Title)
+            {
+                TempData["ErrorMessage"] = "Please type the correct course title if you want to delete it.";
+                return RedirectToAction("Delete", new { id = id });
+            }
+
+           // coursesRepository.RemoveCourse(course);
             return RedirectToAction("Index");
         }
 
