@@ -78,13 +78,12 @@
             </thead>
 
             <tbody>
-                @foreach (var x in Model.Projects.Take(6))
+                @foreach (var project in Model.Projects.Take(6))
                 {
-
                     <tr>
-                        <td>@x.Name</td>
-                        <td>@x.Course.Name</td>
-                        <td>10</td>
+                        <td>@Html.ActionLink(project.Name.ToString(), "Details", "Projects", new { id = project.Id }, null)</td>
+                        <td>@Html.ActionLink(project.Course.Name.ToString(), "Details", "Courses", new { id = project.Course.Id }, null)</td>
+                        <td>@project.Value/100</td>
                     </tr>
                 }               
             </tbody>
