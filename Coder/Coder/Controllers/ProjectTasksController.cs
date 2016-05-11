@@ -24,12 +24,14 @@ namespace Coder.Controllers
         private readonly ProjectTasksRepository projectTasksRepository;
         private readonly CoursesRepository coursesRepository;
         private readonly ProjectsRepository projectsRepository;
+        private readonly SubmissionsRepository submissionsRepository;
 
         public ProjectTasksController()
         {
             projectTasksRepository = new ProjectTasksRepository(db);
             coursesRepository = new CoursesRepository(db);
             projectsRepository = new ProjectsRepository(db);
+            submissionsRepository = new SubmissionsRepository(db);
         }
 
         // GET: ProjectTasks
@@ -70,6 +72,7 @@ namespace Coder.Controllers
 
             ViewBag.IsTeacher = (coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")));
             ViewBag.AllUsers = db.Users.ToList();
+            ViewBag.BestSubmission = submissionsRepository.GetBestUserSubmissionForTask(id.Value, User.Identity.GetUserId());
             return View(projectTask);
         }
 
