@@ -52,16 +52,6 @@
                     <div class="editor output readonly">@test.Output</div>
                 </div>
             </div>
-<<<<<<< HEAD
-            counter = counter + 1;
-        }
-    </div>
-    <div class="whiteBox col-md-12">
-        <div class="small left col-md-6">
-            <h2>Hand in</h2>
-            <p>@User.Identity.Name</p>
-=======
->>>>>>> master
         </div>
         counter = counter + 1;
     }

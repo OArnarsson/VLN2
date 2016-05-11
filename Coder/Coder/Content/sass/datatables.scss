@@ -380,6 +380,7 @@ table.dataTable td {
  
     // Page length options
     .dataTables_length {
+        margin: 10px 0;
         float: left;
     }
  
@@ -387,6 +388,7 @@ table.dataTable td {
     .dataTables_filter {
         float: right;
         text-align: right;
+        margin: 10px 0;
  
         input {
             margin-left: 0.5em;
@@ -397,19 +399,19 @@ table.dataTable td {
     .dataTables_info {
         clear: both;
         float: left;
-        padding-top: 0.755em;
+        padding-top: 15px;
         color: rgba(52, 73, 94, 0.85) !important;
     }
 
     .dataTables_length, .dataTables_filter {
-        color: rgba(52, 73, 94, 0.85);
+        color: $color-text;
     }
  
     // Paging
     .dataTables_paginate {
         float: right;
         text-align: right;
-        padding-top: 0.25em;
+        margin-top: 10px;
  
         .paginate_button {
             box-sizing: border-box;

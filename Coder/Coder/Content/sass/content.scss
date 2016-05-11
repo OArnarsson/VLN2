@@ -32,7 +32,8 @@ h4,
 h5,
 h6 {
     a {
-        color: #333;
+        color: $color-text;
+        ;
         &:hover {
             color: $color-action;
         }
@@ -61,7 +62,7 @@ span {
 
 .breadcrumbs {
     a {
-        color: #333;
+        color: $color-text;
         font-weight: 800;
     }
 }
@@ -84,16 +85,31 @@ i.fa {
     margin: 0 20px;
 }
 
-.whiteBox{
+.whiteBox {
     position: relative;
-    min-width:225px;
-    border: solid;  
-    border: 5px solid white;
-    color: rgba(52, 73, 94, 0.85);
-    margin-bottom: 10px;
-    background-color:rgba(255, 255, 255, 0.95);
+    width: 100%;
+    color: $color-text;
+    background: #fff !important;
+    padding: 30px;
+    border: 1px solid $color-first;
+    margin-top: 40px;
 
+    .title, .sub-title {
+        margin-top: 0 !important;
+        
+    }
+
+    .title {
+        font-size: 24px;
+        display: inline-block;
+    }
+
+    .sub-title {
+        font-size: 18px;
+        display: block;
+    }
 }
-#projectTaskList, #submissionList, .box{
+
+#projectTaskList, #submissionList {
     padding: 10px;
 }
