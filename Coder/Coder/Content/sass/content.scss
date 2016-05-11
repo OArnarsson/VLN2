@@ -205,3 +205,7 @@ h1 + .btn {
     margin-left: 20px;
     margin-top: 25px;
 }
+
+.btn-default + .btn-default {
+    margin-left: 5px;
+}

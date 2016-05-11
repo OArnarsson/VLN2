@@ -24,8 +24,8 @@
 <div class="whiteBox">
         @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
         {
-            <a class="btn btn-default" href=@Url.Action("Edit", "ProjectTasks", new { id = Model.Id })><i class="fa fa-pencil"></i>Edit</a>
-            <a class="btn btn-default" href=@Url.Action("Delete", "ProjectTasks", new { id = Model.Id })><i class="fa fa-trash"></i>Delete</a>
+            <a class="btn btn-default" href=@Url.Action("Edit", "ProjectTasks", new { id = Model.Id })><i class="fa fa-pencil"></i>Edit task</a>
+            <a class="btn btn-default" href=@Url.Action("Delete", "ProjectTasks", new { id = Model.Id })><i class="fa fa-trash"></i>Delete task</a>
         }
         <dl class="dl-horizontal">
             <dt>Course</dt>

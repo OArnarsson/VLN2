@@ -23,26 +23,57 @@
         <a class="btn btn-default" href=@Url.Action("Delete", "Courses", new { id = Model.Id })><i class="fa fa-trash"></i>Delete course</a>
     }
 
-    <div class="course-details">
-        <div class="details-box">
-            <span class="text-caption">@Html.DisplayNameFor(model => model.Title)</span>
-            <span class="text-value">@Html.DisplayFor(model => model.Title)</span>
-        </div>
+    <dl class="dl-horizontal">
+        <dt>Name</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
 
-        <div class="details-box">
-            <span class="text-caption">End date:</span>
-            <span class="text-value">@Html.DisplayFor(model => model.End)</span>
-        </div>
+        <dt>Title</dt>
+        <dd>@Html.DisplayFor(model => model.Title)</dd>
 
-        <div class="details-box">
-            <div class="description">
-                @Html.Raw(Model.Description)
-            </div>
+        <dt>Start date</dt>
+        <dd>@Html.DisplayFor(model => model.Start)</dd>
+
+        <dt>End date</dt>
+        <dd>@Html.DisplayFor(model => model.End)</dd>
+
+        @if (Model.UserCourses.Any(i => i.CoderRole == Coder.Models.Entity.CoderRole.Teacher))
+        {
+            <dt>Teachers</dt>
+            <dd>
+                <ul class="teachers-list">
+                    @foreach (var teacher in Model.UserCourses.Where(i => i.CoderRole == Coder.Models.Entity.CoderRole.Teacher))
+                {
+                        <li>@teacher.ApplicationUser.Name</li>
+                    }
+                </ul>
+            </dd>
+        }
+
+    </dl>
+
+    <div class="details-box">
+        <div class="description">
+            @Html.Raw(Model.Description)
         </div>
     </div>
+</div>
 
-    <div>
-        <table class="coder-table">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
+
+<div class="modal fade course-users-list" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            
+        </div>
+    </div>
+</div>
+
+<div class="title-box">
+    <div class="title-box-title">
+        <h3>Projects</h3>
+    </div>
+    <div class="title-box-content">
+        <table class="coder-table coder-datatable">
             <thead>
                 <tr>
                     <th>Title</th>
