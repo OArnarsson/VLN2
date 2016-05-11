@@ -3,17 +3,23 @@
     width: 100%;
     margin: 0 auto;
     clear: both;
+    border: 1px solid $color-first;
     border-collapse: separate;
     border-spacing: 0;
-    border: 1px solid $color-first;
+
+
+    i.fa {
+        margin-left: 20px;
+        font-size: 20px;
+    }
 
     thead > tr {
         border-bottom: 1px solid $color-first;
         background-color: $color-first;
 
         th {
-            font-weight: 400;
             padding: 10px 15px;
+            font-weight: 400;
             color: #f9f9f9;
 
             &:last-child {
@@ -42,15 +48,14 @@
             padding-right: 20px;
         }
 
-        &.project-ended, &.project-not-started {
-
+        &:not(.ongoing) {
             .end-date {
                 color: $color-red;
             }
 
-            td, td a {
+            td,
+            td a {
                 color: rgba(51, 51, 51, 0.4);
-
                 i {
                     color: $color-action;
                 }
@@ -58,21 +63,3 @@
         }
     }
 }
-
-
-#submissionTable {
-
-    #coder-datatable {
-
-        tbody {
-            tr {
-                td:first-child {
-                    font-weight: bold;
-                }
-            }
-
-        }
-    }
-
- }
-   
