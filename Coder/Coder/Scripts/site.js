@@ -68,6 +68,7 @@ coder.taskTests = {
             maxLines: Infinity,
             readOnly: $(value).hasClass('readonly')
         });
+
         // If editor has data-filename attribute, we autoselect the correct mode (syntax highlighting) for the editor.
         var attr = $(value).attr('data-filename');
         if (typeof attr !== typeof undefined && attr !== false) {
@@ -80,7 +81,7 @@ coder.taskTests = {
     getNewTestHtml: function () {
         var $test = $('<div class="test clearfix whiteBox"></div>');
         $test.append('<h3>Test ' + coder.taskTests.counter + '</h3>');
-        $test.append('<a href="#" class="remove-test"><i class="fa fa-trash " aria-hidden="true"></i></a>');
+        $test.append('<a class="btn btn-danger remove-test" href="#"><i class="fa fa-trash " aria-hidden="true"></i>Remove test</a>');
 
         var $testsWrap = $('<div class="tests-wrap row">');
         $testsWrap.append($('<div class="input-wrap col-sm-6"><div class="editor input"></div></div>'));
@@ -97,12 +98,16 @@ $(document).ready(function () {
 
     tinymce.init({
         selector: 'textarea.codertiny',
+        height: 500,
         plugins: [
-            "code"
+          'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+          'searchreplace wordcount visualblocks visualchars code fullscreen',
+          'insertdatetime media nonbreaking save table contextmenu directionality',
+          'emoticons template paste textcolor colorpicker textpattern imagetools'
         ],
-        toolbar: [
-                "undo redo | styleselect | bold italic | link image | alignleft aligncenter alignright | charmap code"
-        ]
+        toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+        toolbar2: 'preview media | forecolor backcolor emoticons',
+        image_advtab: true
     });
 
 

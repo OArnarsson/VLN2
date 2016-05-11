@@ -5,7 +5,7 @@
 }
 
 @section heading {
-    <h1>Create - ProjectTask</h1>
+    <h1>Create - Task</h1>
 }
 
 <div>
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ProjectId, "ProjectId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.ProjectId, "Project", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
@@ -67,7 +67,7 @@
                 </div>*@
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.MaxGroupSize, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.MaxGroupSize, "Max group size", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.MaxGroupSize, new { htmlAttributes = new { @step = "1", @type = "number", @min = "0", @max = "100", @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.MaxGroupSize, "", new { @class = "text-danger" })

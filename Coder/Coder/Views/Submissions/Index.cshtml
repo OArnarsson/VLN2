@@ -22,6 +22,10 @@
                 @if (User.IsInRole("Administrator") || ViewBag.IsTeacher)
                 {
                     <th>Users</th>
+<<<<<<< HEAD
+=======
+                    <th>More info</th>
+>>>>>>> master
                 }
             </tr>
         </thead>
@@ -38,6 +42,10 @@
                     @if (User.IsInRole("Administrator") || ViewBag.IsTeacher)
                     {
                         <td data-toggle="modal" data-id="@item.Id" data-target="#bs-example-modal-sm_@item.Id"><p class="btn btn-primary users-button">@item.ApplicationUsers.Count</p></td>
+<<<<<<< HEAD
+=======
+                        <td><a href=@Url.Action("Details", "Submissions", new { id = item.Id }, null)><i class="fa fa-info-circle"></i></a></td>
+>>>>>>> master
                     }
                 </tr>
             }

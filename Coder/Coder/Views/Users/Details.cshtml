@@ -20,6 +20,8 @@
 
 
 <div class="whiteBox">
+
+
     @if (User.IsInRole("Administrator") || User.Identity.GetUserId() == Model.UserId)
             {
         <a class="btn btn-default" href=@Url.Action("Edit", "Users", new { id = Model.UserId })><i class="fa fa-pencil"></i>Edit user</a>
@@ -29,14 +31,9 @@
             {
         <a class="btn btn-default" href=@Url.Action("Delete", "Users", new { id = Model.UserId })><i class="fa fa-trash"></i>Delete user</a>
     }
-    <dl class="dl-horizontal">
-        <dt>
-            Email
-        </dt>
-        <dd>
-            @Model.Email
-        </dd>
-    </dl>
+
+    <h4><b>Email: &nbsp; </b> @Model.Email</h4>
+
 </div>
 
 <div class="title-box">
@@ -82,7 +79,7 @@
                     <th>Course</th>
                     <th>Status</th>
                     <th>Users</th>
-                    <th></th>
+                    <th>More info</th>
                 </tr>
             </thead>
             <tbody>
@@ -96,20 +93,7 @@
                         <td>@Html.ActionLink(item.ProjectTask.Project.Course.Name, "Details", "Courses", new { id = item.ProjectTask.Project.CourseId }, null)</td>
                         <td>@Html.DisplayFor(modelItem => item.Status)</td>
                         <td data-toggle="modal" data-id="@item.Id" data-target="#bs-example-modal-sm_@item.Id"><p class="btn btn-primary users-button">@item.ApplicationUsers.Count</p></td>
-
-                        @{
-                            bool isTeacher = false;
-                            if (!User.IsInRole("Administrator"))
-                            {
-                                isTeacher = item.ProjectTask.Project.Course.UserCourses.FirstOrDefault(x => x.UserId == User.Identity.GetUserId()).CoderRole == Coder.Models.Entity.CoderRole.Teacher;
-                            }
-                        }
-                        <td>
-                            @if (User.IsInRole("Administrator") || isTeacher)
-                            {
-                                <a href=@Url.Action("Delete", "Submissions", new { id = item.Id })><i class="fa fa-pencil"></i></a>
-                            }
-                        </td>
+                        <td><a href=@Url.Action("Details", "Submissions", new { id = item.Id }, null)><i class="fa fa-info-circle"></i></a></td>
                     </tr>
                 }
             </tbody>
