@@ -35,19 +35,19 @@
 
         @foreach (var item in Model)
         {
-            string projectStarted = "";
+            string ongoing = "";
             string endDate = "";
             if (DateTime.Now < item.Start)
             {
-                projectStarted = "project-not-started";
+                ongoing = "project-not-started";
             }
 
             if (DateTime.Now > item.End)
             {
-                projectStarted = "project-ended";
+                ongoing = "project-ended";
                 endDate = "end-date";
             }
-            <tr class="@projectStarted">
+            <tr class="@ongoing">
                 <td>@Html.ActionLink(item.Name, "Details", new { id = item.Id })</td>
                 <td>@Html.ActionLink(item.Course.Name, "Details", "Courses", new { id = item.Course.Id }, null)</td>
                 <td>@item.Start.ToString("dddd, d MMM")</td>
