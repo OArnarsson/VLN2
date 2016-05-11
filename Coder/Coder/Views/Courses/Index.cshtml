@@ -5,13 +5,7 @@
 }
 
 @section heading {
-    <h1>
-        Courses
-    </h1>
-    @if (User.IsInRole("Administrator"))
-    {
-        <a class="btn btn-default" href=@Url.Action("Create", "Projects")><i class="fa fa-edit"></i>Create a new course</a>
-    }
+    <h1>Courses</h1>
     <a class="btn btn-default btn-changeview" href=@Url.Action("Boxes", "Courses")><i class="fa fa-list"></i>List view</a>
 }
 
@@ -25,7 +19,7 @@
 <div class="whiteBox">
     @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
     {
-        <a class="btn btn-default" href=@Url.Action("Create", "Projects")><i class="fa fa-edit"></i>Create a new project</a>
+        <a class="btn btn-default" href=@Url.Action("Create", "Courses")><i class="fa fa-edit"></i>Create a new course</a>
     }
 
     <table class="coder-table coder-datatable">

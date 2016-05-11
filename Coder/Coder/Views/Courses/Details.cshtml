@@ -1,7 +1,7 @@
 ﻿@model Coder.Models.Entity.Course
 
 @{
-    ViewBag.Title = @Html.DisplayFor(model => model.Name) + " Details";
+    ViewBag.Title = @Html.Raw(Model.Name);
 }
 
 @section heading {
@@ -16,14 +16,14 @@
     </ul>
 }
 
-@if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
-{
-    <a href=@Url.Action("Edit", "Courses", new { id = Model.Id })><i class="fa fa-pencil"></i></a>
-    <a href=@Url.Action("Delete", "Courses", new { id = Model.Id })><i class="fa fa-trash"></i></a>
-}
 <div class="whiteBox box">
-    <div class="course-details">
+    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+    {
+        <a class="btn btn-default" href=@Url.Action("Edit", "Courses", new { id = Model.Id })><i class="fa fa-pencil"></i>Edit course</a>
+        <a class="btn btn-default" href=@Url.Action("Delete", "Courses", new { id = Model.Id })><i class="fa fa-trash"></i>Delete course</a>
+    }
 
+    <div class="course-details">
         <div class="details-box">
             <span class="text-caption">@Html.DisplayNameFor(model => model.Title)</span>
             <span class="text-value">@Html.DisplayFor(model => model.Title)</span>
@@ -75,7 +75,4 @@
             }
         </table>
     </div>
-</div>
-<div>
-    <a href=@Url.Action("Index", "Courses")><i class="fa fa-arrow-left"></i></aclass="backArrow">
 </div>

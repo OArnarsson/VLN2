@@ -1,7 +1,7 @@
 ﻿@model Coder.Models.Entity.Project
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = @Html.Raw(Model.Name); ;
 }
 
 @section heading {

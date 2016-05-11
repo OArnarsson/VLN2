@@ -189,7 +189,7 @@ input[type="submit"] {
 }
 
 .btn-changeview {
-    float: right;
+    float: right !important;
     margin-top: 25px;
 
     & + * {
