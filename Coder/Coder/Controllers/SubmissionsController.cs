@@ -43,6 +43,7 @@ namespace Coder.Controllers
             {
                 var submissionsAsTeacher = submissionsRepository.GetSubmissionsForTeacherId(User.Identity.GetUserId());
                 var submissionsAsStudent = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId());
+
                 return View(submissionsAsStudent.Concat(submissionsAsTeacher));
             }
             
@@ -62,6 +63,11 @@ namespace Coder.Controllers
             if (submission == null)
             {
                 throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
+            }
+
+            if (!submission.ApplicationUsers.Any(u => u.Id == User.Identity.GetUserId()) && !coursesRepository.IsTeacherInCourse(submission.ProjectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             SubmissionsHelper helper = new SubmissionsHelper(db);
