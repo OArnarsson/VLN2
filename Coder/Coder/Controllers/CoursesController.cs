@@ -44,6 +44,18 @@ namespace Coder.Controllers
             return View(courses.ToList());
         }
 
+        public ActionResult Boxes()
+        {
+            var courses = coursesRepository.GetCoursesForUser(User.Identity.GetUserId());
+
+            if (User.IsInRole("Administrator"))
+            {
+                courses = coursesRepository.GetAllCourses();
+            }
+
+            return View(courses.ToList());
+        }
+
         // GET: Courses/Details/5
         [SiteMapTitle("title")]
         public ActionResult Details(int? id)

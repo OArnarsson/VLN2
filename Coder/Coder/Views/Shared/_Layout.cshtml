@@ -42,7 +42,9 @@
     </div>
     <div id="main">
         <div class="contentWrap body-content">
-            @RenderSection("heading", required: false)
+            <div class="clearfix" id="heading">
+                @RenderSection("heading", required: false)
+            </div>
             @if (Request.Url.PathAndQuery != "/" && !string.IsNullOrEmpty(Html.MvcSiteMap().SiteMapPath().ToString()))
             {
                 <div class="breadcrumbs">
