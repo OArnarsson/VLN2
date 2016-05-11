@@ -17,7 +17,7 @@
 
         button {
             margin-top: -5px;
-             
+
             span {
                 font-size: 30px;
                 color: $color-first;
@@ -36,8 +36,8 @@
         text-align: center;
     }
 }
-﻿
-.users-button {
+
+﻿ .users-button {
     background: $color-action;
     border: none;
 
@@ -56,7 +56,7 @@
 
         button {
             margin-top: -5px;
-             
+
             span {
                 font-size: 30px;
                 color: $color-first;
@@ -68,4 +68,43 @@
         padding: 40px;
         padding-top: 0;
     }
+}
+
+.title-box {
+    background: #fff;
+    border: 1px solid $color-first;
+    margin-bottom: 30px;
+
+    .title-box-title {
+        background: $color-first;
+        color: #fff;
+        padding: 10px 20px;
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 0;
+            font-weight: 300;
+        }
+    }
+
+    .title-box-content {
+        padding: 30px 20px;
+    }
+}
+
+#files {
+    .panel-body {
+        padding: 0;
+    }
+}
+
+.test.rejected {
+	
+}
+.test.accepted {
+    
 }
