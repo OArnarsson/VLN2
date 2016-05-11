@@ -4,7 +4,10 @@
     ViewBag.Title = @Html.DisplayFor(model => model.Name) + " Details";
 }
 
-<h2>@Html.DisplayFor(model => model.Name)</h2>
+@section heading {
+    <h1>@Model.Name</h1>
+}
+
 @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
 {
     <a href=@Url.Action("Edit", "Courses", new { id = Model.Id })><i class="fa fa-pencil"></i></a>

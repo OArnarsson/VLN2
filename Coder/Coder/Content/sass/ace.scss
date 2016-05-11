@@ -7,7 +7,7 @@
     right: 0;
 }
 
-#flex-container {
+.diff-container {
     display: flex;
     display: -webkit-flex;
     flex-direction: row;    
@@ -17,12 +17,12 @@
     height: 100%;
     width: 100%;
 }
-#flex-container>div {
+.diff-container>div {
     flex-grow: 1;
     -webkit-flex-grow: 1;
     position: relative;
 }
-#flex-container>div#gutter {
+.diff-container>div#gutter {
     flex: 0 0 60px;
     -webkit-flex: 0 0 60px;
     border-left: 1px solid #999999;
@@ -30,22 +30,10 @@
     background-color: #efefef;
     overflow: hidden;
 }
-#gutter svg {
+.diff-gutter svg {
     background-color: #efefef;
 }
 
-#editor1 {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-}
-#editor2 {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-}
 .acediff-diff {
     background-color: #d8f2ff;
     border-top: 1px solid #a2d7f2;

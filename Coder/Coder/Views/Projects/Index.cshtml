@@ -4,12 +4,14 @@
     ViewBag.Title = "Projects";
 }
 
-<div class="whiteBox">
-    <h2 class="title">Projects</h2>
+@section heading {
+    <h1>Projects</h1>
+}
 
+<div class="whiteBox">
     @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
     {
-        <a href=@Url.Action("Create", "Projects")><i class="fa fa-plus-square-o"></i></a>
+        <a class="btn btn-default" href=@Url.Action("Create", "Projects")><i class="fa fa-edit"></i>Create a new project</a>
     }
 
     <table class="coder-table coder-datatable">

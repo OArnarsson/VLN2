@@ -37,6 +37,10 @@
     }
 }
 
+.test-panel-status {
+    float: right;
+}
+
 ﻿ .users-button {
     background: $color-action;
     border: none;
@@ -70,31 +74,7 @@
     }
 }
 
-.title-box {
-    background: #fff;
-    border: 1px solid $color-first;
-    margin-bottom: 30px;
 
-    .title-box-title {
-        background: $color-first;
-        color: #fff;
-        padding: 10px 20px;
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            margin: 0;
-            font-weight: 300;
-        }
-    }
-
-    .title-box-content {
-        padding: 30px 20px;
-    }
-}
 
 #files {
     .panel-body {
@@ -102,9 +82,20 @@
     }
 }
 
-.test.rejected {
-	
-}
-.test.accepted {
-    
+#tests {
+    .editor.input {
+        margin-bottom: 50px;
+    }
+    h4 {
+        margin-left: -15px;
+        margin-right: -15px;
+        padding: 10px 15px;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        font-size: 14px;
+        background: lighten(#ddd, 12%);
+    }
+    .editor {
+        border: 1px solid #ccc;
+    }
 }

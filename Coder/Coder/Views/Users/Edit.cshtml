@@ -14,8 +14,9 @@
     }
 }
 
-<h2>Edit - User</h2>
-
+@section heading {
+    <h1>Edit - @Model.Name</h1>
+}
 
 @using (Html.BeginForm())
 {
@@ -95,7 +96,7 @@
                                                                                (int.Parse(x.Value) == ((int)Model.UserCourses.FirstOrDefault(j => j.CourseId == course.Id).CoderRole)));
                                             <tr>
                                                 <td>@course.Title</td>
-                                                <td>@Html.DropDownList(("Course_" + course.Id), enumList, "---")</td>
+                                                <td>@Html.DropDownList(("Course_" + course.Id), enumList, "---", new { @class= "form-control" })</td>
                                             </tr>
                                         }
                                     </tbody>

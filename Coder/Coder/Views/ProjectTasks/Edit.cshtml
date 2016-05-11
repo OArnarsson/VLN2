@@ -4,7 +4,9 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit - ProjectTask</h2>
+@section heading {
+    <h1>Edit - @Model.Name</h1>
+}
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "taskEditForm" }))
 {
@@ -75,38 +77,38 @@
             </div>
         </div>
 
-            <div id="tests">
-                @{ int counter = 1; }
-                @foreach (var test in Model.TaskTests)
+        <div id="tests">
+            @{ int counter = 1; }
+            @foreach (var test in Model.TaskTests)
                 {
-                    <div class="test clearfix whiteBox">
-                        <h3>Test @counter</h3>
-                        <a href="#" class="remove-test"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                        <div class="tests-wrap row">
-                            <div class="input-wrap col-sm-6">
-                                <p>Input</p>
-                                <div class="editor input">@test.Input</div>
-                            </div>
-                            <div class="output-wrap col-sm-6">
-                                <p>Output</p>
-                                <div class="editor output">@test.Output</div>
-                            </div>
+                <div class="test clearfix whiteBox">
+                    <h3>Test @counter</h3>
+                    <a href="#" class="remove-test"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    <div class="tests-wrap row">
+                        <div class="input-wrap col-sm-6">
+                            <p>Input</p>
+                            <div class="editor input">@test.Input</div>
+                        </div>
+                        <div class="output-wrap col-sm-6">
+                            <p>Output</p>
+                            <div class="editor output">@test.Output</div>
                         </div>
                     </div>
-                    counter = counter + 1;
-                }
-            </div>
-
-            <a id="newTest" href="#"><i class="fa fa-plus"></i>Add test</a>
-
-            <div class="form-group text-center">
-                <div class="col-md-12">
-                    <input type="submit" value="Save" class="btn btn-default" />
                 </div>
+                counter = counter + 1;
+            }
+        </div>
+
+        <a id="newTest" href="#"><i class="fa fa-plus"></i>Add test</a>
+
+        <div class="form-group text-center">
+            <div class="col-md-12">
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
-        
+        </div>
+
     </div>
-                    }
+                }
 <a href=@Url.Action("Details", "ProjectTasks", new { id = Model.Id })><i class="fa fa-arrow-left"></i></a>
 
 @section Scripts {

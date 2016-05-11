@@ -58,11 +58,33 @@
     min-height: 231px;
 }
 
+#task-tests {
+    h3 {
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid $color-first;
+    }
+    .test {
+        margin-bottom: 60px;
+    }
+    
+    .editor {
+        border: 1px solid #ccc;
+    }
+}
+
+#task-handin {
+    .user-select {
+        margin-bottom: 10px;
+    }
+}
+
 .upload-area {
     position: relative;
-    display: inline-block;
     min-height: 325px;
-    max-height: auto !important;
 
     a {
         margin-top: 10px;

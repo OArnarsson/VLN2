@@ -14,7 +14,7 @@
 </head>
 <body>
     <div id="header" class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="contentWrap">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -40,14 +40,15 @@
             </div>
         </div>
     </div>
-   <div id="main">
-        <div class="container body-content">
-            @{
+    <div id="main">
+        <div class="contentWrap body-content">
+            @RenderSection("heading", required: false)
+            @if (Request.Url.PathAndQuery != "/" && !string.IsNullOrEmpty(Html.MvcSiteMap().SiteMapPath().ToString()))
+            {
                 <div class="breadcrumbs">
-                    @if (Request.Url.PathAndQuery != "/")
-                    {
-                        @Html.MvcSiteMap().SiteMapPath()
-                    }
+
+                    @Html.MvcSiteMap().SiteMapPath()
+
                 </div>
             }
             @RenderBody()
@@ -59,7 +60,7 @@
             <p>&copy; @DateTime.Now.Year - Coder</p>
         </div>
     </footer>
-    @Scripts.Render("~/bundles/jquery")   
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/scripts/tinymce/tinymce.min.js")
     <script type="text/javascript" src="https://cdn.datatables.net/t/dt/dt-1.10.11/datatables.min.js"></script>
