@@ -7,10 +7,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Coder.Models;
+using Coder.Helpers;
 
 namespace Coder.Controllers
 {
-    [Authorize]
+    [CustomAuthorizeAttribute(Roles = "Administrator")]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
