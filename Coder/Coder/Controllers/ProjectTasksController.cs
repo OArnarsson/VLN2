@@ -68,7 +68,7 @@ namespace Coder.Controllers
                 throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }
 
-            ViewBag.Teacher = (coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")));
+            ViewBag.IsTeacher = (coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")));
             ViewBag.AllUsers = db.Users.ToList();
             return View(projectTask);
         }
