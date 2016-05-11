@@ -18,6 +18,13 @@
     <h1>@Model.Name</h1>
 }
 
+@section breadcrumbs {
+    <ul>
+        <li>@Html.ActionLink("Coder", "Index", "Home")</li>
+        <li>@Html.ActionLink("Users", "Index", "Users")</li>
+        <li>@Html.ActionLink(Model.Name, "Details", "Users", new { Id = Model.UserId }, null)</li>
+    </ul>
+}
 
 <div class="whiteBox">
 

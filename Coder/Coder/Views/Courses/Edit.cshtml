@@ -14,6 +14,15 @@
     }
 }
 
+@section breadcrumbs {
+    <ul>
+        <li>@Html.ActionLink("Coder", "Index", "Home")</li>
+        <li>@Html.ActionLink("Courses", "Index", "Courses")</li>
+        <li>@Html.ActionLink(Model.Name, "Details", "Courses", new { Id = Model.CourseId }, null)</li>
+        <li>@Html.ActionLink("Edit", "Create", "Courses", new { Id = Model.CourseId }, null)</li>
+    </ul>
+}
+
 @section heading {
     <h1>Edit - @Model.Name</h1>
 }

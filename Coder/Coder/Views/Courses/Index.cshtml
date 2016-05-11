@@ -15,6 +15,13 @@
     <a class="btn btn-default btn-changeview" href=@Url.Action("Boxes", "Courses")><i class="fa fa-list"></i>List view</a>
 }
 
+@section breadcrumbs {
+    <ul>
+        <li>@Html.ActionLink("Coder", "Index", "Home")</li>
+        <li>@Html.ActionLink("Courses", "Boxes", "Courses")</li>
+    </ul>
+}
+
 <div class="whiteBox">
     @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
     {

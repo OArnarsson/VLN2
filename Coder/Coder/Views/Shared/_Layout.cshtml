@@ -45,12 +45,10 @@
             <div class="clearfix" id="heading">
                 @RenderSection("heading", required: false)
             </div>
-            @if (Request.Url.PathAndQuery != "/" && !string.IsNullOrEmpty(Html.MvcSiteMap().SiteMapPath().ToString()))
+            @if (IsSectionDefined("breadcrumbs"))
             {
                 <div class="breadcrumbs">
-
-                    @Html.MvcSiteMap().SiteMapPath()
-
+                    @RenderSection("breadcrumbs", required: false)
                 </div>
             }
             @RenderBody()

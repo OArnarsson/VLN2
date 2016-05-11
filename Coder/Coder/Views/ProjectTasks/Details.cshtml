@@ -6,8 +6,19 @@
     ViewBag.Title = "Details";
     CommentsHelper commentsHelper = new CommentsHelper();
 }
+
 @section heading {
     <h1>@Model.Name (@Html.DisplayFor(model => model.Value)%)</h1>
+}
+
+@section breadcrumbs {
+    <ul>
+        <li>@Html.ActionLink("Coder", "Index", "Home")</li>
+        <li>@Html.ActionLink("Courses", "Index", "Courses")</li>
+        <li>@Html.ActionLink(Model.Project.Course.Name, "Details", "Courses", new { Id = Model.Project.Course.Id }, null)</li>
+        <li>@Html.ActionLink(Model.Project.Name, "Details", "Projects", new { Id = Model.Project.Id }, null)</li>
+        <li>@Html.ActionLink(Model.Name, "Details", "ProjectTasks", new { Id = Model.Id }, null)</li>
+    </ul>
 }
 
 <div class="whiteBox">

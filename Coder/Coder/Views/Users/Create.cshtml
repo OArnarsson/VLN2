@@ -17,6 +17,14 @@
     <h1>Create - User</h1>
 }
 
+@section breadcrumbs {
+    <ul>
+        <li>@Html.ActionLink("Coder", "Index", "Home")</li>
+        <li>@Html.ActionLink("Users", "Index", "Users")</li>
+        <li>@Html.ActionLink("Create", "Create", "Users")</li>
+    </ul>
+}
+
 <div>
     @using (Html.BeginForm())
     {

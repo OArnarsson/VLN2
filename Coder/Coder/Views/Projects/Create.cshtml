@@ -8,6 +8,14 @@
     <h1>Create - Project</h1>
 }
 
+@section breadcrumbs {
+    <ul>
+        <li>@Html.ActionLink("Coder", "Index", "Home")</li>
+        <li>@Html.ActionLink("Projects", "Index", "Projects")</li>
+        <li>@Html.ActionLink("Create", "Create", "Projects")</li>
+    </ul>
+}
+
 <div class="whiteBox">
     <div class="form-horizontal">
         @using (Html.BeginForm())

@@ -4,6 +4,16 @@
     ViewBag.Title = "Delete";
 }
 
+@section breadcrumbs {
+    <ul>
+        <li>@Html.ActionLink("Coder", "Index", "Home")</li>
+        <li>@Html.ActionLink("Courses", "Index", "Courses")</li>
+        <li>@Html.ActionLink(Model.Course.Name, "Details", "Courses", new { Id = Model.Course.Id }, null)</li>
+        <li>@Html.ActionLink(Model.Name, "Details", "Projects", new { Id = Model.Id }, null)</li>
+        <li>@Html.ActionLink("Delete", "Delete", "Projects", new { Id = Model.Id }, null)</li>
+    </ul>
+}
+
 <div class="whiteBox">
     <h2 class="title">Are you sure you want to delete this?</h2>
     <h3 class="sub-title">Project</h3>

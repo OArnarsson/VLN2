@@ -67,7 +67,30 @@ span {
 
     a {
         color: $color-text;
-        font-weight: 800;
+        font-weight: 700;
+        &:hover {
+            color: $color-action;
+        }
+    }
+
+    ul {
+        list-style: none; 
+        padding-left: 0;
+        margin-bottom: 0;
+        li {
+            display: inline-block;
+            &:not(:last-child):after {
+                content:'\f105';
+                font-family: FontAwesome;
+                margin: 0 5px;
+            }
+            &:last-child {
+                a {
+                    color: #999;
+                    font-weight: 400;
+                }
+            }
+        }
     }
 }
 

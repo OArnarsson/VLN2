@@ -8,6 +8,14 @@
     <h1>@Model.Name</h1>
 }
 
+@section breadcrumbs {
+    <ul>
+        <li>@Html.ActionLink("Coder", "Index", "Home")</li>
+        <li>@Html.ActionLink("Courses", "Index", "Courses")</li>
+        <li>@Html.ActionLink(Model.Name, "Details", "Courses", new { Id = Model.Id }, null)</li>
+    </ul>
+}
+
 @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
 {
     <a href=@Url.Action("Edit", "Courses", new { id = Model.Id })><i class="fa fa-pencil"></i></a>

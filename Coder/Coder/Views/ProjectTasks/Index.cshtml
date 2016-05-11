@@ -9,6 +9,13 @@
     <h1>Tasks</h1>
 }
 
+@section breadcrumbs {
+    <ul>
+        <li>@Html.ActionLink("Coder", "Index", "Home")</li>
+        <li>@Html.ActionLink("Tasks", "Index", "ProjectTasks")</li>
+    </ul>
+}
+
 <div class="whiteBox">
     @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
     {

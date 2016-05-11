@@ -8,6 +8,13 @@
     <h1>Submissions</h1>
 }
 
+@section breadcrumbs {
+    <ul>
+        <li>@Html.ActionLink("Coder", "Index", "Home")</li>
+        <li>@Html.ActionLink("Submissions", "Index", "Submissions")</li>
+    </ul>
+}
+
 <div class="whiteBox">
     <table class="order-column stripe coder-table coder-datatable" id="submissionTable">
 

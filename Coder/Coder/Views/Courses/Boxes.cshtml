@@ -13,6 +13,13 @@
     <a class="btn btn-default btn-changeview" href=@Url.Action("Index", "Courses")><i class="fa fa-table"></i>Table view</a>
 }
 
+@section breadcrumbs {
+    <ul>
+        <li>@Html.ActionLink("Coder", "Index", "Home")</li>
+        <li>@Html.ActionLink("Courses", "Boxes", "Courses")</li>
+    </ul>
+}
+
 <div id="courses">
     @foreach (var item in Model)
     {
