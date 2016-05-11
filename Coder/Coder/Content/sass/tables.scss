@@ -1,10 +1,11 @@
 ﻿
 .coder-table {
-    margin-top: 10px;
-    margin-bottom: 10px;
     width: 100%;
-    border: 1px solid $color-first;
+    margin: 0 auto;
+    clear: both;
     border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid $color-first;
 
     thead > tr {
         border-bottom: 1px solid $color-first;
@@ -12,7 +13,7 @@
 
         th {
             font-weight: 400;
-            padding: 20px 15px;
+            padding: 10px 15px;
             color: #f9f9f9;
 
             &:last-child {
@@ -22,15 +23,14 @@
     }
 
     tr {
-        background-color: ghostwhite;
-
         td {
-            padding: 15px 0;
+            padding: 8px 0;
             padding-left: 15px;
+            border-bottom: 1px solid #f0f0f0;
         }
 
         td:not(:last-child) a {
-            color: #333;
+            color: $color-text;
 
             &:hover {
                 color: $color-action;
@@ -42,8 +42,19 @@
             padding-right: 20px;
         }
 
-        &:nth-child(2n) {
-            background-color: #fff;
+        &.project-ended, &.project-not-started {
+
+            .end-date {
+                color: $color-red;
+            }
+
+            td, td a {
+                color: rgba(51, 51, 51, 0.4);
+
+                i {
+                    color: $color-action;
+                }
+            }
         }
     }
 }

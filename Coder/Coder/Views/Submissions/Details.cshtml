@@ -4,136 +4,186 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Submission</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-        <dt>
-            Project
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProjectTask.Project.Name)
-        </dd>
-
-        <dt>
-            Task
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProjectTask.Name)
-        </dd>
-    </dl>
-    <p>Users: </p>
-    <ul>
-        @foreach (var user in Model.ApplicationUsers)
-        {
-            <li>@Html.ActionLink(user.Name, "Details", "Users", new { Id = user.Id }, null)</li>
-        }
-    </ul>
-
-    @if (Model.Status == Coder.Models.Entity.TestResultStatus.CompileError)
-    {
-        <div class="alert alert-danger">@Model.ErrorMessage</div>
-    }
-
-    <div id="files">
-        @{ int fileCounter = 0; }
-        @if (System.IO.Directory.Exists(ViewBag.submissionFolder))
-        {
-            foreach (string file in System.IO.Directory.EnumerateFiles(ViewBag.submissionFolder))
-            {
-                var filename = Path.GetFileName(file);
-
-                if (Model.ProjectTask.FilesRequired.Any(i => i.Name == filename))
-                {
-
-                    <div class="panel-group">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" href="#collapse_@fileCounter">@filename</a>
-                                </h4>
-                            </div>
-                            <div id="collapse_@fileCounter" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <div data-filename="@filename" class="editor">@File.ReadAllText(file)</div>
-                                </div>
-                                <div class="panel-footer"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    fileCounter += 1;
-                }
-
-            }
-        }
-
+@section heading {
+    <h1>Submission @Model.Id</h1>
+}
+<div class="title-box">
+    <div class="title-box-title">
+        <h2>Details</h2>
     </div>
-    @if (Model.Status != Coder.Models.Entity.TestResultStatus.CompileError)
-    {
-        <div id="tests">
-            @{ int counter = 1; }
-            @foreach (var test in Model.SubmissionTestResults)
-                {
-                    var status = (Coder.Models.Entity.TestResultStatus)test.Status;
-                    var statusClass = (Coder.Models.Entity.TestResultStatus)test.Status == Coder.Models.Entity.TestResultStatus.Accepted ? "accepted" : "rejected";
-                <div class="test clearfix @statusClass">
-                    <h3>Test @counter</h3>
-                    <p>Status: @status</p>
-                    <div class="input-wrap">
-                        <p>Input</p>
-                        <div class="editor input readonly">@test.Input</div>
-                    </div>
-                    @if (test.Status == Coder.Models.Entity.TestResultStatus.WrongOutput)
-                    {
-                        
-                        <div id="flex-container">
-                            <div id="editor1">@test.ObtainedOutput</div>
-                            <div id="gutter"></div>
-                            <div id="editor2">@test.Output</div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="tests-wrap row">
-                            <div class="output-wrap col-sm-6">
-                                <p>Obtained Output</p>
-                                <div class="editor output readonly">@test.ObtainedOutput</div>
-                            </div>
-                            <div class="output-wrap col-sm-6">
-                                <p>Expected Output</p>
-                                <div class="editor output readonly">@test.Output</div>
-                            </div>
-                        </div>
-                    }
+    <div class="title-box-content">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Created)
+            </dt>
 
-                </div>
+            <dd>
+                @Html.DisplayFor(model => model.Created)
+            </dd>
 
-                counter = counter + 1;
-            }
-        </div>
-                }
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+
+            <dt>
+                Project
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ProjectTask.Project.Name)
+            </dd>
+
+            <dt>
+                Task
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ProjectTask.Name)
+            </dd>
+            <dt>
+                Users
+            </dt>
+            <dd>
+                <ul>
+                    @foreach (var user in Model.ApplicationUsers)
+                    {
+                        <li>@Html.ActionLink(user.Name, "Details", "Users", new { Id = user.Id }, null)</li>
+                    }
+                </ul>
+            </dd>
+        </dl>
+    </div>
 </div>
+
+
+@if (Model.Status == Coder.Models.Entity.TestResultStatus.CompileError)
+{
+    <div class="title-box">
+        <div class="title-box-title">
+            <h2>Error Message</h2>
+        </div>
+        <div class="title-box-content">
+            <div class="alert alert-danger">@Model.ErrorMessage</div>
+        </div>
+    </div>
+}
+
+<div class="title-box">
+    <div class="title-box-title">
+        <h2>Files</h2>
+    </div>
+    <div id="files" class="title-box-content">
+        @{
+            int fileCounter = 0;
+
+            if (System.IO.Directory.Exists(ViewBag.submissionFolder))
+            {
+                <div class="panel-group">
+                    @foreach (string file in System.IO.Directory.EnumerateFiles(ViewBag.submissionFolder))
+                {
+                    var filename = Path.GetFileName(file);
+
+                    if (Model.ProjectTask.FilesRequired.Any(i => i.Name == filename))
+                    {
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapse_@fileCounter">@filename</a>
+                                    </h4>
+                                </div>
+                                <div id="collapse_@fileCounter" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div data-filename="@filename" class="readonly editor">@File.ReadAllText(file)</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            fileCounter++;
+                        }
+
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning">No files found for this submission</div>
+            }
+        }
+    </div>
+</div>
+
+
+@if (Model.Status != Coder.Models.Entity.TestResultStatus.CompileError)
+{
+    <div class="title-box">
+        <div class="title-box-title">
+            <h2>Tests</h2>
+        </div>
+        <div class="title-box-content">
+            <div id="tests">
+                <div class="panel-group">
+                    @{
+                        int testCounter = 1;
+                        int diffCounter = 1;
+
+                        foreach (var test in Model.SubmissionTestResults)
+                        {
+                            var status = (Coder.Models.Entity.TestResultStatus)test.Status;
+                            var statusClass = (Coder.Models.Entity.TestResultStatus)test.Status == Coder.Models.Entity.TestResultStatus.Accepted ? "accepted" : "rejected";
+
+                            <div class="panel panel-default test-panel @statusClass">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        <a data-toggle="collapse" href="#collapseTest_@testCounter">Test @testCounter</a>
+                                    </h3>
+                                    <div class="test-panel-status">@test.Status</div>
+                                </div>
+                                <div id="collapseTest_@testCounter" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <h4>Input</h4>
+                                        <div class="editor input readonly">@test.Input</div>
+
+                                        <h4>Output</h4>
+                                        @if (test.Status == Coder.Models.Entity.TestResultStatus.WrongOutput)
+                                        {
+                                            <div>Output difference</div>
+                                            <div>Obtained - Expected</div>
+                                            <div class="diff-container clearfix">
+                                                <div class="diff-editor-obtained" id="diff-editor-@diffCounter-obtained">@test.ObtainedOutput</div>
+                                                <div class="diff-gutter" id="diff-gutter-@diffCounter"></div>
+                                                <div class="diff-editor-expected" id="diff-editor-@diffCounter-expected">@test.Output</div>
+                                            </div>
+                                            diffCounter++;
+                                        }
+                                        else
+                                        {
+                                            <div class="output-wrap row">
+                                                <div class="col-sm-6">
+                                                    <div>Obtained</div>
+                                                    <div class="editor output readonly">@test.ObtainedOutput</div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div>Expected</div>
+                                                    <div class="editor output readonly">@test.Output</div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            testCounter++;
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+                        }
 
 @section Scripts {
     <script src="/Scripts/diff_match_patch.js"></script>
@@ -142,20 +192,29 @@
     @Scripts.Render("~/scripts/ace/ace.js")
     @Scripts.Render("~/scripts/ace/ext-modelist.js")
     @Scripts.Render("~/scripts/ace-diff.js")
-    
+
 
     <script>
-        var differ = new AceDiff({
-            mode: 'ace/mode/text',
-            left: {
-                id: "editor1"
-            },
-            right: {
-                id: "editor2"
-            },
-            classes: {
-                gutterID: "gutter"
-            }
+        $.each($('.diff-container'), function (key, value) {
+            var $container = $(value);
+
+            var $editor_obtained = $container.find('.diff-editor-obtained');
+            var $editor_expected = $container.find('.diff-editor-expected');
+            var $gutter = $container.find('.diff-gutter');
+
+            var differ = new AceDiff({
+                mode: 'ace/mode/text',
+                left: {
+                    id: $editor_obtained.attr('id')
+                },
+                right: {
+                    id: $editor_expected.attr('id')
+                },
+                classes: {
+                    gutterID: $gutter.attr('id')
+                }
+            });
         });
+
     </script>
 }

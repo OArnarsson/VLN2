@@ -4,14 +4,15 @@
     ViewBag.Title = "Users";
 }
 
-<h1>Users</h1>
-
-@if (User.IsInRole("Administrator"))
-{
-    <a href=@Url.Action("Create", "Users")><i class="fa fa-plus-square-o"></i></a>
+@section heading {
+    <h1>Users</h1>
 }
 
-<div class="whiteBox box">
+<div class="whiteBox">
+    @if (User.IsInRole("Administrator"))
+    {
+        <a class="btn btn-default" href=@Url.Action("Create", "Users")><i class="fa fa-edit"></i>Create a new user</a>
+    }
     <table class="order-column stripe coder-table coder-datatable">
         <thead>
             <tr>

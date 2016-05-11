@@ -13,7 +13,9 @@
     }
 }
 
-<h2>Create - User</h2>
+@section heading {
+    <h1>Create - User</h1>
+}
 
 <div>
     @using (Html.BeginForm())
@@ -79,7 +81,7 @@
                                 {
                                     <tr>
                                         <td>@course.Title</td>
-                                        <td>@Html.DropDownList(("Course_" + course.Id), enumList, "---")</td>
+                                        <td>@Html.DropDownList(("Course_" + course.Id), enumList, "---", new { @class = "form-control" })</td>
                                     </tr>
                                 }
                             </tbody>

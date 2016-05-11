@@ -13,50 +13,64 @@
         });
     }
 }
-    <div class="whiteBox fluid">
 
-        <h1 id="userDetails">@Html.DisplayFor(model => model.Name) &nbsp; </h1>
+@section heading {
+    <h1>@Model.Name</h1>
+}
 
-        @if (User.IsInRole("Administrator") || User.Identity.GetUserId() == Model.UserId)
+<div class="whiteBox">
+    @if (User.IsInRole("Administrator") || User.Identity.GetUserId() == Model.UserId)
             {
-            <a href=@Url.Action("Edit", "Users", new { id = Model.UserId })><i class="fa fa-pencil"></i></a>
-        }
+        <a class="btn btn-default" href=@Url.Action("Edit", "Users", new { id = Model.UserId })><i class="fa fa-pencil"></i>Edit user</a>
+    }
 
-        @if (User.IsInRole("Administrator"))
+    @if (User.IsInRole("Administrator"))
             {
-            <a href=@Url.Action("Delete", "Users", new { id = Model.UserId })><i class="fa fa-trash"></i></a>
-        }
+        <a class="btn btn-default" href=@Url.Action("Delete", "Users", new { id = Model.UserId })><i class="fa fa-trash"></i>Delete user</a>
+    }
+    <dl class="dl-horizontal">
+        <dt>
+            Email
+        </dt>
+        <dd>
+            @Model.Email
+        </dd>
+    </dl>
+</div>
 
-        <h2>@Html.DisplayFor(model => model.Email)</h2>
-        <hr />
+<div class="title-box">
+    <div class="title-box-title">
+        <h3>Enrollments</h3>
     </div>
-
-    <div class="col-md-4 whiteBox fluid" id="EnrollmentID" >
-            <table class="coder-table">
-                <caption>Enrollments</caption>
-                <thead>
+    <div class="title-box-content">
+        <table class="coder-table coder-datatable">
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var userCourse in Model.UserCourses)
+                {
+                    enumList.ForEach(x => x.Selected = Model.UserCourses.Any(j => j.CourseId == userCourse.CourseId) &&
+                    (int.Parse(x.Value) == ((int)Model.UserCourses.FirstOrDefault(j => j.CourseId == userCourse.CourseId).CoderRole)));
                     <tr>
-                        <th>Course</th>
-                        <th>Role</th>
+                        <td>@Html.ActionLink(userCourse.Course.Title, "Details", "Courses", new { id = userCourse.CourseId }, null)</td>
+                        <td>@userCourse.CoderRole</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var userCourse in Model.UserCourses)
-                    {
-                        enumList.ForEach(x => x.Selected = Model.UserCourses.Any(j => j.CourseId == userCourse.CourseId) &&
-                        (int.Parse(x.Value) == ((int)Model.UserCourses.FirstOrDefault(j => j.CourseId == userCourse.CourseId).CoderRole)));
-                        <tr>
-                            <td>@Html.ActionLink(userCourse.Course.Title, "Details", "Courses", new { id = userCourse.CourseId }, null)</td>
-                            <td>@userCourse.CoderRole</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
-    <div class="whiteBox fluid col-md-8 right">
-        <table class="coder-table">
-            <caption>Recent submissions</caption>
+<div class="title-box">
+    <div class="title-box-title">
+        <h3>Recent submissions</h3>
+    </div>
+    <div class="title-box-content">
+        <table class="coder-table coder-datatable">
             <thead>
                 <tr>
                     <th>Submission</th>
@@ -68,9 +82,9 @@
             <!--This body only contains dummy info for visuals-->
             <tbody>
                 @foreach (var userCourse in Model.UserCourses)
-                {
-                    enumList.ForEach(x => x.Selected = Model.UserCourses.Any(j => j.CourseId == userCourse.CourseId) &&
-                                                           (int.Parse(x.Value) == ((int)Model.UserCourses.FirstOrDefault(j => j.CourseId == userCourse.CourseId).CoderRole)));
+            {
+                enumList.ForEach(x => x.Selected = Model.UserCourses.Any(j => j.CourseId == userCourse.CourseId) &&
+                                                       (int.Parse(x.Value) == ((int)Model.UserCourses.FirstOrDefault(j => j.CourseId == userCourse.CourseId).CoderRole)));
                     <tr>
                         <td>@userCourse.Course.Title</td>
                         <td>@userCourse.CoderRole</td>
@@ -81,46 +95,47 @@
             </tbody>
         </table>
     </div>
+</div>
 
 
-    @*
-        <div class="whiteBox fluid">
-            <table class="table sidecoder-table">
-                <caption>Comments</caption>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Project</th>
-                        <th>Task</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>ProjectsSomething</td>
-                        <td>C</td>
-                        <td>21.06.2015</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>ProjectsSomething</td>
-                        <td>C</td>
-                        <td>21.06.2015</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>ProjectsSomething</td>
-                        <td>C</td>
-                        <td>21.06.2015</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>ProjectsSomething</td>
-                        <td>C</td>
-                        <td>21.06.2015</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    *@
+@*
+    <div class="whiteBox fluid">
+        <table class="table sidecoder-table">
+            <caption>Comments</caption>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Project</th>
+                    <th>Task</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>ProjectsSomething</td>
+                    <td>C</td>
+                    <td>21.06.2015</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>ProjectsSomething</td>
+                    <td>C</td>
+                    <td>21.06.2015</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>ProjectsSomething</td>
+                    <td>C</td>
+                    <td>21.06.2015</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>ProjectsSomething</td>
+                    <td>C</td>
+                    <td>21.06.2015</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+*@

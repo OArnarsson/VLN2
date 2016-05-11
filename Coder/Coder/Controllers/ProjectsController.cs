@@ -66,10 +66,18 @@ namespace Coder.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }
-
+            
             if (coursesRepository.IsTeacherInCourse(project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
                 ViewBag.IsTeacher = true;
+            }
+            else
+            {
+                // Checking if the project hasn't started yet
+                if (DateTime.Now < project.Start && !User.IsInRole("Administrator"))
+                {
+                    throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                }
             }
 
             return View(project);
