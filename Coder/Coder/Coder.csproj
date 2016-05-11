@@ -461,6 +461,7 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
     <Content Include="Views\Comments\Comments.cshtml" />
     <Content Include="Views\Comments\Create.cshtml" />
+    <Content Include="Views\Courses\Boxes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

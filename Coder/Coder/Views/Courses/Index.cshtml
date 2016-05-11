@@ -1,62 +1,70 @@
 ﻿@model IEnumerable<Coder.Models.Entity.Course>
-
+@using Microsoft.AspNet.Identity;
 @{
     ViewBag.Title = "Courses";
 }
 
 @section heading {
-    <h1>Courses @if (User.IsInRole("Administrator"))
+    <h1>
+        Courses
+    </h1>
+    @if (User.IsInRole("Administrator"))
     {
-        <span>&nbsp; <a class="btn btn-default" href=@Url.Action("Create", "Projects")><i class="fa fa-edit"></i>Create a new course</a></span>
-    }</h1>
+        <a class="btn btn-default" href=@Url.Action("Create", "Projects")><i class="fa fa-edit"></i>Create a new course</a>
+    }
+    <a class="btn btn-default btn-changeview" href=@Url.Action("Boxes", "Courses")><i class="fa fa-list"></i>List view</a>
 }
 
-<div class="allCourses row" id="coursesPanel">
-    @foreach (var item in Model)
+<div class="whiteBox">
+    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
     {
-        <div class="coder-panel">
-            <div class="coder-panel-heading">
-                <a data-toggle="collapse" data-parent="#coursesPanel" href="#@item.Id">
-                    <h4><span class="glyphicon glyphicon-list"></span> @item.Name - @item.Title</h4>
-                </a>
-            </div>
-
-            <div class="clearfix whiteBox">
-                <div class="panel-collapse collapse" id="@item.Id">
-                    <div class="col-lg-4">
-                        <h3>
-                            @Html.ActionLink(item.Name, "Details", new { id = item.Id }) (@Html.DisplayFor(modelItem => item.Title))
-                        </h3>
-                        <p>@Html.Raw(item.Description)</p>
-                    </div>
-
-                    <div class="col-md-8">
-                        <table class="coder-table">
-                            <thead>
-                                <tr>
-                                    <th>Project Name</th>
-                                    <th>Start date</th>
-                                    <th>End date</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @foreach (var x in item.Projects)
-                                {
-                                    <tr>
-                                        <td>@Html.ActionLink(x.Name, "Details", "Projects", new { id = x.Id }, null)</td>
-                                        <td>@x.Start.ToString("dddd, d MMM")</td>
-                                        <td>@x.End.ToString("dddd, d MMM")</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
+        <a class="btn btn-default" href=@Url.Action("Create", "Projects")><i class="fa fa-edit"></i>Create a new project</a>
     }
 
+    <table class="coder-table coder-datatable">
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Start date</th>
+                <th>End date</th>
+                <th>Total projects</th>
+                <th>Total users</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        @foreach (var item in Model)
+        {
+            string courseOngoing = "";
+            if (item.Start < DateTime.Now && item.End > DateTime.Now)
+            {
+                courseOngoing = "ongoing";
+            }
+
+            <tr class="@courseOngoing">
+                <td>@Html.ActionLink(item.Name, "Details", new { id = item.Id })</td>
+                <td>@item.Start.ToString("dddd, d MMM")</td>
+                <td>@item.End.ToString("dddd, d MMM")</td>
+                <td>@item.Projects.Count</td>
+                <td>@item.UserCourses.Count</td>
+                <td>
+                    @{
+                        bool isTeacher = false;
+                        if (!User.IsInRole("Administrator"))
+                        {
+                            isTeacher = item.UserCourses.FirstOrDefault(x => x.UserId == User.Identity.GetUserId()).CoderRole == Coder.Models.Entity.CoderRole.Teacher;
+                        }
+
+                        if (User.IsInRole("Administrator") || isTeacher)
+                        {
+
+                            <a href=@Url.Action("Edit", "Projects", new { id = item.Id })><i class="fa fa-pencil"></i></a>
+                            <a href=@Url.Action("Delete", "Projects", new { id = item.Id })><i class="fa fa-trash"></i></a>
+
+                        }
+                    }
+                </td>
+            </tr>
+                        }
+    </table>
 </div>

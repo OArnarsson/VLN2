@@ -63,6 +63,7 @@ span {
     padding: 10px 20px;
     background: #e0e7e8;
     margin-bottom: 40px;
+    clear: left;
 
     a {
         color: $color-text;
@@ -162,4 +163,22 @@ h1 {
 
 input[type="submit"] {
     float: right;
+}
+
+.btn-changeview {
+    float: right;
+    margin-top: 25px;
+
+    & + * {
+        clear: left;
+    }
+}
+
+h1 {
+    float: left;
+}
+h1 + .btn {
+    float: left;
+    margin-left: 20px;
+    margin-top: 25px;
 }
