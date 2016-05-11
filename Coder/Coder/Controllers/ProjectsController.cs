@@ -36,6 +36,7 @@ namespace Coder.Controllers
             {
                 ViewBag.IsTeacher = true;
             }
+
             if (projects == null)
             {
                 return View();
@@ -74,7 +75,7 @@ namespace Coder.Controllers
             else
             {
                 // Checking if the project hasn't started yet
-                if (DateTime.Now < project.Start && !User.IsInRole("Administrator"))
+                if (DateTime.Now < project.Start && !User.IsInRole("Administrator") && !coursesRepository.IsAssistantTeacherInCourse(project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")))
                 {
                     throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
                 }
@@ -202,7 +203,6 @@ namespace Coder.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
             }
-
 
             Project project = projectsRepository.GetProjectById(id);
 

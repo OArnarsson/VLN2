@@ -32,19 +32,20 @@ namespace Coder.Controllers
         [SiteMapTitle("title")]
         public ActionResult Index()
         {
-            ViewBag.IsTeacher = coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator"));
+            ViewBag.IsTeacher = coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")) || coursesRepository.IsAssistantTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator"));
 
             if (User.IsInRole("Administrator"))
             {
                 return View(submissionsRepository.GetAllSubmissions());
             }
 
-            if (coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
+            if (coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")) || coursesRepository.IsAssistantTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
-                var submissionsAsTeacher = submissionsRepository.GetSubmissionsForTeacherId(User.Identity.GetUserId());
                 var submissionsAsStudent = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId());
+                var submissionsAsAssistantTeacher = submissionsRepository.GetSubmissionsForAssistantTeacherId(User.Identity.GetUserId());
+                var submissionsAsTeacher = submissionsRepository.GetSubmissionsForTeacherId(User.Identity.GetUserId());
 
-                return View(submissionsAsStudent.Concat(submissionsAsTeacher));
+                return View(submissionsAsStudent.Concat(submissionsAsAssistantTeacher).Concat(submissionsAsTeacher));
             }
             
             return View(submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()));
@@ -65,7 +66,7 @@ namespace Coder.Controllers
                 throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
             }
 
-            if (!submission.ApplicationUsers.Any(u => u.Id == User.Identity.GetUserId()) && !coursesRepository.IsTeacherInCourse(submission.ProjectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+            if (!submission.ApplicationUsers.Any(u => u.Id == User.Identity.GetUserId()) && !coursesRepository.IsAssistantTeacherInCourse(submission.ProjectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !coursesRepository.IsTeacherInCourse(submission.ProjectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
             {
                 throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }

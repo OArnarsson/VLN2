@@ -35,17 +35,24 @@ namespace Coder.Repositories
 
         public IEnumerable<Course> GetCoursesForStudentWithStudentRole(string userId)
         {
-            return (from c in db.Courses
-                    join u in db.UserCourses on c.Id equals u.CourseId
-                    where u.UserId == userId && u.CoderRole == CoderRole.Student
-                    select c).ToList();
+            return GetCoursesForUserWithRole(userId, CoderRole.Student);
+        }
+
+        public IEnumerable<Course> GetCoursesForTeacherWithAssistantTeacherRole(string userId)
+        {
+            return GetCoursesForUserWithRole(userId, CoderRole.TeachingAssistant);
         }
 
         public IEnumerable<Course> GetCoursesForTeacherWithTeacherRole(string userId)
         {
+            return GetCoursesForUserWithRole(userId, CoderRole.Teacher);
+        }
+
+        public IEnumerable<Course> GetCoursesForUserWithRole(string userId, CoderRole role)
+        {
             return (from c in db.Courses
                     join u in db.UserCourses on c.Id equals u.CourseId
-                    where u.UserId == userId && u.CoderRole == CoderRole.Teacher
+                    where u.UserId == userId && u.CoderRole == role
                     select c).ToList();
         }
 
@@ -94,13 +101,23 @@ namespace Coder.Repositories
 
         public bool IsTeacherInCourse(int? id, string userId, bool isAdmin)
         {
+            return HasRoleInCourse(id, userId, isAdmin, CoderRole.Teacher);
+        }
+
+        public bool IsAssistantTeacherInCourse(int? id, string userId, bool isAdmin)
+        {
+           return HasRoleInCourse(id, userId, isAdmin, CoderRole.TeachingAssistant);
+        }
+
+        public bool HasRoleInCourse(int? id, string userId, bool isAdmin, CoderRole role)
+        {
             if (!isAdmin)
             {
                 UserCourse userCourse = db.UserCourses.Where(i => i.CourseId == id && i.UserId == userId).FirstOrDefault();
 
                 if (userCourse != null)
                 {
-                    return (userCourse.CoderRole == CoderRole.Teacher);
+                    return (userCourse.CoderRole == role);
                 }
             }
             return false;
@@ -108,7 +125,17 @@ namespace Coder.Repositories
 
         public bool IsTeacherInAnyCourse(string userId, bool isAdmin)
         {
-            return isAdmin ||  db.UserCourses.Where(i => i.UserId == userId).Any(x => x.CoderRole == CoderRole.Teacher);
+            return HasSuperRoleInAnyCourse(userId, isAdmin, CoderRole.Teacher);
+        }
+
+        public bool IsAssistantTeacherInAnyCourse(string userId, bool isAdmin)
+        {
+            return HasSuperRoleInAnyCourse(userId, isAdmin, CoderRole.TeachingAssistant);
+        }
+
+        public bool HasSuperRoleInAnyCourse(string userId, bool isAdmin, CoderRole role)
+        {
+            return isAdmin || db.UserCourses.Where(i => i.UserId == userId).Any(x => x.CoderRole == role);
         }
     }
 }
