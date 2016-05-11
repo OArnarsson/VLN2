@@ -4,19 +4,17 @@
     ViewBag.Title = "Details";
 }
 
-<h1> @Html.DisplayFor(model => model.Name)</h1>
+<div class="whiteBox">
+    <h2 class="title">@Html.DisplayFor(model => model.Name)</h2>
+    <h3 class="sub-title">@Html.ActionLink(Model.Course.Name, "Details", "Courses", new { id = Model.Course.Id }, null)</h3>
 
-@if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
-{
-    <a href=@Url.Action("Edit", "Projects", new { id = Model.Id })><i class="fa fa-pencil"></i></a>
-    <a href=@Url.Action("Delete", "Projects", new { id = Model.Id })><i class="fa fa-trash"></i></a>
-}
+    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+    {
+        <a href=@Url.Action("Edit", "Projects", new { id = Model.Id })><i class="fa fa-pencil"></i></a>
+        <a href=@Url.Action("Delete", "Projects", new { id = Model.Id })><i class="fa fa-trash"></i></a>
+    }
 
-
-    <h3>Course - @Html.ActionLink(Model.Course.Name, "Details", "Courses", new { id = Model.Course.Id }, null) </h3>
-<div class="whiteBox box">
     <dl class="dl-horizontal">
-
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -55,18 +53,12 @@
     <table class="coder-table">
         <thead>
             <tr>
-                <th>
-                    Task
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Value)
-                </th>
-                <th>
-                    Status
-                </th>
+                <th>Task</th>
+                <th>@Html.DisplayNameFor(model => model.Value)</th>
+                <th>Status</th>
                 @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
-            {
-                    <th>@*Edit/Delete*@</th>
+                {
+                    <th></th>
                 }
             </tr>
         </thead>
@@ -74,15 +66,9 @@
             @foreach (var item in Model.ProjectTasks)
             {
                 <tr>
-                    <td>
-                        @Html.ActionLink(item.Name, "Details", "ProjectTasks", new { id = item.Id }, null)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Value)
-                    </td>
-                    <td>
-                        Accepted
-                    </td>
+                    <td>@Html.ActionLink(item.Name, "Details", "ProjectTasks", new { id = item.Id }, null)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Value)</td>
+                    <td>Accepted</td>
                     <td>
                         @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
                         {
@@ -96,4 +82,3 @@
 
     </table>
 </div>
-<a href=@Url.Action("Index", "Projects")><i class="fa fa-arrow-left"></i></aclass="backArrow">
