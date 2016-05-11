@@ -156,6 +156,10 @@ h1 {
     margin-right: auto;
 }
 
-.btn.btn-default .fa {
+.btn .fa {
     margin-right: 5px;
+}
+
+input[type="submit"] {
+    float: right;
 }
