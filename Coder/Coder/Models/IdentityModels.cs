@@ -14,6 +14,7 @@ namespace Coder.Models
         public string Name { get; set; }
         public virtual ICollection<UserCourse> UserCourses { get; set; }
         public virtual ICollection<Submission> Submissions { get; set; }
+        public virtual ICollection<GradeProjectTask> GradeProjectTasks { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

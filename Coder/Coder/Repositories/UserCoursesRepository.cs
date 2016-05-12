@@ -30,11 +30,6 @@ namespace Coder.Repositories
             return db.UserCourses.Where(i => i.UserId == userId).ToList();
         }
 
-        public List<UserCourse> GetUserCoursesWhereUserHasSubmissionForProjectTask(ProjectTask projectTask)
-        {
-            return db.UserCourses.Where(u => u.CourseId == projectTask.Project.CourseId).ToList();
-        }
-
         public void RemoveAllUserCoursesForCourseId(int courseId)
         {
             foreach (var x in db.UserCourses.Where(i => i.CourseId == courseId))

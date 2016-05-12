@@ -392,10 +392,23 @@ namespace Coder.Controllers
                 return Json(new { Message = "Error in saving file" });
             }
         }
+        
 
-        public ActionResult GradeTask(int projectTaskId)
+        // GET: ProjectTasks/Grade/5
+        public ActionResult Grade(int? id)
         {
-            ProjectTask projectTask = projectTasksRepository.GetProjectTaskById(projectTaskId);
+            if (id == null)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
+            }
+
+            ProjectTask projectTask = projectTasksRepository.GetProjectTaskById(id);
+
+            if (!User.IsInRole("Administrator") && !(coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) || coursesRepository.IsAssistantTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator"))))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+            }
+            
             List<ApplicationUser> usersWithSubmission = new List<ApplicationUser>();
 
             foreach (var s in projectTask.Submissions)
@@ -417,13 +430,12 @@ namespace Coder.Controllers
 
             GradeTaskViewModel gradeTaskViewModel = new GradeTaskViewModel()
             {
-                GradeProjectTasks = projectTasksRepository.GetAllGradeProjectTasksForTaskId(projectTaskId),
+                GradeProjectTasks = projectTasksRepository.GetAllGradeProjectTasksForTaskId(id.Value),
                 UsersWithSubmission = usersWithSubmission,
                 UsersWithoutSubmission = users.Except(usersWithSubmission)
             };
-            
 
-            return View();
+            return View(gradeTaskViewModel);
         }
     }
 }
