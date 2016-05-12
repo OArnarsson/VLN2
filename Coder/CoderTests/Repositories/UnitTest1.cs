@@ -9,6 +9,8 @@ namespace CoderTests.Repositories
         [TestMethod]
         public void TestMethod1()
         {
+            //The main purpose of this test was to see if these tests actiually work....
+
             //Arrange:
             const int testId1 = 3;
             const int testId2 = 3;

@@ -15,10 +15,9 @@
 }
 
 <div class="whiteBox">
-    <h2 class="title">Are you sure you want to delete this?</h2>
-    <h3 class="sub-title">Project</h3>
+    <h2 class="title">Are you sure you want to delete this project?</h2>
 
-    <dl class="dl-horizontal">
+    <dl class="coder-dl">
         <dt>
             @Html.DisplayNameFor(model => model.Course.Name)
         </dt>
@@ -40,7 +39,14 @@
         </dt>
 
         <dd>
-            @Html.Raw(Model.Description)
+            @if (String.IsNullOrEmpty(Model.Description))
+            {
+                <p>No description given.</p>
+            }
+            else
+            {
+                @Html.Raw(Model.Description)
+            }
         </dd>
 
         <dt>
@@ -72,7 +78,7 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
+        <div class="form-actions">
             <input type="submit" value="Delete" class="btn btn-danger" />
         </div>
     }

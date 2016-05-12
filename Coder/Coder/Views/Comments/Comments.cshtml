@@ -2,7 +2,34 @@
 @using Microsoft.AspNet.Identity
 @using Coder.Helpers
 
-<table class="table comments-table">
+
+
+<div class="comments-table">
+    @foreach (var item in Model)
+    {
+        string alertClass = "";
+        if (item.CanDelete)
+        {
+            alertClass = "comment-alert";
+        }
+
+        <div class="comment">
+            <div class="comment-main">
+                <p class="comment-name @alertClass">@item.Name</p>
+                <p class="comment-text">@item.Text</p>
+                @if (item.CanDelete)
+                {
+                    <a class="comment-delete" href=@Url.Action("Delete", "Comments", new { id = item.Id })><i class="fa fa-trash"></i></a>
+                }
+            </div>
+            <div class="comment-date">
+                <p class="comment-date">@item.Created</p>
+            </div>
+        </div>
+    }
+</div>
+
+@*<table class="table comments-table">
     <tbody>
         @foreach (var item in Model)
         {
@@ -19,4 +46,4 @@
             </tr>
         }
     </tbody>
-</table>
+</table>*@

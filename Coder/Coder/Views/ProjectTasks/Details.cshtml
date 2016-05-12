@@ -145,8 +145,8 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (Coder.Models.Entity.Submission s in Model.Submissions.Where(i => i.ApplicationUsers.Any(j => j.Id == User.Identity.GetUserId())).OrderByDescending(i => i.Id)) // TODO: Only current user
-            {
+                @foreach (Coder.Models.Entity.Submission s in ViewBag.Submissions)
+                {
                     <tr>
                         <td>@Html.ActionLink(s.Id.ToString(), "Details", "Submissions", new { id = s.Id }, null)</td>
                         <td>@s.Created</td>
@@ -224,18 +224,18 @@
             });
 
             var updateComments = function(comments) {
-                $('.comments-table tbody','#comments').empty();
+                $('.comments-table','#comments').empty();
                 $.each(comments, function(i, item) {
                     if (item.CanDelete) {
-                        $('.comments-table tbody','#comments').append($('<tr><td>' + item.Name + '</td><td>' + item.Text + '</td><td>' + item.Created + '</td><td><a href="/Comments/Delete/' + item.Id + '"><i class="fa fa-trash"></i></a></td></tr>'));
+                        $('.comments-table','#comments').append($('<div class="comment"><div class="comment-main"><p class="comment-name comment-alert">' + item.Name + '</p><p class="comment-text">' + item.Text + '</p><a class="comment-delete" href="/Comments/Delete/' + item.Id + '"><i class="fa fa-trash"></i></a></div><div class="comment-date"><p class="comment-date">' + item.Created + '</p></div></div>'));
                     }
                     else {
-                        $('.comments-table tbody','#comments').append($('<tr><td>' + item.Name + '</td><td>' + item.Text + '</td><td>' + item.Created + '</td><td></td></tr>'));
+                        $('.comments-table','#comments').append($('<div class="comment"><div class="comment-main"><p class="comment-name">' + item.Name + '</p><p class="comment-text">' + item.Text + '</p></div><div class="comment-date"><p class="comment-date">' + item.Created + '</p></div></div>'));
                     }
                 });
             }
 
-            $('#commentForm').on('submit', function () {
+            $('#comment-form').on('submit', function () {
                 var form = $(this);
                 console.log("submitting");
                 $.ajax({
