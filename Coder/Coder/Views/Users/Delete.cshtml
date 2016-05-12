@@ -4,7 +4,9 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+@section heading {
+    <h1>Delete</h1>
+}
 
 @section breadcrumbs {
     <ul>
@@ -15,11 +17,9 @@
     </ul>
 }
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>ApplicationUser</h4>
-    <hr />
-    <dl class="dl-horizontal">
+<div class="whiteBox">
+    <h3>Are you sure you want to delete this?</h3>
+    <dl class="coder-dl">
         <dt>
             @Html.DisplayNameFor(model => model.Email)
         </dt>
