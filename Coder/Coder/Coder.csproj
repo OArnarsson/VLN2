@@ -279,6 +279,7 @@
     <Content Include="Content\sass\dropzonebasic.scss" />
     <Content Include="Content\sass\tasks.scss" />
     <Content Include="Content\sass\users.scss" />
+    <Content Include="Content\sass\dashboard.scss" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>

@@ -1,0 +1,52 @@
+﻿
+.projects-dashboard-list {
+
+    .project-dashboard-subtitle {
+        font-size: 22px;
+        color: $color-action;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+
+    .project-box {
+        position: relative;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 20px;
+        padding: 10px 15px;
+        border: 1px solid #e0e0e0;
+        transition: border-color ease-in 0.2s;
+        background: ghostwhite;
+
+        &:hover {
+            border-color: $color-first;
+        }
+
+        h4 {
+            font-weight: 500;
+            color: $color-text;
+        }
+
+        .course-title {
+            margin-bottom: 10px;
+            color: $color-text;
+        }
+
+        .course-date {
+            color: $color-text;
+            margin-bottom: 10px;
+        }
+
+        .course-date-clock {
+            color: $color-text;
+            position: absolute;
+            top: 21px;
+            right: 15px;
+
+            i {
+                margin-right: 5px;
+            }
+        }
+    }
+}

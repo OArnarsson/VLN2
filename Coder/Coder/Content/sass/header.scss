@@ -54,3 +54,23 @@
         }
     }
 }
+
+@media(max-width: 844px) {
+    .navbar-collapse {
+        margin: 0 -15px;
+        max-height: none;
+    }
+
+    .navbar-nav {
+        margin-top: 0;
+        margin-bottom: 0;
+
+        li {
+            background: $color-first;
+        }
+    }
+
+    .navbar-right li {
+        background: $color-first;
+    }
+}

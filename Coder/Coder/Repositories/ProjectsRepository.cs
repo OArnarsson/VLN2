@@ -42,13 +42,22 @@ namespace Coder.Repositories
                    select p).ToList();
         }
 
-        public List<Project> GetProjectsThatHaveNotStartedYet(string userId, bool isAdmin, int count)
+        public List<Project> GetUpcomingProjectsByUserId(string userId, bool isAdmin)
         {
             var projects = GetProjectsByUserId(userId, isAdmin);
 
             return (from p in projects
                     where p.Start > DateTime.Now
-                    select p).Take(count).ToList();
+                    select p).ToList();
+        }
+
+        public List<Project> GetExpiredProjectsByUserId(string userId, bool isAdmin)
+        {
+            var projects = GetProjectsByUserId(userId, isAdmin);
+
+            return (from p in projects
+                    where p.End < DateTime.Now
+                    select p).ToList();
         }
 
         public Project GetProjectById(int? id)

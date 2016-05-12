@@ -41,7 +41,7 @@ namespace Coder.Controllers
             var notStartedProjects = new List<Project>();
             if (activeProjects.Count < 9)
             {
-                notStartedProjects = projectsRepository.GetProjectsThatHaveNotStartedYet(User.Identity.GetUserId(), User.IsInRole("Administrator"), 9 - activeProjects.Count);
+                notStartedProjects = projectsRepository.GetUpcomingProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator"));
             }
 
             activeProjects.AddRange(notStartedProjects);
@@ -60,22 +60,9 @@ namespace Coder.Controllers
             DashboardViewModel viewModel = new DashboardViewModel();
 
             viewModel.Courses = coursesRepository.GetCoursesForUser(User.Identity.GetUserId()).ToList();
-
-            // Get active projects
-            var activeProjects = projectsRepository.GetActiveProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator"));
-
-            // if active projects are less than nine, get 9-active of projects with start date > Today, order by date
-            var notStartedProjects = new List<Project>();
-            if (activeProjects.Count < 9)
-            {
-                notStartedProjects = projectsRepository.GetProjectsThatHaveNotStartedYet(User.Identity.GetUserId(), User.IsInRole("Administrator"), 9 - activeProjects.Count);
-            }
-
-            activeProjects.AddRange(notStartedProjects);
-            viewModel.OngoingProjects = activeProjects;
-
-            // viewModel.Projects = (from x in (projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList()) orderby x.Start ascending select x).Take(9).ToList();
-
+            viewModel.OngoingProjects = projectsRepository.GetActiveProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList();
+            viewModel.UpcomingProjects = projectsRepository.GetUpcomingProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
+            viewModel.ExpiredProjects = projectsRepository.GetExpiredProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
             viewModel.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()).ToList();
             viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;
 
