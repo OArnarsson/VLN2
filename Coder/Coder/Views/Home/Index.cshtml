@@ -1,116 +1,116 @@
-﻿@{
+﻿@model Coder.Models.ViewModels.DashboardViewModel
+
+@{
     ViewBag.Title = "Dashboard";
-    string color = "";
-    string activeProject = "";
 }
 
-@model Coder.Models.ViewModels.DashboardViewModel
+@section heading {
+    <h1>Dashboard</h1>
+    <a class="btn btn-default btn-changeview" href=@Url.Action("Boxes", "Home")><i class="fa fa-list"></i>Boxes view</a>
+}
 
-<div class="allOfIt row">
-    <div class="allProjects col-md-8 row">
-
-        @if (Model.Projects.Count == 0)
-        {
-            <h1>No active/upcoming projects to show.</h1>
-        }
-        else
-        {
-            foreach (var item in Model.Projects)
-            {
-                activeProject = "";
-                color = "";
-                if (item.Value < 50)
+<div class="dashboard">
+    <div class="title-box">
+        <div class="title-box-title">
+            <h2>Projects</h2>
+        </div>
+        <div class="row">
+            <div class="title-box-content col-md-4 projects-dashboard-list">
+                <div class="project-dashboard-subtitle">Ongoing projects</div>
+                @if (Model.OngoingProjects.Count == 0)
                 {
-                    color = "red";
+                    <h2 class="alert alert-info">You have no ongoing projects.</h2>
                 }
-                else if (item.Value >= 50 && item.Value < 100)
+                else
                 {
-                    color = "orange";
-                }
-                else if (item.Value == 100)
-                {
-                    color = "green";
-                }
-
-                if (@item.Start > DateTime.Now)
-                {
-                    activeProject = "oldBox";
-                }
-
-                //The percentage of circle colored.
-                string pvalue = "p" + @item.Value;
-
-                <div class="col-md-4">
-                    <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
-                        <div class="projectBox @activeProject">
-                            <p class="name">@item.Name</p>
-                            <span class="course">@item.Course.Title</span>
-
-                            <div class="proContainer">
-                                <div class="c100 center @pvalue small @color">
-                                    <span id="proText">@item.Value%</span>
-                                    <div class="slice">
-                                        <div class="bar"></div>
-                                        <div class="fill"></div>
-                                    </div>
+                    foreach (var item in Model.OngoingProjects)
+                    {
+                        <div class="project-box">
+                            <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
+                                <div>
+                                    <h4>@item.Name</h4>
+                                    <div class="course-title">@item.Course.Title</div>
+                                    <div class="course-date">Closes: @item.End.ToString("dddd, d MMM") &nbsp;'@item.End.ToString("yy")</div>
+                                    <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.End.ToString("HH:mm")</div>
                                 </div>
-                            </div>
-                            <p id="endDate">
-                                @item.End.ToString("dddd, d MMM") &nbsp;'@item.End.ToString("yy")<br>
-                                @item.End.ToString("HH:mm")
-                            </p>
+                            </a>
                         </div>
-                    </a>
-                </div>
-            }
-        }
-    </div>
-
-    <div class="col-md-4 projectBox right">
-        <table class="table coder-table">
-            <caption>Previous projects</caption>    
-            <thead>
-                <tr>
-                    <th>Project Name</th>
-                    <th>Course</th>
-                    <th>Grade</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var project in Model.Projects)
-                {
-                    <tr>
-                        <td>@Html.ActionLink(project.Name.ToString(), "Details", "Projects", new { id = project.Id }, null)</td>
-                        <td>@Html.ActionLink(project.Course.Name.ToString(), "Details", "Courses", new { id = project.Course.Id }, null)</td>
-                        <td>@project.Value/100</td>
-                    </tr>
-                }               
-            </tbody>
-        </table>
-    </div>
-
-    <div class="col-md-4 projectBox right">
-        <table class="recentSubs table coder-table">
-            <caption>Recent submissions</caption>
-            <thead>
-                <tr>
-                    <th>Submission</th>
-                    <th>Task</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var submission in Model.Submissions.Take(6))
-                {
-                    <tr>
-                        <td>@Html.ActionLink(submission.Id.ToString(), "Details", "Submissions", new { id = submission.Id }, null)</td>
-                        <td>@Html.ActionLink(submission.ProjectTask.Name, "Details", "ProjectTasks", new { id = submission.ProjectTaskId }, null)</td>
-                        <td>@submission.Status</td>
-                    </tr>
+                    }
                 }
-            </tbody>
-        </table>
+            </div>
+            <div class="title-box-content col-md-4 projects-dashboard-list">
+                <div class="project-dashboard-subtitle">Upcoming projects</div>
+                @if (Model.UpcomingProjects.Count == 0)
+                {
+                    <div class="alert alert-info">You have no upcoming projects.</div>
+                }
+                else
+                {
+                    foreach (var item in Model.UpcomingProjects)
+                    {
+                        <div class="project-box">
+                            <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
+                                <div>
+                                    <h4>@item.Name</h4>
+                                    <div class="course-title">@item.Course.Title</div>
+                                    <div class="course-date">Opens: @item.Start.ToString("dddd, d MMM") &nbsp;'@item.Start.ToString("yy")</div>
+                                    <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.Start.ToString("HH:mm")</div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="title-box-content col-md-4 projects-dashboard-list">
+                <div class="project-dashboard-subtitle">Expired projects</div>
+                @if (Model.ExpiredProjects.Count == 0)
+                {
+                    <div class="alert alert-info">You have no expired projects.</div>
+                }
+                else
+                {
+                    foreach (var item in Model.ExpiredProjects)
+                    {
+                        <div class="project-box">
+                            <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
+                                <div>
+                                    <h4>@item.Name</h4>
+                                    <div class="course-title">@item.Course.Title</div>
+                                    <div class="course-date">Closed: @item.End.ToString("dddd, d MMM") &nbsp;'@item.End.ToString("yy")</div>
+                                    <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.End.ToString("HH:mm")</div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="title-box">
+        <div class="title-box-title">
+            <h3>Recent submissions</h3>
+        </div>
+        <div class="title-box-content">
+            <table class="recentSubs table coder-table">
+                <thead>
+                    <tr>
+                        <th>Submission</th>
+                        <th>Task</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var submission in Model.Submissions.Take(6))
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(submission.Id.ToString(), "Details", "Submissions", new { id = submission.Id }, null)</td>
+                            <td>@Html.ActionLink(submission.ProjectTask.Name, "Details", "ProjectTasks", new { id = submission.ProjectTaskId }, null)</td>
+                            <td>@submission.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
