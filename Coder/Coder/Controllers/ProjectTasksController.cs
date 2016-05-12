@@ -108,7 +108,7 @@ namespace Coder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Value,ProjectId,MaxGroupSize")] ProjectTask projectTask)
+        public ActionResult Create(ProjectTask projectTask, FormCollection form)
         {
             if (!coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
@@ -117,7 +117,30 @@ namespace Coder.Controllers
 
             if (ModelState.IsValid)
             {
+                foreach (var file in form.GetValue("files").AttemptedValue.Split(','))
+                {
+                    if (String.IsNullOrEmpty(file.Trim()))
+                    {
+                        continue;
+                    }
+                    projectTasksRepository.AddFilesRequired(new FileRequired { Name = file.Trim(), ProjectTaskId = projectTask.Id });
+                }
+
+                for (int i = 0; i < form.Count; i++)
+                {
+                    var key = form.Keys[i];
+
+                    if (key.StartsWith("test") && key.EndsWith("output"))
+                    {
+                        var counter = key.Split('_')[1];
+                        string input = form.GetValue("test_" + counter + "_input").AttemptedValue.Replace("&quot;", "\"");
+                        string output = form.GetValue("test_" + counter + "_output").AttemptedValue.Replace("&quot;", "\"");
+                        projectTasksRepository.AddTaskTests(new TaskTest { Input = input, Output = output, ProjectTaskId = projectTask.Id });
+                    }
+                }
+
                 projectTasksRepository.AddProjectTask(projectTask);
+                projectTasksRepository.SaveChanges();
                 return RedirectToAction("Index");
             }
 

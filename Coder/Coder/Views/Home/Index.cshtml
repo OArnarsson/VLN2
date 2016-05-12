@@ -78,7 +78,7 @@
             </thead>
 
             <tbody>
-                @foreach (var project in Model.Projects.Take(6))
+                @foreach (var project in Model.Projects)
                 {
                     <tr>
                         <td>@Html.ActionLink(project.Name.ToString(), "Details", "Projects", new { id = project.Id }, null)</td>

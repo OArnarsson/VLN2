@@ -39,7 +39,10 @@
         <a class="btn btn-default" href=@Url.Action("Delete", "Users", new { id = Model.UserId })><i class="fa fa-trash"></i>Delete user</a>
     }
 
-    <h4><b>Email: &nbsp; </b> @Model.Email</h4>
+    <dl class="coder-dl">
+        <dt>Email:</dt>
+        <dd>@Model.Email</dd>
+    </dl>
 
 </div>
 
@@ -72,7 +75,7 @@
 
 <div class="title-box">
     <div class="title-box-title">
-        <h3>Recent submissions</h3>
+        <h3>Submissions</h3>
     </div>
     <div class="title-box-content">
         <table class="order-column stripe coder-table coder-datatable" id="submissionTable">
@@ -86,7 +89,7 @@
                     <th>Course</th>
                     <th>Status</th>
                     <th>Users</th>
-                    <th>More info</th>
+                    <th>Info</th>
                 </tr>
             </thead>
             <tbody>

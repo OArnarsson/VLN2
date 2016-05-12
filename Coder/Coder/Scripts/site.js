@@ -29,7 +29,7 @@ coder.taskTests = {
             coder.taskTests.counter++;
         });
 
-        $("#taskEditForm").submit(function (e) {
+        $("#taskForm").submit(function (e) {
             var i = 1;
 
             // Get all tests
@@ -42,7 +42,7 @@ coder.taskTests = {
                     var editor = ace.edit(value);
                     var type = $(value).hasClass('input') ? 'input' : 'output';
                     var input = '<input type="hidden" name="test_' + i + '_' + type + '" value="' + editor.getValue().replace(/"/g, "&quot;") + '"/>';
-                    $("#taskEditForm").append(input);
+                    $("#taskForm").append(input);
                 });
                 i++;
             });

@@ -263,7 +263,6 @@
     <Content Include="Content\sass\courses.scss" />
     <Content Include="Content\sass\datatables.scss" />
     <Content Include="Content\sass\dropzone.scss" />
-    <Content Include="Content\sass\dropzonebasic.scss" />
     <Content Include="Content\sass\errors.scss" />
     <Content Include="Content\sass\footer.scss" />
     <Content Include="Content\sass\header.scss" />
@@ -272,11 +271,12 @@
     <Content Include="Content\sass\projects.scss" />
     <Content Include="Content\sass\submissions.scss" />
     <Content Include="Content\sass\tables.scss" />
-    <Content Include="Content\sass\tasks.scss" />
     <Content Include="Content\sass\theme.scss" />
-    <Content Include="Content\sass\users.scss" />
     <Content Include="Content\sass\variables.scss" />
     <Content Include="Content\sass\breadcrumbs.scss" />
+    <Content Include="Content\sass\dropzonebasic.scss" />
+    <Content Include="Content\sass\tasks.scss" />
+    <Content Include="Content\sass\users.scss" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
