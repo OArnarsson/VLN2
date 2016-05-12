@@ -39,7 +39,10 @@
         <a class="btn btn-default" href=@Url.Action("Delete", "Users", new { id = Model.UserId })><i class="fa fa-trash"></i>Delete user</a>
     }
 
-    <h4><b>Email: &nbsp; </b> @Model.Email</h4>
+    <dl class="coder-dl">
+        <dt>Email:</dt>
+        <dd>@Model.Email</dd>
+    </dl>
 
 </div>
 

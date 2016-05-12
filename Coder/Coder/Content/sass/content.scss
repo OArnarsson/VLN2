@@ -122,8 +122,32 @@ a {
 }
 
 .coder-dl {
-    dt, dd {
-        display: inline-block;
+    overflow: hidden;
+    margin-top: 20px;
+
+    dt {
+        float: left;
+        width: 10%;
+        padding: 0;
+        margin: 0;
+
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    dd {
+        float: left;
+        width: 90%;
+        padding: 0;
+        margin: 0;
+
+        margin-bottom: 10px;
+        font-size: 14px;
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
     }
 }
 

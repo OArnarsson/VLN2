@@ -27,18 +27,18 @@
             <a class="btn btn-default" href=@Url.Action("Edit", "ProjectTasks", new { id = Model.Id })><i class="fa fa-pencil"></i>Edit task</a>
             <a class="btn btn-default" href=@Url.Action("Delete", "ProjectTasks", new { id = Model.Id })><i class="fa fa-trash"></i>Delete task</a>
         }
-        <dl class="dl-horizontal">
-            <dt>Course</dt>
+        <dl class="coder-dl">
+            <dt>Course:</dt>
             <dd>@Html.ActionLink(@Model.Project.Course.Name, "Details", "Courses", new { id = Model.Project.Course.Id }, null)</dd>
-            <dt>Project</dt>
+            <dt>Project:</dt>
             <dd>@Html.ActionLink(@Model.Project.Name, "Details", "Projects", new { id = Model.Project.Id }, null)</dd>
-            <dt>Percentage of project</dt>
+            <dt>Percentage of project:</dt>
             <dd>@Model.Value %</dd>
             @{
                 var best = (Coder.Models.Entity.Submission)ViewBag.BestSubmission;
                 if (best != null)
                 {
-                    <dt>Your best submission</dt>
+                    <dt>Your best submission:</dt>
                     <dd>@Html.ActionLink("Submission " + best.Id, "Details", "Submissions", new { Id = best.Id }, null)</dd>
                 }
             }
