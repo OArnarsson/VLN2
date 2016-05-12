@@ -26,6 +26,7 @@
         <thead>
             <tr>
                 <th>Course</th>
+                <th>Title</th>
                 <th>Start date</th>
                 <th>End date</th>
                 <th>Total projects</th>
@@ -44,6 +45,7 @@
 
             <tr class="@courseOngoing">
                 <td>@Html.ActionLink(item.Name, "Details", new { id = item.Id })</td>
+                <td>@Html.ActionLink(item.Title, "Details", new { id = item.Id })</td>
                 <td>@item.Start.ToString("dddd, d MMM")</td>
                 <td>@item.End.ToString("dddd, d MMM")</td>
                 <td>@item.Projects.Count</td>
