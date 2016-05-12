@@ -88,6 +88,14 @@ namespace Coder.Repositories
             }
         }
 
+        public void RemoveAllGradesForProjectTask(ProjectTask projectTask)
+        {
+            foreach (var f in db.GradeProjectTasks.Where(i => i.ProjectTaskId == projectTask.Id))
+            {
+                db.GradeProjectTasks.Remove(f);
+            }
+        }
+
         public void UpdateState(EntityState state, ProjectTask projectTask)
         {
             db.Entry(projectTask).State = state;

@@ -408,34 +408,65 @@ namespace Coder.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }
-            
-            List<ApplicationUser> usersWithSubmission = new List<ApplicationUser>();
+            var courseId = projectTask.Project.Course.Id;
+            var users = (from uc in db.UserCourses
+                         where uc.CourseId == courseId
+                         select uc.ApplicationUser).ToList();
 
-            foreach (var s in projectTask.Submissions)
+            List<GradeTaskViewModel> rows = new List<GradeTaskViewModel>();
+
+            var userId = User.Identity.GetUserId();
+            foreach (var u in users)
             {
-                foreach(var u in s.ApplicationUsers)
+                var best = submissionsRepository.GetBestUserSubmissionForTask(id.Value, u.Id);
+                rows.Add(new GradeTaskViewModel()
                 {
-                    if (!usersWithSubmission.Contains(u))
+                    ApplicationUser = u,
+                    Submission = best,
+                    GradeProjectTask = db.GradeProjectTasks.FirstOrDefault(i => i.ProjectTaskId == id.Value && i.UserId == u.Id)
+                });
+            }
+            ViewBag.ProjectTaskId = projectTask.Id;
+            return View(rows);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Grade(FormCollection form)
+        {
+            var projectTaskId = 0;
+            int.TryParse(form["projectTaskId"], out projectTaskId);
+            var projectTask = projectTasksRepository.GetProjectTaskById(projectTaskId);
+
+            // TODO: Check if course exists
+            if (!User.IsInRole("Administrator") && !(coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) || coursesRepository.IsAssistantTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator"))))
+            {
+                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+            }
+
+            projectTasksRepository.RemoveAllGradesForProjectTask(projectTask);
+
+            foreach (var k in form.Keys)
+            {
+                string key = k.ToString();
+                var grade = 0;
+                int.TryParse(form[key], out grade);
+
+                if (key.StartsWith("grade_"))
+                {
+                    var userId = key.Split('_')[1];
+                    projectTask.GradeProjectTasks.Add(new GradeProjectTask
                     {
-                        usersWithSubmission.Add(u);
-                    }
+                        UserId = userId,
+                        Grade = grade,
+                        ProjectTaskId = projectTaskId
+                    });
                 }
             }
 
-            List<ApplicationUser> usersWithoutSubmission = new List<ApplicationUser>();
-
-            List<UserCourse> userCourses = userCoursesRepostiory.GetUserCoursesByCourseId(projectTask.Project.CourseId).ToList();
-            List<ApplicationUser> users = (from u in userCourses
-                                           select u.ApplicationUser).ToList();
-
-            GradeTaskViewModel gradeTaskViewModel = new GradeTaskViewModel()
-            {
-                GradeProjectTasks = projectTasksRepository.GetAllGradeProjectTasksForTaskId(id.Value),
-                UsersWithSubmission = usersWithSubmission,
-                UsersWithoutSubmission = users.Except(usersWithSubmission)
-            };
-
-            return View(gradeTaskViewModel);
+            projectTasksRepository.UpdateState(EntityState.Modified, projectTask);
+            projectTasksRepository.SaveChanges();
+            return RedirectToAction("Details", "ProjectTasks", new { Id = projectTaskId });
         }
     }
 }

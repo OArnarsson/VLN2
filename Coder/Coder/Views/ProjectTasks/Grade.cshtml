@@ -1,6 +1,7 @@
-﻿@model Coder.Models.ViewModels.GradeTaskViewModel
+﻿@model IEnumerable<Coder.Models.ViewModels.GradeTaskViewModel>
 @{
     ViewBag.Title = "Grades";
+    var projectTaskId = ViewBag.ProjectTaskId;
 }
 
 @section heading {
@@ -16,24 +17,48 @@
 }
 
 <div class="whiteBox">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="projectTaskId" value="@projectTaskId"/>
     <table class="stripe coder-table coder-datatable">
         <thead>
             <tr>
-                <th>Test1</th>
-                <th>Test2</th>
-                <th>Test3</th>
+                <th>User</th>
+                <th>Submission</th>
+                <th>Grade</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.UsersWithSubmission)
+            @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Email</td>
-                    <td>@item.Name</td>
-                    <td>Just testing</td>
+                    <td>@item.ApplicationUser.Name</td>
+                    <td>
+                    @if (item.Submission != null)
+                    {
+                        @Html.ActionLink("#" + item.Submission.Id, "Details", "Submissions", new { Id = item.Submission.Id }, null)
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                    </td>
+                    @{
+                        var value = 0;
+                        if (item.GradeProjectTask != null)
+                        {
+                            value = item.GradeProjectTask.Grade;
+                        }
+                    }
+                    <td>
+                        <input class="form-control" name="grade_@item.ApplicationUser.Id" type="number" step="1" min="0" max="100" value="@value"/>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
+    <input type="submit" value="Save" class="btn btn-default" />
+}
 
 </div>

@@ -8,8 +8,8 @@ namespace Coder.Models.ViewModels
 {
     public class GradeTaskViewModel
     {
-        public IEnumerable<GradeProjectTask> GradeProjectTasks { get; set; }
-        public IEnumerable<ApplicationUser> UsersWithSubmission { get; set; }
-        public IEnumerable<ApplicationUser> UsersWithoutSubmission { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+        public Submission Submission { get; set; }
+        public GradeProjectTask GradeProjectTask { get; set; }
     }
 }
