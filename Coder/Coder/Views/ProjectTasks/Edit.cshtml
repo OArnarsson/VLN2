@@ -19,7 +19,7 @@
     </ul>
 }
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "taskEditForm" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "taskForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -60,22 +60,16 @@
                 </div>
             </div>
 
-            @{
-                string files = "";
-
-                if (Model.FilesRequired != null)
-                {
-                    foreach (var file in Model.FilesRequired)
-                    {
-                        files += file.Name + ", ";
-                    }
-                }
-            }
-
             <div class="form-group">
                 <label class="control-label col-md-2" for="files">Files</label>
                 <div class="col-md-10">
-                    <input class="form-control text-box single-line" id="files" placeholder="Filenames seperated by ," type="text" name="files" value="@files" />
+                    @{
+                        var required = "";
+                        if (Model.FilesRequired != null) {
+                            required = string.Join(", ", Model.FilesRequired);
+                        }
+                    }
+                    <input class="form-control text-box single-line" id="files" placeholder="Filenames seperated by ," type="text" name="files" value="@required" />
                 </div>
             </div>
 
@@ -121,5 +115,4 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/scripts/ace/ace.js")
-
 }

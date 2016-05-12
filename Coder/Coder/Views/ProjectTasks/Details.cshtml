@@ -34,15 +34,6 @@
             <dd>@Html.ActionLink(@Model.Project.Name, "Details", "Projects", new { id = Model.Project.Id }, null)</dd>
             <dt>Percentage of project</dt>
             <dd>@Model.Value %</dd>
-            @*
-                <dt>Other tasks in @Html.ActionLink(@Model.Project.Name, "Details", "Projects", new { id = Model.Project.Id }, null)</dt>
-                <dd>
-                    @foreach (var item in Model.Project.ProjectTasks)
-                {
-                    @Html.ActionLink(item.Name, "Details", "ProjectTasks", new { id = item.Id }, null) (@Html.DisplayFor(modelItem => item.Value)%)
-                    }
-                </dd>
-            *@
             @{
                 var best = (Coder.Models.Entity.Submission)ViewBag.BestSubmission;
                 if (best != null)
