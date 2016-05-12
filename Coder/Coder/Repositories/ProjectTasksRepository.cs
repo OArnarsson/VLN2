@@ -40,6 +40,16 @@ namespace Coder.Repositories
             return db.ProjectTasks.Find(id);
         }
 
+        public IEnumerable<GradeProjectTask> GetAllGradeProjectTasks()
+        {
+            return db.GradeProjectTasks.ToList();
+        }
+
+        public IEnumerable<GradeProjectTask> GetAllGradeProjectTasksForTaskId(int taskId)
+        {
+            return db.GradeProjectTasks.Where(g => g.ProjectTaskId == taskId).ToList();
+        }
+
         public void AddProjectTask(ProjectTask projectTask)
         {
             db.ProjectTasks.Add(projectTask);

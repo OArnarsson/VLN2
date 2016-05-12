@@ -206,6 +206,7 @@
     <Compile Include="Models\Entity\Course.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entity\FileRequired.cs" />
+    <Compile Include="Models\Entity\GradeProjectTask.cs" />
     <Compile Include="Models\Entity\TaskTest.cs" />
     <Compile Include="Models\Entity\Project.cs" />
     <Compile Include="Models\Entity\Submission.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Models\ViewModels\CreateUserViewModel.cs" />
     <Compile Include="Models\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Models\ViewModels\ErrorViewModel.cs" />
+    <Compile Include="Models\ViewModels\GradeTaskViewModel.cs" />
     <Compile Include="Models\ViewModels\TaskTestEditViewModel.cs" />
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -465,6 +467,7 @@
     <Content Include="Views\Comments\Create.cshtml" />
     <Content Include="Views\Courses\Boxes.cshtml" />
     <Content Include="Views\Home\UserDashboard.cshtml" />
+    <Content Include="Views\ProjectTasks\GradeTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

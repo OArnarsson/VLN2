@@ -35,6 +35,7 @@ namespace Coder.Models
         public DbSet<TaskTest> TaskTests { get; set; }
         public DbSet<FileRequired> FilesRequired { get; set; }
         public DbSet<UserCourse> UserCourses { get; set; }
+        public DbSet<GradeProjectTask> GradeProjectTasks { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
