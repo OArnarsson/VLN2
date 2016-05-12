@@ -121,6 +121,12 @@ a {
     margin-right: auto;
 }
 
+.coder-dl {
+    dt, dd {
+        display: inline-block;
+    }
+}
+
 .description-box {
     margin: 10px 0;
 }

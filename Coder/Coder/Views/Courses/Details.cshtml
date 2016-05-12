@@ -23,8 +23,7 @@
         <a class="btn btn-default" href=@Url.Action("Delete", "Courses", new { id = Model.Id })><i class="fa fa-trash"></i>Delete course</a>
     }
 
-    <a class="btn btn-default" data-toggle="modal" data-target=".course-users-list"><i class="fa fa-list"></i>Student list</a>
-    <a class="btn btn-default" data-toggle="modal" data-target=".course-teaching-assistant-list"><i class="fa fa-list"></i>Assistant teachers list</a>
+    <a class="btn btn-default" data-toggle="modal" data-target=".course-teaching-assistant-list"><i class="fa fa-list"></i>Assistant teachers list <span class="badge">@Model.UserCourses.Count(i => i.CoderRole == Coder.Models.Entity.CoderRole.TeachingAssistant)</span></a>
     <a class="btn btn-default" data-toggle="modal" data-target=".course-users-list"><i class="fa fa-list"></i>Student list <span class="badge">@Model.UserCourses.Count(i => i.CoderRole == Coder.Models.Entity.CoderRole.Student)</span></a>
 
     <dl class="coder-dl">
@@ -47,7 +46,7 @@
                 <ul class="user-list">
                 @foreach (var teacher in Model.UserCourses.Where(i => i.CoderRole == Coder.Models.Entity.CoderRole.Teacher))
                 {
-                    <li>@teacher.ApplicationUser.Name</li>
+                    <li>@teacher.ApplicationUser.Name, <a href="mailto:@teacher.ApplicationUser.Email">@teacher.ApplicationUser.Email</a></li>
                 }
                 </ul>
             </dd>
