@@ -145,8 +145,8 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (Coder.Models.Entity.Submission s in Model.Submissions.Where(i => i.ApplicationUsers.Any(j => j.Id == User.Identity.GetUserId())).OrderByDescending(i => i.Id)) // TODO: Only current user
-            {
+                @foreach (Coder.Models.Entity.Submission s in ViewBag.Submissions)
+                {
                     <tr>
                         <td>@Html.ActionLink(s.Id.ToString(), "Details", "Submissions", new { id = s.Id }, null)</td>
                         <td>@s.Created</td>

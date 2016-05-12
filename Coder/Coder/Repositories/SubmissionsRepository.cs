@@ -55,6 +55,11 @@ namespace Coder.Repositories
                     select s).ToList();
         }
 
+        public IEnumerable<Submission> GetSubmissionsForProjectTaskId(int projectTaskId)
+        {
+            return db.Submissions.Where(s => s.ProjectTaskId == projectTaskId).ToList();
+        }
+
         public void AddSubmission(Submission submission)
         {
             db.Submissions.Add(submission);
