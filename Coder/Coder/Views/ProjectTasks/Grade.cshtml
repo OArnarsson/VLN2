@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Coder.Models.ViewModels.GradeTaskViewModel>
 @{
     ViewBag.Title = "Grades";
-    var projectTaskId = ViewBag.ProjectTaskId;
+    var project = (Coder.Models.Entity.ProjectTask)ViewBag.ProjectTask;
+    var projectTaskId = project.Id;
 }
 
 @section heading {
@@ -17,48 +18,63 @@
 }
 
 <div class="whiteBox">
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="projectTaskId" value="@projectTaskId"/>
-    <table class="stripe coder-table coder-datatable">
-        <thead>
-            <tr>
-                <th>User</th>
-                <th>Submission</th>
-                <th>Grade</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <span><a id="auto-grade" href="#" class="btn btn-default" data-toggle="tooltip" title="Gives grade based on percentage of tests passed."><i class="fa fa-magic"></i>Auto grade</a></span>
+    <span><a id="clear-grades" href="#" class="btn btn-default" data-toggle="tooltip" title="Resets all grades back to 0."><i class="fa fa-eraser"></i>Reset all</a></span>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="projectTaskId" value="@projectTaskId" />
+        <table id="grading-table" class="stripe coder-table coder-datatable">
+            <thead>
                 <tr>
-                    <td>@item.ApplicationUser.Name</td>
-                    <td>
-                    @if (item.Submission != null)
-                    {
-                        @Html.ActionLink("#" + item.Submission.Id, "Details", "Submissions", new { Id = item.Submission.Id }, null)
-                    }
-                    else
-                    {
-                        <span>-</span>
-                    }
-                    </td>
-                    @{
-                        var value = 0;
-                        if (item.GradeProjectTask != null)
-                        {
-                            value = item.GradeProjectTask.Grade;
-                        }
-                    }
-                    <td>
-                        <input class="form-control" name="grade_@item.ApplicationUser.Id" type="number" step="1" min="0" max="100" value="@value"/>
-                    </td>
+                    <th>User</th>
+                    <th>Submission</th>
+                    <th>Tests passed</th>
+                    <th>Grade</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-    <input type="submit" value="Save" class="btn btn-default" />
-}
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="grade-row">
+                        <td>@Html.ActionLink(@item.ApplicationUser.Name, "Details", "Users", new { Id = @item.ApplicationUser.Id }, null)</td>
+                        <td>
+                            @if (item.Submission != null)
+                            {
+                                @Html.ActionLink("#" + item.Submission.Id, "Details", "Submissions", new { Id = item.Submission.Id }, null)
+                            }
+                            else
+                            {
+                                <span>-</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.Submission != null && project.TaskTests != null)
+                            {
+                                double ratio = Math.Round((double)item.Submission.SubmissionTestResults.Count(i => i.Status == Coder.Models.Entity.TestResultStatus.Accepted) / project.TaskTests.Count(), 2);
+                                <span>@item.Submission.SubmissionTestResults.Count(i => i.Status == Coder.Models.Entity.TestResultStatus.Accepted) / @project.TaskTests.Count() (<span class="tests-ratio">@ratio</span>)</span>;
+                            }
+                            else
+                            {
+                                <span>-</span>
+                            }
+                        </td>
+                        @{
+                            var value = 0;
+                            if (item.GradeProjectTask != null)
+                            {
+                                value = item.GradeProjectTask.Grade;
+                            }
+                        }
+                        <td>
+                            <input class="form-control" name="grade_@item.ApplicationUser.Id" type="number" step="1" min="0" max="100" value="@value" />
+                        </td>
+                    </tr>
+                            }
+            </tbody>
+        </table>
+        <input type="submit" value="Save" class="btn btn-primary" />
+                            }
 
 </div>
