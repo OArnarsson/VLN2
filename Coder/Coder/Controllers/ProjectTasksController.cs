@@ -438,7 +438,7 @@ namespace Coder.Controllers
                     GradeProjectTask = db.GradeProjectTasks.FirstOrDefault(i => i.ProjectTaskId == id.Value && i.UserId == u.Id)
                 });
             }
-            ViewBag.ProjectTaskId = projectTask.Id;
+            ViewBag.ProjectTask = projectTask;
             return View(rows);
         }
 

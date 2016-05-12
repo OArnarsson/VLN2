@@ -120,4 +120,27 @@ $(document).ready(function () {
             }
         }
     });
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $('#auto-grade').click(function (e) {
+        var $this = $(this);
+        $.each($('.grade-row', '#grading-table'), function (key, value) {
+            var ratio = $(value).find('.tests-ratio');
+            var grade = $(value).find('input[name*="grade_"]');
+            if (ratio.length && grade.val() == "0") {
+                var newGrade = parseInt(parseFloat(ratio.text()) * 100);
+                grade.val(newGrade);
+            }
+        });
+        e.preventDefault();
+    });
+
+    $('#clear-grades').click(function (e) {
+        var $this = $(this);
+        $.each($('.grade-row', '#grading-table'), function (key, value) {
+            var grade = $(value).find('input[name*="grade_"]').val("0");
+        });
+        e.preventDefault();
+    });
 });
