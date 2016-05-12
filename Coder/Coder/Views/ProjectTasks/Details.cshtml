@@ -43,8 +43,15 @@
                     }
                 </dd>
             *@
-            <dt>Best Submission</dt>
-            <dd><a href="#">Submission 54 </a><i class="fa fa-check-square" aria-hidden="true"></i></dd>
+            @{
+                var best = (Coder.Models.Entity.Submission)ViewBag.BestSubmission;
+                if (best != null)
+                {
+                    <dt>Your best submission</dt>
+                    <dd>@Html.ActionLink("Submission " + best.Id, "Details", "Submissions", new { Id = best.Id }, null)</dd>
+                }
+            }
+            
         </dl>
 </div>
 <div class="title-box">
@@ -62,23 +69,30 @@
     </div>
     <div class="title-box-content">
         @{
-            int counter = 1;
-            foreach (var test in Model.TaskTests)
+            if (Model.TaskTests.Count > 0)
             {
-                <div class="test">
-                    <h3>Test @counter</h3>
-                    <div class="tests-wrap row">
-                        <div class="input-wrap col-sm-6">
-                            <p>Input</p>
-                            <div class="editor input readonly">@test.Input</div>
-                        </div>
-                        <div class="output-wrap col-sm-6">
-                            <p>Output</p>
-                            <div class="editor output readonly">@test.Output</div>
+                int counter = 1;
+                foreach (var test in Model.TaskTests)
+                {
+                    <div class="test">
+                        <h3>Test @counter</h3>
+                        <div class="tests-wrap row">
+                            <div class="input-wrap col-sm-6">
+                                <p>Input</p>
+                                <div class="editor input readonly">@test.Input</div>
+                            </div>
+                            <div class="output-wrap col-sm-6">
+                                <p>Output</p>
+                                <div class="editor output readonly">@test.Output</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                counter = counter + 1;
+                    counter = counter + 1;
+                }
+            }
+            else
+            {
+                <div class="alert alert-info">No tests available at this time.</div>
             }
         }
     </div>

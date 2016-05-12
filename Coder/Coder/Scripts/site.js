@@ -84,8 +84,8 @@ coder.taskTests = {
         $test.append('<a class="btn btn-danger remove-test" href="#"><i class="fa fa-trash " aria-hidden="true"></i>Remove test</a>');
 
         var $testsWrap = $('<div class="tests-wrap row">');
-        $testsWrap.append($('<div class="input-wrap col-sm-6"><div class="editor input"></div></div>'));
-        $testsWrap.append($('<div class="output-wrap col-sm-6"><div class="editor output"></div></div>'));
+        $testsWrap.append($('<div class="input-wrap col-sm-6"><p>Input</p><div class="editor input"></div></div>'));
+        $testsWrap.append($('<div class="output-wrap col-sm-6"><p>Output</p><div class="editor output"></div></div>'));
 
         $test.append($testsWrap);
 

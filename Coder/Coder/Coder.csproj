@@ -464,6 +464,7 @@
     <Content Include="Views\Comments\Comments.cshtml" />
     <Content Include="Views\Comments\Create.cshtml" />
     <Content Include="Views\Courses\Boxes.cshtml" />
+    <Content Include="Views\Home\UserDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
