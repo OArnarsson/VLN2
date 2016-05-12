@@ -1,0 +1,39 @@
+﻿@model Coder.Models.ViewModels.GradeTaskViewModel
+@{
+    ViewBag.Title = "Grades";
+}
+
+@section heading {
+    <h1>Grades</h1>
+}
+
+@section breadcrumbs {
+    <ul>
+        <li>@Html.ActionLink("Coder", "Index", "Home")</li>
+        <li>@Html.ActionLink("Tasks", "Index", "ProjectTasks")</li>
+        <li>@Html.ActionLink("Grades", "GradeTask", "ProjectTasks")</li>
+    </ul>
+}
+
+<div class="whiteBox">
+    <table class="stripe coder-table coder-datatable">
+        <thead>
+            <tr>
+                <th>Test1</th>
+                <th>Test2</th>
+                <th>Test3</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.UsersWithSubmission)
+            {
+                <tr>
+                    <td>@item.Email</td>
+                    <td>@item.Name</td>
+                    <td>Just testing</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

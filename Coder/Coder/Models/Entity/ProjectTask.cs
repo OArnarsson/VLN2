@@ -32,5 +32,6 @@ namespace Coder.Models.Entity
         public virtual ICollection<TaskTest> TaskTests { get; set; }
         public virtual ICollection<Submission> Submissions { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<GradeProjectTask> GradeProjectTasks { get; set; }
     }
 }
