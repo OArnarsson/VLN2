@@ -76,7 +76,9 @@ namespace Coder.Controllers
             bool isTeacher = (coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")));
 
             ViewBag.IsTeacher = isTeacher;
-            ViewBag.AllUsers = db.Users.ToList();
+            ViewBag.AllUsers = (from u in userCoursesRepostiory.GetUserCoursesByCourseId(projectTask.Project.CourseId)
+                                where u.CoderRole == CoderRole.Student
+                                select u.ApplicationUser).ToList();
             ViewBag.BestSubmission = submissionsRepository.GetBestUserSubmissionForTask(id.Value, User.Identity.GetUserId());
 
             if (isTeacher || User.IsInRole("Administrator"))
