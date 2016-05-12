@@ -68,8 +68,55 @@ table {
 }
 
 .comments-table {
-    td:last-child {
-        text-align: right;
-        padding-right: 20px;
+    .comment {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 5px;
+        margin-bottom: 20px;
+
+        .comment-main {
+            position: relative;
+
+            .comment-name {
+                display: inline;
+                font-weight: 600;
+            }
+
+            .comment-alert {
+                color: $color-action;
+            }
+
+            .comment-text {
+                display: inline;
+                margin-left: 10px;
+            }
+
+            .comment-delete {
+                position: absolute;
+                top: 0;
+                right: 20px;
+                font-size: 18px;
+            }
+        }
+
+        .comment-date {
+            color: #ccc;
+        }
+    }
+}
+
+#comment-form {
+     div {
+         display: inline-block;
+     }
+
+    #comment-input {
+        width: 500px;
+    }
+
+    #postCommentButton {
+        background: $color-action;
+        border-color: $color-action-darker;
+        margin-left: 10px;
+        margin-top: -2px;
     }
 }

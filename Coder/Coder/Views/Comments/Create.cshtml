@@ -1,7 +1,7 @@
 ﻿@model Coder.Models.Entity.Comment
 
 
-@using (Html.BeginForm("Create", "Comments", FormMethod.Post, new { id = "commentForm" }))
+@using (Html.BeginForm("Create", "Comments", FormMethod.Post, new { id = "comment-form" }))
 {
     @Html.AntiForgeryToken()
 
