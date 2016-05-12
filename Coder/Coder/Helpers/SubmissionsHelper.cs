@@ -85,6 +85,7 @@ namespace Coder.Helpers
                         if (!processExe.WaitForExit(5000))
                         {
                             // Program has not finished after 5 seconds. Kill it.
+                            submissionStatus = TestResultStatus.TimeLimitExceeded;
                             testStatus = TestResultStatus.TimeLimitExceeded;
                             processExe.Kill();
                         }

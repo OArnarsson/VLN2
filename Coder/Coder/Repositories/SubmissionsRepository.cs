@@ -77,6 +77,14 @@ namespace Coder.Repositories
             return db.Submissions.Find(id);
         }
 
+        public Submission GetBestUserSubmissionForTask(int taskId, string userId)
+        {
+            var submissions = db.Submissions.Where(i => i.ApplicationUsers.Any(j => j.Id == userId) && i.ProjectTaskId == taskId);
+            return (from s in submissions
+                    orderby s.SubmissionTestResults.Count(i => i.Status == TestResultStatus.Accepted) descending, s.Created descending
+                    select s).FirstOrDefault();
+        }
+
         /*public Project GetProjectById(int? id)
         {
             return db.Projects.Find(id);

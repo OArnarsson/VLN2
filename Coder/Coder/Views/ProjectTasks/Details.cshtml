@@ -34,17 +34,15 @@
             <dd>@Html.ActionLink(@Model.Project.Name, "Details", "Projects", new { id = Model.Project.Id }, null)</dd>
             <dt>Percentage of project</dt>
             <dd>@Model.Value %</dd>
-            @*
-                <dt>Other tasks in @Html.ActionLink(@Model.Project.Name, "Details", "Projects", new { id = Model.Project.Id }, null)</dt>
-                <dd>
-                    @foreach (var item in Model.Project.ProjectTasks)
+            @{
+                var best = (Coder.Models.Entity.Submission)ViewBag.BestSubmission;
+                if (best != null)
                 {
-                    @Html.ActionLink(item.Name, "Details", "ProjectTasks", new { id = item.Id }, null) (@Html.DisplayFor(modelItem => item.Value)%)
-                    }
-                </dd>
-            *@
-            <dt>Best Submission</dt>
-            <dd><a href="#">Submission 54 </a><i class="fa fa-check-square" aria-hidden="true"></i></dd>
+                    <dt>Your best submission</dt>
+                    <dd>@Html.ActionLink("Submission " + best.Id, "Details", "Submissions", new { Id = best.Id }, null)</dd>
+                }
+            }
+            
         </dl>
 </div>
 <div class="title-box">
@@ -62,23 +60,30 @@
     </div>
     <div class="title-box-content">
         @{
-            int counter = 1;
-            foreach (var test in Model.TaskTests)
+            if (Model.TaskTests.Count > 0)
             {
-                <div class="test">
-                    <h3>Test @counter</h3>
-                    <div class="tests-wrap row">
-                        <div class="input-wrap col-sm-6">
-                            <p>Input</p>
-                            <div class="editor input readonly">@test.Input</div>
-                        </div>
-                        <div class="output-wrap col-sm-6">
-                            <p>Output</p>
-                            <div class="editor output readonly">@test.Output</div>
+                int counter = 1;
+                foreach (var test in Model.TaskTests)
+                {
+                    <div class="test">
+                        <h4>Test @counter</h4>
+                        <div class="tests-wrap row">
+                            <div class="input-wrap col-sm-6">
+                                <p>Input</p>
+                                <div class="editor input readonly">@test.Input</div>
+                            </div>
+                            <div class="output-wrap col-sm-6">
+                                <p>Output</p>
+                                <div class="editor output readonly">@test.Output</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                counter = counter + 1;
+                    counter = counter + 1;
+                }
+            }
+            else
+            {
+                <div class="alert alert-info">No tests available at this time.</div>
             }
         }
     </div>

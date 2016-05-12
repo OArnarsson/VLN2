@@ -160,7 +160,8 @@
                                         <div class="editor input readonly">@test.Input</div>
 
                                         <h4>Output</h4>
-                                        @if (test.Status == Coder.Models.Entity.TestResultStatus.WrongOutput)
+                                        @* Always false for now, ace-diff not wokring properly. *@
+                                        @if (false && test.Status == Coder.Models.Entity.TestResultStatus.WrongOutput)
                                         {
                                             <div>Output difference</div>
                                             <div>Obtained - Expected</div>

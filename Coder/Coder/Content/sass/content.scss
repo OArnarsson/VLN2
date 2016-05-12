@@ -139,7 +139,8 @@ a {
     margin-right: 5px;
 }
 
-input[type="submit"] {
+input[type="submit"][value="Create"],
+input[type="submit"][value="Save"] {
     float: right;
 }
 
