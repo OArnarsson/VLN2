@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Coder.Models.ViewModels.GradeTaskViewModel>
+
+@{
+    ViewBag.Title = "GradeTask";
+}
+
+<h2>GradeTask</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationUser.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProjectTask.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Grade)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationUser.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectTask.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Grade)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

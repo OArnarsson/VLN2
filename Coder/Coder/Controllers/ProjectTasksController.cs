@@ -14,6 +14,7 @@ using System.Diagnostics;
 using Coder.Repositories;
 using Coder.Helpers;
 using Microsoft.AspNet.Identity;
+using Coder.Models.ViewModels;
 
 namespace Coder.Controllers
 {
@@ -25,6 +26,7 @@ namespace Coder.Controllers
         private readonly CoursesRepository coursesRepository;
         private readonly ProjectsRepository projectsRepository;
         private readonly SubmissionsRepository submissionsRepository;
+        private readonly UserCoursesRepository userCoursesRepostiory;
 
         public ProjectTasksController()
         {
@@ -32,6 +34,7 @@ namespace Coder.Controllers
             coursesRepository = new CoursesRepository(db);
             projectsRepository = new ProjectsRepository(db);
             submissionsRepository = new SubmissionsRepository(db);
+            userCoursesRepostiory = new UserCoursesRepository(db);
         }
 
         // GET: ProjectTasks
@@ -388,6 +391,39 @@ namespace Coder.Controllers
             {
                 return Json(new { Message = "Error in saving file" });
             }
+        }
+
+        public ActionResult GradeTask(int projectTaskId)
+        {
+            ProjectTask projectTask = projectTasksRepository.GetProjectTaskById(projectTaskId);
+            List<ApplicationUser> usersWithSubmission = new List<ApplicationUser>();
+
+            foreach (var s in projectTask.Submissions)
+            {
+                foreach(var u in s.ApplicationUsers)
+                {
+                    if (!usersWithSubmission.Contains(u))
+                    {
+                        usersWithSubmission.Add(u);
+                    }
+                }
+            }
+
+            List<ApplicationUser> usersWithoutSubmission = new List<ApplicationUser>();
+
+            List<UserCourse> userCourses = userCoursesRepostiory.GetUserCoursesByCourseId(projectTask.Project.CourseId).ToList();
+            List<ApplicationUser> users = (from u in userCourses
+                                           select u.ApplicationUser).ToList();
+
+            GradeTaskViewModel gradeTaskViewModel = new GradeTaskViewModel()
+            {
+                GradeProjectTasks = projectTasksRepository.GetAllGradeProjectTasksForTaskId(projectTaskId),
+                UsersWithSubmission = usersWithSubmission,
+                UsersWithoutSubmission = users.Except(usersWithSubmission)
+            };
+            
+
+            return View();
         }
     }
 }
