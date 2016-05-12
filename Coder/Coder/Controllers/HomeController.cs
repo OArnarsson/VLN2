@@ -45,8 +45,8 @@ namespace Coder.Controllers
             }
 
             activeProjects.AddRange(notStartedProjects);
-            viewModel.OngoingProjects = activeProjects;
-            
+            viewModel.Projects = activeProjects;
+
             // viewModel.Projects = (from x in (projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList()) orderby x.Start ascending select x).Take(9).ToList();
 
             viewModel.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()).ToList();

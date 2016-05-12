@@ -9,6 +9,7 @@ namespace Coder.Models.ViewModels
     public class DashboardViewModel
     {
         public List<Course> Courses { get; set; }
+        public List<Project> Projects { get; set; }
         public List<Project> ExpiredProjects { get; set; }
         public List<Project> OngoingProjects { get; set; }
         public List<Project> UpcomingProjects { get; set; }

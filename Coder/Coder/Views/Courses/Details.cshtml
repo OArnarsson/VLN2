@@ -23,7 +23,7 @@
         <a class="btn btn-default" href=@Url.Action("Delete", "Courses", new { id = Model.Id })><i class="fa fa-trash"></i>Delete course</a>
     }
 
-    <a class="btn btn-default" data-toggle="modal" data-target=".course-users-list"><i class="fa fa-list"></i>Student list</a>
+    <a class="btn btn-default" data-toggle="modal" data-target=".course-users-list"><i class="fa fa-list"></i>Student list <span class="badge">@Model.UserCourses.Count(i => i.CoderRole == Coder.Models.Entity.CoderRole.Student)</span></a>
 
     <dl class="dl-horizontal">
         <dt>Name</dt>

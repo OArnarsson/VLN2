@@ -9,13 +9,13 @@
 <div class="allOfIt row">
     <div class="allProjects col-md-8 row">
 
-        @if (Model.OngoingProjects.Count == 0)
+        @if (Model.Projects.Count == 0)
         {
             <h1>No active/upcoming projects to show.</h1>
         }
         else
         {
-            foreach (var item in Model.OngoingProjects)
+            foreach (var item in Model.Projects)
             {
                 activeProject = "";
                 color = "";
@@ -78,7 +78,7 @@
             </thead>
 
             <tbody>
-                @foreach (var project in Model.ExpiredProjects)
+                @foreach (var project in Model.Projects)
                 {
                     <tr>
                         <td>@Html.ActionLink(project.Name.ToString(), "Details", "Projects", new { id = project.Id }, null)</td>
