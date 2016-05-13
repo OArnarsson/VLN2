@@ -72,6 +72,7 @@ namespace Coder.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
             }
+            
 
             bool isTeacher = (coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")));
 
@@ -87,6 +88,10 @@ namespace Coder.Controllers
             }
             else
             {
+                if (DateTime.Now < projectTask.Project.Start && !coursesRepository.IsAssistantTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")))
+                {
+                    throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                }
                 ViewBag.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId());
             }
             
