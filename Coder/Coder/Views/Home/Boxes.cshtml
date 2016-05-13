@@ -26,20 +26,20 @@
                 activeProject = "";
                 color = "";
                 dateString = "";
-                if (item.Value < 50)
+                if (item.value < 50)
                 {
                     color = "red";
                 }
-                else if (item.Value >= 50 && item.Value < 100)
+                else if (item.value >= 50 && item.value < 100)
                 {
                     color = "orange";
                 }
-                else if (item.Value == 100)
+                else if (item.value == 100)
                 {
                     color = "green";
                 }
 
-                if (@item.Start > DateTime.Now)
+                if (@item.project.Start > DateTime.Now)
                 {
                     activeProject = "oldBox";
                     dateString = "Opens";
@@ -50,32 +50,32 @@
                 }
 
                 //The percentage of circle colored.
-                string pvalue = "p" + @item.Value;
+                string pvalue = "p" + @item.value;
 
                 <div class="col-md-4">
-                    <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
+                    <a href="@Url.Action("Details", "Projects", new { id=item.project.Id })">
                         <div class="projectBox @activeProject">
-                            <p class="name">@item.Name</p>
-                            <span class="course">@item.Course.Title</span>
+                            <p class="name">@item.project.Name</p>
+                            <span class="course">@item.project.Course.Title</span>
 
                             <div class="proContainer">
                                 <div class="c100 center @pvalue small @color">
-                                    <span id="proText">@item.Value%</span>
+                                    <span id="proText">@item.value%</span>
                                     <div class="slice">
                                         <div class="bar"></div>
                                         <div class="fill"></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="course-date">@dateString: @item.End.ToString("dddd, d MMM") &nbsp;'@item.End.ToString("yy")</div>
-                            <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.End.ToString("HH:mm")</div>
+                            <div class="course-date">@dateString: @item.project.End.ToString("dddd, d MMM") &nbsp;'@item.project.End.ToString("yy")</div>
+                            <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.project.End.ToString("HH:mm")</div>
                         </div>
                     </a>
                 </div>
             }
         }
     </div>
-
+   
     <div class="col-md-4 right title-box dashboard-box-right">
         <div class="title-box-title">
             <h3>Expired projects</h3>
@@ -88,17 +88,22 @@
                     <th>Grade</th>
                 </tr>
             </thead>
-
             <tbody>
-                @foreach (var project in Model.Projects)
+                @if (Model.ExpiredProjects.Count() > 0)
                 {
-                    <tr>
-                        <td>@Html.ActionLink(project.Name.ToString(), "Details", "Projects", new { id = project.Id }, null)</td>
-                        <td>@Html.ActionLink(project.Course.Title.ToString(), "Details", "Courses", new { id = project.Course.Id }, null)</td>
-                        <td>@project.Value/100</td>
-                    </tr>
+
+                    foreach (var project in Model.ExpiredProjects)
+                {
+                        <tr>
+                            <td>@Html.ActionLink(project.Name.ToString(), "Details", "Projects", new { id = project.Id }, null)</td>
+                            <td>@Html.ActionLink(project.Course.Title.ToString(), "Details", "Courses", new { id = project.Course.Id }, null)</td>
+                            <td>@project.Value/100</td>
+                        </tr>
+                    }
                 }
+
             </tbody>
+
         </table>
     </div>
 
@@ -114,15 +119,17 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    @foreach (var submission in Model.Submissions.Take(6))
+                    @if (Model.Submissions.Count > 0)
                     {
-                        <tr>
-                            <td>@Html.ActionLink(submission.Id.ToString(), "Details", "Submissions", new { id = submission.Id }, null)</td>
-                            <td class="string-max-length">@Html.ActionLink(submission.ProjectTask.Name, "Details", "ProjectTasks", new { id = submission.ProjectTaskId }, null)</td>
-                            <td>@submission.Status</td>
-                        </tr>
+                        foreach (var submission in Model.Submissions.Take(6))
+                        {
+                            <tr>
+                                <td>@Html.ActionLink(submission.Id.ToString(), "Details", "Submissions", new { id = submission.Id }, null)</td>
+                                <td class="string-max-length">@Html.ActionLink(submission.ProjectTask.Name, "Details", "ProjectTasks", new { id = submission.ProjectTaskId }, null)</td>
+                                <td>@submission.Status</td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>

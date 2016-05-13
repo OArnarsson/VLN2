@@ -221,6 +221,7 @@
     <Compile Include="Models\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Models\ViewModels\ErrorViewModel.cs" />
     <Compile Include="Models\ViewModels\GradeTaskViewModel.cs" />
+    <Compile Include="Models\ViewModels\ProjectViewModel.cs" />
     <Compile Include="Models\ViewModels\TaskTestEditViewModel.cs" />
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
