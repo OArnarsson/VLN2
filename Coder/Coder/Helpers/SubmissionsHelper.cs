@@ -25,23 +25,23 @@ namespace Coder.Helpers
         /*
         * Initialization, locates the submission folder.
         */
-        public string getSubmissionFolder(Submission submission)
+        public string GetSubmissionFolder(Submission submission)
         {
-            var projectRoot = System.AppDomain.CurrentDomain.BaseDirectory;
+            var projectRoot = AppDomain.CurrentDomain.BaseDirectory;
             return System.IO.Path.Combine(projectRoot, "Uploads\\Submissions\\" + submission.Id);
         }
 
         /*
         * Handles the files handed in, see comments inside.
         */
-        public bool createCppSubmission(ProjectTask task, Submission submission)
+        public bool CreateCppSubmission(ProjectTask task, Submission submission)
         {
             // Innocent until proven guilty
-            TestResultStatus submissionStatus = TestResultStatus.Accepted;
+            var submissionStatus = TestResultStatus.Accepted;
 
-            var submissionFolder = getSubmissionFolder(submission);
+            var submissionFolder = GetSubmissionFolder(submission);
 
-            Process compiler = new Process();
+            var compiler = new Process();
             compiler.StartInfo.FileName = "cmd.exe";
             compiler.StartInfo.WorkingDirectory = submissionFolder;
             compiler.StartInfo.RedirectStandardInput = true;
@@ -57,8 +57,8 @@ namespace Coder.Helpers
             compiler.StandardInput.WriteLine("g++.exe -Wall -o program " + filenames);
             compiler.StandardInput.WriteLine("exit");
             compiler.WaitForExit();
-            string compilerOutput = compiler.StandardOutput.ReadToEnd();
-            string compilerError = compiler.StandardError.ReadToEnd();
+            var compilerOutput = compiler.StandardOutput.ReadToEnd();
+            var compilerError = compiler.StandardError.ReadToEnd();
             compiler.Close();
 
             // Check for compilation error
@@ -77,7 +77,6 @@ namespace Coder.Helpers
                 // Run tests
                 foreach (var test in task.TaskTests)
                 {
-                    // TODO: Memory test
                     var testStatus = TestResultStatus.Accepted;
                     var processInfoExe = new ProcessStartInfo(program, "");
                     processInfoExe.UseShellExecute = false;

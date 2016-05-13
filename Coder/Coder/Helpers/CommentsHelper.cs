@@ -14,7 +14,6 @@ namespace Coder.Helpers
         private readonly ApplicationDbContext db = new ApplicationDbContext();
         private readonly CoursesRepository coursesRepo;
 
-
         /*
         * Initialization.
         */
@@ -37,10 +36,10 @@ namespace Coder.Helpers
         */
         public IEnumerable<CommentViewModel> CommentViewModelsFromComments(IEnumerable<Comment> comments, bool isAdmin, string userId)
         {
-            List<CommentViewModel> commentsViewModel = new List<CommentViewModel>();
+            var commentsViewModel = new List<CommentViewModel>();
             foreach (var c in comments)
             {
-                CommentViewModel commentVM = new CommentViewModel()
+                var commentVM = new CommentViewModel
                 {
                     Id = c.Id,
                     Name = c.ApplicationUser.Name,
