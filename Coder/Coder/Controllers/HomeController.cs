@@ -32,14 +32,64 @@ namespace Coder.Controllers
         {
             var viewModel = new DashboardViewModel();
 
+            var ongoingProjects = projectsRepository.GetActiveProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList();
+            var upcomingProjects = projectsRepository.GetUpcomingProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
+
+            var ongoingProjectsViewModel = new List<ProjectViewModel>();
+            foreach (var ogP in ongoingProjects)
+            {
+                ongoingProjectsViewModel.Add(new ProjectViewModel {Project = ogP, Grade = 0, Value = 0 });
+            }
+
+            var upcomingProjectsViewModel = new List<ProjectViewModel>();
+            foreach (var ucP in upcomingProjects)
+            {
+                upcomingProjectsViewModel.Add(new ProjectViewModel { Project = ucP, Grade = 0, Value = 0 });
+            }
+
             viewModel.Courses = coursesRepository.GetCoursesForUser(User.Identity.GetUserId()).ToList();
-            viewModel.OngoingProjects = projectsRepository.GetActiveProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList();
-            viewModel.UpcomingProjects = projectsRepository.GetUpcomingProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
-            viewModel.ExpiredProjects = projectsRepository.GetExpiredProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
             viewModel.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()).ToList();
+            viewModel.UpcomingProjects = upcomingProjectsViewModel;
+            viewModel.OngoingProjects = ongoingProjectsViewModel;
+            var projects = projectsRepository.GetExpiredProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
+            viewModel.ExpiredProjects = GetProjectsWithGrade(projects);
             viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;
 
             return View(viewModel);
+        }
+
+        public List<ProjectViewModel> GetProjectsWithGrade(List<Project> projects)
+        {
+            var list = new List<ProjectViewModel>();
+
+            foreach (var project in projects)
+            {
+                list.Add(new ProjectViewModel { Project = project, Grade = GetGrade(project) });
+            }
+
+            return list;
+        }
+
+        public double GetGrade(Project project)
+        {
+            double totalGrade = 0;
+            double totalGrades = 0;
+            double totalValue = 0;
+            foreach (var task in project.ProjectTasks)
+            {
+                var gradeProjectTask = task.GradeProjectTasks.Where(g => g.UserId == User.Identity.GetUserId()).FirstOrDefault();
+                if (gradeProjectTask != null)
+                {
+                    totalGrade += task.GradeProjectTasks.Where(g => g.UserId == User.Identity.GetUserId()).FirstOrDefault().Grade * task.Value;
+                    totalValue += task.Value;
+                    totalGrades++;
+                }
+            }
+            if (totalGrades == project.ProjectTasks.Count)
+            {
+                return Math.Round(totalGrade / totalValue, 2);
+            }
+            return 0;
         }
 
         public ActionResult Boxes()
@@ -62,7 +112,8 @@ namespace Coder.Controllers
             viewModel.Projects = GetProjectsWithValue(activeProjects);
 
             // viewModel.Projects = (from x in (projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList()) orderby x.Start ascending select x).Take(9).ToList();
-            viewModel.ExpiredProjects = projectsRepository.GetExpiredProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
+            var projects = projectsRepository.GetExpiredProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
+            viewModel.ExpiredProjects = GetProjectsWithGrade(projects);
             viewModel.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()).ToList();
             viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;
 
@@ -71,19 +122,19 @@ namespace Coder.Controllers
 
         public List<ProjectViewModel> GetProjectsWithValue(List<Project> projects)
         {
-            var List = new List<ProjectViewModel>();
+            var list = new List<ProjectViewModel>();
 
             foreach (var project in projects)
             {
-                List.Add(new ProjectViewModel {project = project, value = GetValue(project)});
+                list.Add(new ProjectViewModel {Project = project, Value = GetValue(project)});
             }
-            return List;
+            return list;
         }
 
         public double GetValue(Project projects)
         {
             double currentValue = 0;
-            double TotalValue = 0;
+            double totalValue = 0;
             foreach (var task in projects.ProjectTasks)
             {
                 var bestSubmisson = submissionsRepository.GetBestUserSubmissionForTask(task.Id, User.Identity.GetUserId());
@@ -91,15 +142,15 @@ namespace Coder.Controllers
                 {
                     currentValue += task.Value;
                 }
-                TotalValue += task.Value;
+                totalValue += task.Value;
             }
 
-            if (TotalValue == 0)
+            if (totalValue == 0)
             {
                 return 0;
             }
 
-            return Math.Round((currentValue/TotalValue)*100);
+            return Math.Round((currentValue/totalValue)*100);
         }
 
 

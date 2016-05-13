@@ -26,12 +26,12 @@
                     foreach (var item in Model.OngoingProjects)
                     {
                         <div class="project-box">
-                            <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
+                            <a href="@Url.Action("Details", "Projects", new { id=item.Project.Id })">
                                 <div>
-                                    <h4>@item.Name</h4>
-                                    <div class="course-title">@item.Course.Title</div>
-                                    <div class="course-date">Closes: @item.End.ToString("dddd, d MMM") &nbsp;'@item.End.ToString("yy")</div>
-                                    <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.End.ToString("HH:mm")</div>
+                                    <h4>@item.Project.Name</h4>
+                                    <div class="course-title">@item.Project.Course.Title</div>
+                                    <div class="course-date">Closes: @item.Project.End.ToString("dddd, d MMM") &nbsp;'@item.Project.End.ToString("yy")</div>
+                                    <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.Project.End.ToString("HH:mm")</div>
                                 </div>
                             </a>
                         </div>
@@ -49,12 +49,12 @@
                     foreach (var item in Model.UpcomingProjects)
                     {
                         <div class="project-box">
-                            <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
+                            <a href="@Url.Action("Details", "Projects", new { id=item.Project.Id })">
                                 <div>
-                                    <h4>@item.Name</h4>
-                                    <div class="course-title">@item.Course.Title</div>
-                                    <div class="course-date">Opens: @item.Start.ToString("dddd, d MMM") &nbsp;'@item.Start.ToString("yy")</div>
-                                    <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.Start.ToString("HH:mm")</div>
+                                    <h4>@item.Project.Name</h4>
+                                    <div class="course-title">@item.Project.Course.Title</div>
+                                    <div class="course-date">Opens: @item.Project.Start.ToString("dddd, d MMM") &nbsp;'@item.Project.Start.ToString("yy")</div>
+                                    <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.Project.Start.ToString("HH:mm")</div>
                                 </div>
                             </a>
                         </div>
@@ -72,13 +72,13 @@
                     foreach (var item in Model.ExpiredProjects)
                     {
                         <div class="project-box">
-                            <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
+                            <a href="@Url.Action("Details", "Projects", new { id=item.Project.Id })">
                                 <div>
-                                    <h4>@item.Name</h4>
-                                    <div class="course-title">@item.Course.Title</div>
-                                    <div class="course-date">Closed: @item.End.ToString("dddd, d MMM") &nbsp;'@item.End.ToString("yy")</div>
-                                    <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.End.ToString("HH:mm")</div>
-                                    <div class="course-grade"><i class="fa fa-star"></i>100</div>
+                                    <h4>@item.Project.Name</h4>
+                                    <div class="course-title">@item.Project.Course.Title</div>
+                                    <div class="course-date">Closed: @item.Project.End.ToString("dddd, d MMM") &nbsp;'@item.Project.End.ToString("yy")</div>
+                                    <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.Project.End.ToString("HH:mm")</div>
+                                    <div class="course-grade"><i class="fa fa-star"></i>@item.Grade</div>
                                 </div>
                             </a>
                         </div>

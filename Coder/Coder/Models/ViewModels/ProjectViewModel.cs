@@ -13,8 +13,8 @@ namespace Coder.Models.ViewModels
 {
     public class ProjectViewModel
     {
-        public Project project { get; set; }
-
-        public double value { get; set; }
+        public Project Project { get; set; }
+        public double Grade { get; set; }
+        public double Value { get; set; }
     }
 }

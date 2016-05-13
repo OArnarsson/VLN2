@@ -26,20 +26,20 @@
                 activeProject = "";
                 color = "";
                 dateString = "";
-                if (item.value < 50)
+                if (item.Value < 50)
                 {
                     color = "red";
                 }
-                else if (item.value >= 50 && item.value < 100)
+                else if (item.Value >= 50 && item.Value < 100)
                 {
                     color = "orange";
                 }
-                else if (item.value == 100)
+                else if (item.Value == 100)
                 {
                     color = "green";
                 }
 
-                if (@item.project.Start > DateTime.Now)
+                if (@item.Project.Start > DateTime.Now)
                 {
                     activeProject = "oldBox";
                     dateString = "Opens";
@@ -50,25 +50,25 @@
                 }
 
                 //The percentage of circle colored.
-                string pvalue = "p" + @item.value;
+                string pvalue = "p" + @item.Value;
 
                 <div class="col-md-4">
-                    <a href="@Url.Action("Details", "Projects", new { id=item.project.Id })">
+                    <a href="@Url.Action("Details", "Projects", new { id=item.Project.Id })">
                         <div class="projectBox @activeProject">
-                            <p class="name">@item.project.Name</p>
-                            <span class="course">@item.project.Course.Title</span>
+                            <p class="name">@item.Project.Name</p>
+                            <span class="course">@item.Project.Course.Title</span>
 
                             <div class="proContainer">
                                 <div class="c100 center @pvalue small @color">
-                                    <span id="proText">@item.value%</span>
+                                    <span id="proText">@item.Value%</span>
                                     <div class="slice">
                                         <div class="bar"></div>
                                         <div class="fill"></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="course-date">@dateString: @item.project.End.ToString("dddd, d MMM") &nbsp;'@item.project.End.ToString("yy")</div>
-                            <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.project.End.ToString("HH:mm")</div>
+                            <div class="course-date">@dateString: @item.Project.End.ToString("dddd, d MMM") &nbsp;'@item.Project.End.ToString("yy")</div>
+                            <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.Project.End.ToString("HH:mm")</div>
                         </div>
                     </a>
                 </div>
@@ -95,9 +95,18 @@
                     {
 
                     <tr>
-                        <td>@Html.ActionLink(project.Name.ToString(), "Details", "Projects", new { id = project.Id }, null)</td>
-                        <td>@Html.ActionLink(project.Course.Title.ToString(), "Details", "Courses", new { id = project.Course.Id }, null)</td>
-                        <td>@project.Value</td>
+                        <td>@Html.ActionLink(project.Project.Name.ToString(), "Details", "Projects", new { id = project.Project.Id }, null)</td>
+                        <td>@Html.ActionLink(project.Project.Course.Title.ToString(), "Details", "Courses", new { id = project.Project.Course.Id }, null)</td>
+                        <td>
+                            @if (!Double.IsNaN(project.Value))
+                            {
+                                <span>@project.Value</span>
+                            }
+                            else
+                            {
+                                <span>-</span>
+                            }
+                        </td>
                     </tr>
                     }
                 }
