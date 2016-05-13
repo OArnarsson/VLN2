@@ -22,29 +22,38 @@
 }
 
 <div class="whiteBox">
-        @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
-        {
-            <a class="btn btn-default" href=@Url.Action("Edit", "ProjectTasks", new { id = Model.Id })><i class="fa fa-pencil"></i>Edit task</a>
+    @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
+    {
+        <a class="btn btn-default" href=@Url.Action("Edit", "ProjectTasks", new { id = Model.Id })><i class="fa fa-pencil"></i>Edit task</a>
             <a class="btn btn-default" href=@Url.Action("Delete", "ProjectTasks", new { id = Model.Id })><i class="fa fa-trash"></i>Delete task</a>
             <a class="btn btn-default" href=@Url.Action("Grade", "ProjectTasks", new { id = Model.Id })><i class="fa fa-pencil"></i>Give grades</a>
-        }
-        <dl class="coder-dl">
-            <dt>Course:</dt>
-            <dd>@Html.ActionLink(@Model.Project.Course.Name, "Details", "Courses", new { id = Model.Project.Course.Id }, null)</dd>
-            <dt>Project:</dt>
-            <dd>@Html.ActionLink(@Model.Project.Name, "Details", "Projects", new { id = Model.Project.Id }, null)</dd>
-            <dt>Percentage of project:</dt>
-            <dd>@Model.Value %</dd>
-            @{
-                var best = (Coder.Models.Entity.Submission)ViewBag.BestSubmission;
-                if (best != null)
-                {
-                    <dt>Your best submission:</dt>
+    }
+    <dl class="coder-dl">
+        <dt>Course:</dt>
+        <dd>@Html.ActionLink(@Model.Project.Course.Name, "Details", "Courses", new { id = Model.Project.Course.Id }, null)</dd>
+        <dt>Project:</dt>
+        <dd>@Html.ActionLink(@Model.Project.Name, "Details", "Projects", new { id = Model.Project.Id }, null)</dd>
+        <dt>Percentage of project:</dt>
+        <dd>@Model.Value %</dd>
+        @{
+            var best = (Coder.Models.Entity.Submission)ViewBag.BestSubmission;
+            if (best != null)
+            {
+                <dt>Your best submission:</dt>
                     <dd>@Html.ActionLink("Submission " + best.Id, "Details", "Submissions", new { Id = best.Id }, null)</dd>
-                }
             }
-            
-        </dl>
+        }
+
+        @if (Model.GradeProjectTasks.SingleOrDefault(i => i.UserId == User.Identity.GetUserId()) != null)
+        {
+            <dt>Grade:</dt>
+            <dd>
+                <span>@Model.GradeProjectTasks.SingleOrDefault(i => i.UserId == User.Identity.GetUserId()).Grade</span>
+            </dd>
+        }
+
+
+    </dl>
 </div>
 <div class="title-box">
     <div class="title-box-title">

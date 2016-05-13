@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
 using MvcSiteMapProvider.Web.Mvc.Filters;
 using Coder.Repositories;
+using Coder.Models.ViewModels;
 
 namespace Coder.Controllers
 {
@@ -20,11 +21,13 @@ namespace Coder.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private readonly ProjectsRepository projectsRepository;
         private readonly CoursesRepository coursesRepository;
+        private readonly SubmissionsRepository submissionsRepository;
 
         public ProjectsController()
         {
             projectsRepository = new ProjectsRepository(db);
             coursesRepository = new CoursesRepository(db);
+            submissionsRepository = new SubmissionsRepository(db);
         }
 
         // GET: Projects
@@ -102,9 +105,25 @@ namespace Coder.Controllers
             {
                 ViewBag.Grade = "All tasks haven't been graded yet.";
             }
-            
 
-            return View(project);
+            var taskViewModels = new List<TaskViewModel>();
+            foreach (var task in project.ProjectTasks)
+            {
+                taskViewModels.Add(new TaskViewModel
+                {
+                    BestSubmission = submissionsRepository.GetBestUserSubmissionForTask(task.Id, User.Identity.GetUserId()),
+                    Task = task
+                });
+            }
+
+            ProjectDetailsViewModel view = new ProjectDetailsViewModel()
+            {
+                Project = project,
+                Tasks = taskViewModels
+                
+            };
+
+            return View(view);
         }
 
         // GET: Projects/Create

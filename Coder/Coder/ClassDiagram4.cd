@@ -1,0 +1,503 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Coder.BundleConfig" Collapsed="true">
+    <Position X="6.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\BundleConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.FilterConfig" Collapsed="true">
+    <Position X="1" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\FilterConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.EmailService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="1" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Coder.SmsService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Coder.ApplicationUserManager" Collapsed="true">
+    <Position X="4.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.ApplicationSignInManager" Collapsed="true">
+    <Position X="2.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.RouteConfig" Collapsed="true">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\RouteConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Startup" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAgAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\Startup.Auth.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.MvcApplication" Collapsed="true">
+    <Position X="8" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Global.asax.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Controllers.AccountController" Collapsed="true">
+    <Position X="15.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAChACAAAAAAAAFgEgAABAABMKIAAAMRAAQgAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Controllers.CommentsController" Collapsed="true">
+    <Position X="12" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAQAAAAAAgAAAAACAEAAEAAAAABAAAAAAA=</HashCode>
+      <FileName>Controllers\CommentsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Controllers.CoursesController" Collapsed="true">
+    <Position X="10.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAACARAACAAAAAAAIAAAECAEACAAEAAAAAAAI=</HashCode>
+      <FileName>Controllers\CoursesController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Controllers.ErrorController" Collapsed="true">
+    <Position X="12" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAIAAAAAAAgAAEAAAAAAAEAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\ErrorController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Controllers.HomeController" Collapsed="true">
+    <Position X="15.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABQAgAAAAAQAAEQCAAAAAIAAAACAAAAAAEAAIAAAAI=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Controllers.ManageController" Collapsed="true">
+    <Position X="13.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABACAQiAAgAAAAEFhAAAAAAEAIMIAAEEEgAAkAAA=</HashCode>
+      <FileName>Controllers\ManageController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Controllers.ProjectsController" Collapsed="true">
+    <Position X="13.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACARAACQAAAAAAAAAAEAAEACAAEAAIAAAAI=</HashCode>
+      <FileName>Controllers\ProjectsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Controllers.ProjectTasksController" Collapsed="true">
+    <Position X="10.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACARCACQAAAAAAAAAAEAAEACAFEAAIEAAAI=</HashCode>
+      <FileName>Controllers\ProjectTasksController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Controllers.SubmissionsController" Collapsed="true">
+    <Position X="17.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAARAAAAAAAAAAAAAAAAAAAAAAEAAIAAAAI=</HashCode>
+      <FileName>Controllers\SubmissionsController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Controllers.UsersController" Collapsed="true">
+    <Position X="17.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QIAAAAAAACARAACAAAAAAAIAAAEAAEADAAEAAIAAAAI=</HashCode>
+      <FileName>Controllers\UsersController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Helpers.CommentsHelper" Collapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAgAAAAAABAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Helpers\CommentsHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Helpers.CustomAuthorizeAttribute" Collapsed="true">
+    <Position X="12.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\CustomAuthorizeAttribute .cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Helpers.DateUtility" Collapsed="true">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Helpers\DateUtility.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Helpers.Logger" Collapsed="true">
+    <Position X="11" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAABAACAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\Logger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Helpers.SubmissionsHelper" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAACAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\SubmissionsHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ExternalLoginConfirmationViewModel" Collapsed="true">
+    <Position X="6.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ExternalLoginListViewModel" Collapsed="true">
+    <Position X="6.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.SendCodeViewModel" Collapsed="true">
+    <Position X="1.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAIAAAAAAAAAAAAAAAAAAIAAAAgAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.VerifyCodeViewModel" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAEAAAAAAAgAAAAAAAAAAAAAAIAAAAgAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ForgotViewModel" Collapsed="true">
+    <Position X="1.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.LoginViewModel" Collapsed="true">
+    <Position X="4.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAgAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.RegisterViewModel" Collapsed="true">
+    <Position X="3" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ResetPasswordViewModel" Collapsed="true">
+    <Position X="1.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAgAAAAAAAAAAACAAAAAAAAIAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ForgotPasswordViewModel" Collapsed="true">
+    <Position X="3" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ApplicationUser" Collapsed="true">
+    <Position X="4.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAACAAAAAAAAAAAAAQAAAAABAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ApplicationDbContext" Collapsed="true">
+    <Position X="3" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAIAAAgAABEAACAAAABAEIQQ=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.IndexViewModel" Collapsed="true">
+    <Position X="4.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAQAAAAAAAAAAAAAAQAAAEAEA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ManageLoginsViewModel" Collapsed="true">
+    <Position X="6.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.FactorViewModel" Collapsed="true">
+    <Position X="6.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.SetPasswordViewModel" Collapsed="true">
+    <Position X="6.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ChangePasswordViewModel" Collapsed="true">
+    <Position X="6.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAEAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.AddPhoneNumberViewModel" Collapsed="true">
+    <Position X="4.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.VerifyPhoneNumberViewModel" Collapsed="true">
+    <Position X="4.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ConfigureTwoFactorViewModel" Collapsed="true">
+    <Position X="3" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ManageViewModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.Entity.Comment" Collapsed="true">
+    <Position X="9.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACIAAAAAAAAAAQAAAAAIgAAAAAAAQAAAAACAAAAAA=</HashCode>
+      <FileName>Models\Entity\Comment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.Entity.Course" Collapsed="true">
+    <Position X="11.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAACAgAEAAAAAAAAQAAAAABAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Models\Entity\Course.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.Entity.FileRequired" Collapsed="true">
+    <Position X="13" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACIAAAAAAAAAAAAAAAAIQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entity\FileRequired.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.Entity.GradeProjectTask" Collapsed="true">
+    <Position X="13" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAQAAAAAIgAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Models\Entity\GradeProjectTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.Entity.Project" Collapsed="true">
+    <Position X="14.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIGAAAAACAgAAAAAIAAAIQAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Models\Entity\Project.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.Entity.ProjectTask" Collapsed="true">
+    <Position X="11.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAiAAAAAAAgAAAAAAAACAQABAAAAAAACAAgAAAEIAQ=</HashCode>
+      <FileName>Models\Entity\ProjectTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.Entity.Submission" Collapsed="true">
+    <Position X="9.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQACIAAEAAAAAAAAAAAAAIAAAgAAAAQAAAAgAAAAAAA=</HashCode>
+      <FileName>Models\Entity\Submission.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.Entity.SubmissionTestResult" Collapsed="true">
+    <Position X="14.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQACAAAEAAAAAAAACAQIAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entity\SubmissionTestResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.Entity.TaskTest" Collapsed="true">
+    <Position X="16.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACIAAAAAAAAAAAAAAIAIAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Entity\TaskTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.Entity.UserCourse" Collapsed="true">
+    <Position X="16.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAQAIAAAAgAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Models\Entity\UserCourse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ViewModels.CommentViewModel" Collapsed="true">
+    <Position X="4.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAQAAAABCAAAAAA=</HashCode>
+      <FileName>Models\ViewModels\CommentViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ViewModels.CourseViewModel" Collapsed="true">
+    <Position X="3" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIEAAAAACAwAEAAAAAAAAQAAAAABAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Models\ViewModels\CourseViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ViewModels.CreateUserViewModel" Collapsed="true">
+    <Position X="1.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAIAA=</HashCode>
+      <FileName>Models\ViewModels\CreateUserViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ViewModels.DashboardViewModel" Collapsed="true">
+    <Position X="3" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgACAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAFAEAQA=</HashCode>
+      <FileName>Models\ViewModels\DashboardViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ViewModels.ErrorViewModel" Collapsed="true">
+    <Position X="4.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAAAAAA=</HashCode>
+      <FileName>Models\ViewModels\ErrorViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ViewModels.GradeTaskViewModel" Collapsed="true">
+    <Position X="1.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAYAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ViewModels\GradeTaskViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ViewModels.ProjectDetailsViewModel" Collapsed="true">
+    <Position X="1.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Models\ViewModels\ProjectDetailsViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ViewModels.TaskViewModel" Collapsed="true">
+    <Position X="6.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Models\ViewModels\TaskViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Models.ViewModels.UserViewModel" Collapsed="true">
+    <Position X="1.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAACAAAAAAAAAAAQwAAAAABAACAAAAABAAIAA=</HashCode>
+      <FileName>Models\ViewModels\UserViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Repositories.CommentsRepository" Collapsed="true">
+    <Position X="4.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAIAQgEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\CommentsRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Repositories.CoursesRepository" Collapsed="true">
+    <Position X="1.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIADAAAAAAYAAIIAAgABIAAAQAAACABQggABAAABAA=</HashCode>
+      <FileName>Repositories\CoursesRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Repositories.ProjectsRepository" Collapsed="true">
+    <Position X="6.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAQEAAgAABACAAAAAAAAAAAYAAABAAFAAA=</HashCode>
+      <FileName>Repositories\ProjectsRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Repositories.ProjectTasksRepository" Collapsed="true">
+    <Position X="4.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAACAAIAAQUAIAAAAABAAAAAEiAAAAAAAIBIAAAAA=</HashCode>
+      <FileName>Repositories\ProjectTasksRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Repositories.SubmissionsRepository" Collapsed="true">
+    <Position X="3" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>wEAAAhAAQAAQCAAAAAAAAAIAAAAAAAACAACABAhAAAI=</HashCode>
+      <FileName>Repositories\SubmissionsRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Repositories.UserCoursesRepository" Collapsed="true">
+    <Position X="3" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAQAAAAAAAAAAACAAgAAAAEBAAAAAAgAAA=</HashCode>
+      <FileName>Repositories\UserCoursesRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Coder.Repositories.UsersRepository" Collapsed="true">
+    <Position X="1.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAEAAAAIAAAQAAAAAAAAAAAAAAAAAAAgAAAABAEAAAA=</HashCode>
+      <FileName>Repositories\UsersRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Coder.Models.Entity.TestResultStatus" Collapsed="true">
+    <Position X="14" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAQAAAAEAAAAAAAAgAAAAAAAAQAAAAAAAEAAAA=</HashCode>
+      <FileName>Models\Entity\Submission.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Coder.Models.Entity.CoderRole" Collapsed="true">
+    <Position X="12.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>Models\Entity\UserCourse.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
