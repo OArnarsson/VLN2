@@ -1,52 +1,52 @@
-﻿@model Coder.Models.Entity.Project
+﻿@model Coder.Models.ViewModels.ProjectDetailsViewModel
 @using Microsoft.AspNet.Identity
 
 @{
-    ViewBag.Title = @Html.Raw(Model.Name); ;
+    ViewBag.Title = @Html.Raw(Model.Project.Name); ;
 }
 
 @section heading {
-    <h1>@Model.Name</h1>
+    <h1>@Model.Project.Name</h1>
 }
 
 @section breadcrumbs {
     <ul>
         <li>@Html.ActionLink("Coder", "Index", "Home")</li>
         <li>@Html.ActionLink("Courses", "Index", "Courses")</li>
-        <li>@Html.ActionLink(Model.Course.Name, "Details", "Courses", new { Id = Model.Course.Id }, null)</li>
-        <li>@Html.ActionLink(Model.Name, "Details", "Projects", new { Id = Model.Id }, null)</li>
+        <li>@Html.ActionLink(Model.Project.Course.Name, "Details", "Courses", new { Id = Model.Project.Course.Id }, null)</li>
+        <li>@Html.ActionLink(Model.Project.Name, "Details", "Projects", new { Id = Model.Project.Id }, null)</li>
     </ul>
 }
 
 <div class="whiteBox">
     @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
     {
-        <a class="btn btn-default" href=@Url.Action("Edit", "Projects", new { id = Model.Id })><i class="fa fa-pencil"></i>Edit project</a>
-        <a class="btn btn-default" href=@Url.Action("Delete", "Projects", new { id = Model.Id })><i class="fa fa-trash"></i>Delete project</a>
+        <a class="btn btn-default" href=@Url.Action("Edit", "Projects", new { id = Model.Project.Id })><i class="fa fa-pencil"></i>Edit project</a>
+        <a class="btn btn-default" href=@Url.Action("Delete", "Projects", new { id = Model.Project.Id })><i class="fa fa-trash"></i>Delete project</a>
     }
 
     <dl class="coder-dl">
         <dt>Course:</dt>
-        <dd>@Html.ActionLink(Model.Course.Name, "Details", "Courses", new { id = Model.Course.Id }, null)</dd>
+        <dd>@Html.ActionLink(Model.Project.Course.Name, "Details", "Courses", new { id = Model.Project.Course.Id }, null)</dd>
 
-        <dt>@Html.DisplayNameFor(model => model.Start):</dt>
-        <dd>@Html.DisplayFor(model => model.Start)</dd>
+        <dt>@Html.DisplayNameFor(model => Model.Project.Start):</dt>
+        <dd>@Html.DisplayFor(model => Model.Project.Start)</dd>
 
-        <dt>@Html.DisplayNameFor(model => model.End):</dt>
-        <dd>@Html.DisplayFor(model => model.End)</dd>
+        <dt>@Html.DisplayNameFor(model => Model.Project.End):</dt>
+        <dd>@Html.DisplayFor(model => Model.Project.End)</dd>
 
         <dt>Tasks:</dt>
-        <dd>@Html.DisplayFor(model => model.ProjectTasks.Count)</dd>
+        <dd>@Html.DisplayFor(model => Model.Project.ProjectTasks.Count)</dd>
 
         <dt>Percentage of final grade:</dt>
-        <dd>@Html.DisplayFor(model => model.Value) %</dd>
+        <dd>@Html.DisplayFor(model => Model.Project.Value) %</dd>
 
         <dt>Grade</dt>
         <dd>@ViewBag.Grade</dd>
     </dl>
 
     <div>
-        @Html.Raw(Model.Description)
+        @Html.Raw(Model.Project.Description)
     </div>
 
     
@@ -66,21 +66,30 @@
             <thead>
                 <tr>
                     <th>Task</th>
-                    <th>@Html.DisplayNameFor(model => model.Value)</th>
+                    <th>@Html.DisplayNameFor(model => Model.Project.Value)</th>
                     <th>Status</th>
                     <th>Grade</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.ProjectTasks)
+                @foreach (var item in Model.Tasks)
                 {
                     <tr>
-                        <td>@Html.ActionLink(item.Name, "Details", "ProjectTasks", new { id = item.Id }, null)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Value)</td>
-                        <td>Accepted</td>
+                        <td>@Html.ActionLink(item.Task.Name, "Details", "ProjectTasks", new { id = item.Task.Id }, null)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Task.Value)</td>
                         <td>
-                            @{ var gradeProjectTask = item.GradeProjectTasks.Where(g => g.UserId == User.Identity.GetUserId()).FirstOrDefault(); }
+                            @if (item.BestSubmission != null)
+                            {
+                                <span>@item.BestSubmission.Status</span>
+                            }
+                            else
+                            {
+                                <span>-</span>
+                            }
+                        </td>
+                        <td>
+                            @{ var gradeProjectTask = item.Task.GradeProjectTasks.Where(g => g.UserId == User.Identity.GetUserId()).FirstOrDefault(); }
                             @if (gradeProjectTask != null)
                             {
                                 <span>@gradeProjectTask.Grade</span>
@@ -93,8 +102,8 @@
                         <td>
                             @if (User.IsInRole("Administrator") || ViewBag.IsTeacher == true)
                             {
-                                <a href=@Url.Action("Edit", "ProjectTasks", new { id = item.Id })><i class="fa fa-pencil"></i></a>
-                                <a href=@Url.Action("Delete", "ProjectTasks", new { id = item.Id })><i class="fa fa-trash"></i></a>
+                                <a href=@Url.Action("Edit", "ProjectTasks", new { id = item.Task.Id })><i class="fa fa-pencil"></i></a>
+                                <a href=@Url.Action("Delete", "ProjectTasks", new { id = item.Task.Id })><i class="fa fa-trash"></i></a>
                             }
                         </td>
                     </tr>

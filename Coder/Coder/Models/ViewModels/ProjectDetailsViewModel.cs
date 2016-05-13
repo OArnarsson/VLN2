@@ -6,8 +6,9 @@ using System.Web;
 
 namespace Coder.Models.ViewModels
 {
-    public class TaskTestEditViewModel
+    public class ProjectDetailsViewModel
     {
-        public List<TaskTest> Tests { get; set; }
+        public Project Project { get; set; }
+        public List<TaskViewModel> Tasks { get; set; }
     }
 }
