@@ -57,7 +57,7 @@ namespace Coder.Controllers
             }
 
             Project project = projectsRepository.GetProjectById(id);
-
+            
             if (project == null)
             {
                 throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
@@ -80,6 +80,29 @@ namespace Coder.Controllers
                     throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
                 }
             }
+
+            double totalGrade = 0;
+            double totalGrades = 0;
+            double totalValue = 0;
+            foreach (var task in project.ProjectTasks)
+            {
+                var gradeProjectTask = task.GradeProjectTasks.Where(g => g.UserId == User.Identity.GetUserId()).FirstOrDefault();
+                if (gradeProjectTask != null)
+                {
+                    totalGrade += task.GradeProjectTasks.Where(g => g.UserId == User.Identity.GetUserId()).FirstOrDefault().Grade * task.Value;
+                    totalValue += task.Value;
+                    totalGrades++;
+                }
+            }
+            if (totalGrades == project.ProjectTasks.Count)
+            {
+                ViewBag.Grade = Math.Round(totalGrade / totalValue, 2);
+            }
+            else
+            {
+                ViewBag.Grade = "All tasks haven't been graded yet.";
+            }
+            
 
             return View(project);
         }
