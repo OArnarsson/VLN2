@@ -37,7 +37,7 @@ namespace Coder.Controllers
             viewModel.UpcomingProjects = projectsRepository.GetUpcomingProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
             viewModel.ExpiredProjects = projectsRepository.GetExpiredProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
             viewModel.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()).ToList();
-            viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;
+            viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;                           
 
             return View(viewModel);
         }
@@ -59,15 +59,43 @@ namespace Coder.Controllers
             }
 
             activeProjects.AddRange(notStartedProjects);
-            viewModel.Projects = activeProjects;
+            viewModel.Projects = GetProjectsWithValue(activeProjects);
 
             // viewModel.Projects = (from x in (projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList()) orderby x.Start ascending select x).Take(9).ToList();
-
+            viewModel.ExpiredProjects = projectsRepository.GetExpiredProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
             viewModel.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()).ToList();
             viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;
 
             return View(viewModel);
         }
+
+        public List<ProjectViewModel> GetProjectsWithValue(List<Project> projects)
+        {
+            List<ProjectViewModel> List = new List<ProjectViewModel>();
+
+            foreach(var project in projects)
+            {
+                List.Add(new ProjectViewModel { project = project, value = GetValue(project) });
+            }
+            return List;
+        }
+
+        public double GetValue(Project projects)
+        {          
+            double currentValue = 0;
+            double TotalValue = 0;
+            foreach (var task in projects.ProjectTasks)
+            {
+                var gradeProjectTask = task.GradeProjectTasks.Where(g => g.UserId == User.Identity.GetUserId()).FirstOrDefault();
+                if (gradeProjectTask != null)
+                {
+                    currentValue += task.Value;
+                }
+                TotalValue += task.Value;
+            }            
+            return (currentValue / TotalValue)*100;
+        }
+
 
         public int GetUsersCount()
         {
