@@ -179,7 +179,7 @@ input[type="submit"][value="Save"] {
     text-align: right;
     input {
         display: inline-block;
-        float: none;
+        float: none !important;
     }
 }
 
