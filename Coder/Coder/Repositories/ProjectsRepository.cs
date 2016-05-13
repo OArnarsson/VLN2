@@ -15,6 +15,9 @@ namespace Coder.Repositories
     {
         private readonly ApplicationDbContext db;
 
+        /*
+        * Initialization.
+        */
         public ProjectsRepository(ApplicationDbContext context)
         {
             db = context ?? new ApplicationDbContext();
