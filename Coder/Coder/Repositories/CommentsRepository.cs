@@ -55,7 +55,7 @@ namespace Coder.Repositories
 
 
         /*
-        * Deletes a comment with a specified ID.
+        * Removes a comment with a specified ID.
         */
         public void RemoveCommentWithId(int id)
         {
