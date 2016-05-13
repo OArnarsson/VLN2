@@ -14,16 +14,27 @@ namespace Coder.Helpers
         private readonly ApplicationDbContext db = new ApplicationDbContext();
         private readonly CoursesRepository coursesRepo;
 
+
+        /*
+        * Initialization.
+        */
         public CommentsHelper()
         {
             coursesRepo = new CoursesRepository(db);
         }
 
+        /*
+        * Checks if the user created the comment or if user has administrative rights, if so, he can delete the comment.
+        */
         public bool CanDelete(Comment comment, string userId, bool isAdmin)
         {
             return (isAdmin || userId == comment.UserId || coursesRepo.IsTeacherInCourse(comment.ProjectTask.Project.CourseId, userId, isAdmin));
         }
 
+
+        /*
+        * Returns the commentsViewModel for the task at hand.
+        */
         public IEnumerable<CommentViewModel> CommentViewModelsFromComments(IEnumerable<Comment> comments, bool isAdmin, string userId)
         {
             List<CommentViewModel> commentsViewModel = new List<CommentViewModel>();

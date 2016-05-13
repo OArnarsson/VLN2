@@ -7,6 +7,9 @@ namespace Coder.Helpers
 {
     public class DateUtility
     {
+        /*
+        * Takes in the time since comment was made and returns it as a string, rather than a large number.
+        */
         public static string TimeAgoFromDateTime(DateTime date)
         {
             const int SECOND = 1;

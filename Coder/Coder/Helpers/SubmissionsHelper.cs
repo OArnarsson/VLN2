@@ -14,17 +14,26 @@ namespace Coder.Helpers
     {
         private SubmissionsRepository submissionRepository;
 
+        /*
+        * Initialization.
+        */
         public SubmissionsHelper(ApplicationDbContext context)
         {
             submissionRepository = new SubmissionsRepository(context);
         }
 
+        /*
+        * Initialization, locates the submission folder.
+        */
         public string getSubmissionFolder(Submission submission)
         {
             var projectRoot = System.AppDomain.CurrentDomain.BaseDirectory;
             return System.IO.Path.Combine(projectRoot, "Uploads\\Submissions\\" + submission.Id);
         }
 
+        /*
+        * Handles the files handed in, see comments inside.
+        */
         public bool createCppSubmission(ProjectTask task, Submission submission)
         {
             // Innocent until proven guilty
