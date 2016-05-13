@@ -33,6 +33,20 @@ namespace Coder.Controllers
             DashboardViewModel viewModel = new DashboardViewModel();
 
             viewModel.Courses = coursesRepository.GetCoursesForUser(User.Identity.GetUserId()).ToList();
+            viewModel.OngoingProjects = projectsRepository.GetActiveProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList();
+            viewModel.UpcomingProjects = projectsRepository.GetUpcomingProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
+            viewModel.ExpiredProjects = projectsRepository.GetExpiredProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
+            viewModel.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()).ToList();
+            viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;
+
+            return View(viewModel);
+        }
+
+        public ActionResult Boxes()
+        {
+            DashboardViewModel viewModel = new DashboardViewModel();
+
+            viewModel.Courses = coursesRepository.GetCoursesForUser(User.Identity.GetUserId()).ToList();
 
             // Get active projects
             var activeProjects = projectsRepository.GetActiveProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator"));
@@ -49,20 +63,6 @@ namespace Coder.Controllers
 
             // viewModel.Projects = (from x in (projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList()) orderby x.Start ascending select x).Take(9).ToList();
 
-            viewModel.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()).ToList();
-            viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;
-
-            return View(viewModel);
-        }
-
-        public ActionResult UserDashboard()
-        {
-            DashboardViewModel viewModel = new DashboardViewModel();
-
-            viewModel.Courses = coursesRepository.GetCoursesForUser(User.Identity.GetUserId()).ToList();
-            viewModel.OngoingProjects = projectsRepository.GetActiveProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList();
-            viewModel.UpcomingProjects = projectsRepository.GetUpcomingProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
-            viewModel.ExpiredProjects = projectsRepository.GetExpiredProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
             viewModel.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()).ToList();
             viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;
 

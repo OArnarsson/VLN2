@@ -50,3 +50,96 @@
         }
     }
 }
+
+.projectBox {
+    position: relative;
+    min-height: 220px;
+    min-width: 225px;
+    border: solid;
+    font-size: 13px;
+    text-align: center;  
+    border: 1px solid #e0e0e0;
+    color: $color-text;
+    margin-bottom: 10px;
+    background: #fff;
+    padding: 10px;
+
+    &:hover {
+        border-color: $color-first;
+    }
+
+    .name {
+        font-size: 16px;
+        margin-bottom: 1px;
+    }
+
+    .course {
+        font-style: oblique;
+    }
+
+    .value {
+        display: inline-block;
+        width: 100%;
+        margin: 10px 0 5px 0;
+    }
+
+    .date {
+        position: absolute;
+        bottom: 0;
+        display: block;
+        margin-left: 0;
+        font-size: 10px;
+
+        .start {
+            width: 50%;
+            text-align: left;
+        }
+
+        .end {
+            width: 50%;
+            text-align: right;
+        }
+    }    
+
+    .course-date {
+        margin-top: 5px;
+    }
+
+    .course-date-clock {
+        margin-top: 5px;
+
+        i {
+            margin-right: 5px;
+        }
+    }
+}
+
+.dashboard-box-right {
+    padding: 0;
+
+    .title-box-title {
+        padding-left: 15px;
+        padding-top: 15px;
+
+        h3 {
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ccc;
+        }
+    }
+
+    .coder-table thead tr th {
+        padding-left: 15px;
+    }
+
+    .coder-table tbody tr {
+        td {
+            text-align: left !important;
+            padding-left: 15px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }
+
+    .string-max-length {
+    }
+}

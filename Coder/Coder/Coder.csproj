@@ -406,7 +406,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Boxes.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -467,7 +467,7 @@
     <Content Include="Views\Comments\Comments.cshtml" />
     <Content Include="Views\Comments\Create.cshtml" />
     <Content Include="Views\Courses\Boxes.cshtml" />
-    <Content Include="Views\Home\UserDashboard.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\ProjectTasks\Grade.cshtml" />
   </ItemGroup>
   <ItemGroup>

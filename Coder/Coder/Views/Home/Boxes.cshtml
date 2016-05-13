@@ -1,0 +1,130 @@
+﻿@model Coder.Models.ViewModels.DashboardViewModel
+
+@{
+    ViewBag.Title = "Dashboard";
+    string color = "";
+    string activeProject = "";
+    string dateString = "";
+}
+
+@section heading {
+    <h1>Dashboard</h1>
+    <a class="btn btn-default btn-changeview" href=@Url.Action("Index", "Home")><i class="fa fa-list"></i>List view</a>
+}
+
+<div class="allOfIt row">
+    <div class="allProjects col-md-8 row">
+
+        @if (Model.Projects.Count == 0)
+        {
+            <h1>No active/upcoming projects to show.</h1>
+        }
+        else
+        {
+            foreach (var item in Model.Projects)
+            {
+                activeProject = "";
+                color = "";
+                dateString = "";
+                if (item.Value < 50)
+                {
+                    color = "red";
+                }
+                else if (item.Value >= 50 && item.Value < 100)
+                {
+                    color = "orange";
+                }
+                else if (item.Value == 100)
+                {
+                    color = "green";
+                }
+
+                if (@item.Start > DateTime.Now)
+                {
+                    activeProject = "oldBox";
+                    dateString = "Opens";
+                }
+                else
+                {
+                    dateString = "Closes";
+                }
+
+                //The percentage of circle colored.
+                string pvalue = "p" + @item.Value;
+
+                <div class="col-md-4">
+                    <a href="@Url.Action("Details", "Projects", new { id=item.Id })">
+                        <div class="projectBox @activeProject">
+                            <p class="name">@item.Name</p>
+                            <span class="course">@item.Course.Title</span>
+
+                            <div class="proContainer">
+                                <div class="c100 center @pvalue small @color">
+                                    <span id="proText">@item.Value%</span>
+                                    <div class="slice">
+                                        <div class="bar"></div>
+                                        <div class="fill"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="course-date">@dateString: @item.End.ToString("dddd, d MMM") &nbsp;'@item.End.ToString("yy")</div>
+                            <div class="course-date-clock"><i class="fa fa-clock-o"></i>@item.End.ToString("HH:mm")</div>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="col-md-4 right title-box dashboard-box-right">
+        <div class="title-box-title">
+            <h3>Expired projects</h3>
+        </div>
+        <table class="coder-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Course</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var project in Model.Projects)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(project.Name.ToString(), "Details", "Projects", new { id = project.Id }, null)</td>
+                        <td>@Html.ActionLink(project.Course.Title.ToString(), "Details", "Courses", new { id = project.Course.Id }, null)</td>
+                        <td>@project.Value/100</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-4 right title-box dashboard-box-right">
+        <div class="title-box-title">
+            <h3>Recent submissions</h3>
+        </div>
+            <table class="coder-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Task</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var submission in Model.Submissions.Take(6))
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(submission.Id.ToString(), "Details", "Submissions", new { id = submission.Id }, null)</td>
+                            <td class="string-max-length">@Html.ActionLink(submission.ProjectTask.Name, "Details", "ProjectTasks", new { id = submission.ProjectTaskId }, null)</td>
+                            <td>@submission.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
