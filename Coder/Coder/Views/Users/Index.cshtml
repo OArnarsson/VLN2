@@ -20,6 +20,7 @@
     @if (User.IsInRole("Administrator"))
     {
         <a class="btn btn-default" href=@Url.Action("Create", "Users")><i class="fa fa-edit"></i>Create a new user</a>
+        <a class="btn btn-default" data-toggle="modal" data-target=".import-from-excel"><i class="fa fa-file-excel-o"></i>Import from Excel/CSV</a>
     }
     <table class="order-column stripe coder-table coder-datatable">
         <thead>
@@ -53,4 +54,15 @@
         }
 
     </table>
+</div>
+
+<div class="modal fade import-from-excel" tabindex="-1" role="dialog" aria-labelledby="Import from Excel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="under-construction">
+                <i class="fa fa-keyboard-o under-construction-icon"></i>
+                <div class="under-construction-title"><span>Coming soon!</span>Go watch a movie. Perhabs one starring Chuck Norris?</div>
+            </div>
+        </div>
+    </div>
 </div>
