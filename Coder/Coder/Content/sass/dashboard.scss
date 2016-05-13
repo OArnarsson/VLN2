@@ -48,6 +48,18 @@
                 margin-right: 5px;
             }
         }
+
+        .course-grade {
+            color: $color-first;
+            position: absolute;
+            bottom: 21px;
+            right: 15px;
+
+            i {
+                color: $color-action;
+                margin-right: 5px;
+            }
+        }
     }
 }
 

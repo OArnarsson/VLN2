@@ -33,7 +33,7 @@
             <thead>
                 <tr>
                     <th>User</th>
-                    <th>Best submission</th>
+                    <th>Submission</th>
                     <th>Tests passed</th>
                     <th>Grade</th>
                 </tr>
@@ -75,11 +75,9 @@
                             <input class="form-control" name="grade_@item.ApplicationUser.Id" type="number" step="1" min="0" max="100" value="@value" />
                         </td>
                     </tr>
-                }
+                            }
             </tbody>
         </table>
-        <div class="submit-wrapper">
-            <input type="submit" value="Save" class="btn btn-primary" />
-        </div>
+        <input type="submit" value="Save" class="btn btn-primary" />
     }
 </div>
