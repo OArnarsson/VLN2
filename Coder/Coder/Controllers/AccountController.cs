@@ -82,6 +82,14 @@ namespace Coder.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            using (WebClient wc = new WebClient())
+            {
+                var json = wc.DownloadString("http://api.icndb.com/jokes/random/");
+                var data = (JObject)JsonConvert.DeserializeObject(json);
+
+                ViewBag.Joke = data["value"]["joke"];
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
