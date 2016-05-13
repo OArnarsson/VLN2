@@ -118,9 +118,11 @@ $(document).ready(function () {
                 "next": ">>",
                 "previous": "<<"
             }
-        }
+        },
+        "aaSorting": []
     });
 
+    // Initialize all tooltips
     $('[data-toggle="tooltip"]').tooltip();
 
     $('#auto-grade').click(function (e) {

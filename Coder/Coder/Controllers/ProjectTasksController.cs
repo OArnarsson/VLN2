@@ -94,7 +94,10 @@ namespace Coder.Controllers
                 }
                 ViewBag.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId());
             }
-
+            if (ViewBag.Submissions != null)
+            {
+                ViewBag.Submissions = ((IEnumerable<Submission>)ViewBag.Submissions).OrderByDescending(i => i.Id);
+            }
             return View(projectTask);
         }
 
@@ -344,12 +347,14 @@ namespace Coder.Controllers
                     var newSubmission = new Submission {ProjectTaskId = task.Id, Created = DateTime.Now, ApplicationUsers = new List<ApplicationUser>()};
 
                     // Add group members to submission
+                    var members = 0;
                     foreach (var k in Request.Form.Keys)
                     {
                         var key = k.ToString();
                         var userId = Request.Form[key];
-                        if (key.StartsWith("user") && !string.IsNullOrEmpty(userId))
+                        if (key.StartsWith("user") && !string.IsNullOrEmpty(userId) && members <= task.MaxGroupSize)
                         {
+                            members++;
                             newSubmission.ApplicationUsers.Add(db.Users.FirstOrDefault(i => i.Id == userId));
                             db.Submissions.Add(newSubmission);
                         }
