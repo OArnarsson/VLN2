@@ -8,8 +8,10 @@ using System.Web.Routing;
 
 namespace Coder.Helpers
 {
-    // Code snippet is taken directly from Mark on Stackoverflow
-    // http://stackoverflow.com/questions/13284729/asp-net-mvc-4-custom-authorize-attribute-how-to-redirect-unauthorized-users-to
+    /*
+    * Code snippet is taken directly from Mark on Stackoverflow
+    * http://stackoverflow.com/questions/13284729/asp-net-mvc-4-custom-authorize-attribute-how-to-redirect-unauthorized-users-to
+    */
     public class CustomAuthorizeAttribute : AuthorizeAttribute
     {
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)

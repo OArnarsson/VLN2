@@ -14,6 +14,9 @@ namespace Coder.Helpers
         private static Logger theInstance = null;
         private static StreamWriter sWriter = null;
 
+        /*
+        * Initialization.
+        */
         public static Logger Instance
         {
             get
@@ -27,6 +30,9 @@ namespace Coder.Helpers
             }
         }
 
+        /*
+        * Creates a logfile if there is none, writes down the errors caught in a .txt file for revision.
+        */
         public static void LogException(Exception ex)
         {
             string directoryPath = HttpContext.Current.Server.MapPath("~/Logs/");
