@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<Coder.Models.ViewModels.GradeTaskViewModel>
-@using Coder.Models.Entity
 @{
     ViewBag.Title = "Grades";
-    ProjectTask projectTask = (Coder.Models.Entity.ProjectTask)ViewBag.ProjectTask;
-    var projectTaskId = projectTask.Id;
+    var project = (Coder.Models.Entity.ProjectTask)ViewBag.ProjectTask;
+    var projectTaskId = project.Id;
 }
 
 @section heading {
@@ -13,11 +12,8 @@
 @section breadcrumbs {
     <ul>
         <li>@Html.ActionLink("Coder", "Index", "Home")</li>
-        <li>@Html.ActionLink("Courses", "Index", "Courses")</li>
-        <li>@Html.ActionLink(projectTask.Project.Course.Name, "Details", "Courses", new { Id = projectTask.Project.Course.Id }, null)</li>
-        <li>@Html.ActionLink(projectTask.Project.Name, "Details", "Projects", new { Id = projectTask.Project.Id }, null)</li>
-        <li>@Html.ActionLink(projectTask.Name, "Details", "Projects", new { Id = projectTask.Id }, null)</li>
-        <li>Grades</li>
+        <li>@Html.ActionLink("Tasks", "Index", "ProjectTasks")</li>
+        <li>@Html.ActionLink("Grades", "GradeTask", "ProjectTasks")</li>
     </ul>
 }
 
@@ -33,7 +29,7 @@
             <thead>
                 <tr>
                     <th>User</th>
-                    <th>Best submission</th>
+                    <th>Submission</th>
                     <th>Tests passed</th>
                     <th>Grade</th>
                 </tr>
@@ -54,10 +50,10 @@
                             }
                         </td>
                         <td>
-                            @if (item.Submission != null && projectTask.TaskTests != null)
+                            @if (item.Submission != null && project.TaskTests != null)
                             {
-                                double ratio = Math.Round((double)item.Submission.SubmissionTestResults.Count(i => i.Status == Coder.Models.Entity.TestResultStatus.Accepted) / projectTask.TaskTests.Count(), 2);
-                                <span>@item.Submission.SubmissionTestResults.Count(i => i.Status == Coder.Models.Entity.TestResultStatus.Accepted) / @projectTask.TaskTests.Count() (<span class="tests-ratio">@ratio</span>)</span>;
+                                double ratio = Math.Round((double)item.Submission.SubmissionTestResults.Count(i => i.Status == Coder.Models.Entity.TestResultStatus.Accepted) / project.TaskTests.Count(), 2);
+                                <span>@item.Submission.SubmissionTestResults.Count(i => i.Status == Coder.Models.Entity.TestResultStatus.Accepted) / @project.TaskTests.Count() (<span class="tests-ratio">@ratio</span>)</span>;
                             }
                             else
                             {
@@ -75,11 +71,10 @@
                             <input class="form-control" name="grade_@item.ApplicationUser.Id" type="number" step="1" min="0" max="100" value="@value" />
                         </td>
                     </tr>
-                }
+                            }
             </tbody>
         </table>
-        <div class="submit-wrapper">
-            <input type="submit" value="Save" class="btn btn-primary" />
-        </div>
-    }
+        <input type="submit" value="Save" class="btn btn-primary" />
+                            }
+
 </div>
