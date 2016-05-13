@@ -283,6 +283,7 @@
     <Content Include="Content\sass\tasks.scss" />
     <Content Include="Content\sass\users.scss" />
     <Content Include="Content\sass\dashboard.scss" />
+    <Content Include="ClassDiagram4.cd" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
