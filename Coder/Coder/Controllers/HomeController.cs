@@ -86,8 +86,8 @@ namespace Coder.Controllers
             double TotalValue = 0;
             foreach (var task in projects.ProjectTasks)
             {
-                var gradeProjectTask = task.GradeProjectTasks.Where(g => g.UserId == User.Identity.GetUserId()).FirstOrDefault();
-                if (gradeProjectTask != null)
+                Submission bestSubmisson = submissionsRepository.GetBestUserSubmissionForTask(task.Id, User.Identity.GetUserId());
+                if(bestSubmisson != null && bestSubmisson.Status == TestResultStatus.Accepted)
                 {
                     currentValue += task.Value;
                 }
