@@ -186,3 +186,21 @@ input[type="submit"][value="Save"] {
 .btn-default + .btn-default {
     margin-left: 5px;
 }
+
+.under-construction {
+    text-align: center;
+    
+    .under-construction-title {
+        padding: 40px;
+
+        span {
+            font-size: 28px;
+            display: block;
+        }
+    }
+
+    i {
+        padding-top: 20px;
+        font-size: 80px;
+    }
+}
