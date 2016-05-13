@@ -19,7 +19,7 @@ namespace Coder.Repositories
         {
             db = context ?? new ApplicationDbContext();
         }
-        
+
         public IEnumerable<Course> GetAllCourses()
         {
             return db.Courses.ToList();
@@ -28,9 +28,9 @@ namespace Coder.Repositories
         public IEnumerable<Course> GetCoursesForUser(string userId)
         {
             return (from c in db.Courses
-                    join u in db.UserCourses on c.Id equals u.CourseId
-                    where u.UserId == userId
-                    select c).ToList();
+                join u in db.UserCourses on c.Id equals u.CourseId
+                where u.UserId == userId
+                select c).ToList();
         }
 
         public IEnumerable<Course> GetCoursesForStudentWithStudentRole(string userId)
@@ -51,9 +51,9 @@ namespace Coder.Repositories
         public IEnumerable<Course> GetCoursesForUserWithRole(string userId, CoderRole role)
         {
             return (from c in db.Courses
-                    join u in db.UserCourses on c.Id equals u.CourseId
-                    where u.UserId == userId && u.CoderRole == role
-                    select c).ToList();
+                join u in db.UserCourses on c.Id equals u.CourseId
+                where u.UserId == userId && u.CoderRole == role
+                select c).ToList();
         }
 
         public Course GetCourseFromId(int? id, string userId, bool isAdmin)
@@ -88,7 +88,7 @@ namespace Coder.Repositories
         {
             db.Entry(course).State = state;
         }
-        
+
         // Helper function, perhabs should be in a Service layer
         public bool IsInCourse(int? id, string userId, bool isAdmin)
         {
@@ -106,14 +106,14 @@ namespace Coder.Repositories
 
         public bool IsAssistantTeacherInCourse(int? id, string userId, bool isAdmin)
         {
-           return HasRoleInCourse(id, userId, isAdmin, CoderRole.TeachingAssistant);
+            return HasRoleInCourse(id, userId, isAdmin, CoderRole.TeachingAssistant);
         }
 
         public bool HasRoleInCourse(int? id, string userId, bool isAdmin, CoderRole role)
         {
             if (!isAdmin)
             {
-                UserCourse userCourse = db.UserCourses.Where(i => i.CourseId == id && i.UserId == userId).FirstOrDefault();
+                var userCourse = db.UserCourses.Where(i => i.CourseId == id && i.UserId == userId).FirstOrDefault();
 
                 if (userCourse != null)
                 {

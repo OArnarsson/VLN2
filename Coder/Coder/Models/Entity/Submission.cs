@@ -10,11 +10,13 @@ namespace Coder.Models.Entity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public DateTime Created { get; set; }
         public TestResultStatus Status { get; set; }
         public string ErrorMessage { get; set; }
 
         public int ProjectTaskId { get; set; }
+
         [ForeignKey("ProjectTaskId")]
         public virtual ProjectTask ProjectTask { get; set; }
 

@@ -16,7 +16,7 @@ namespace Coder.Models.ViewModels
 
         [Required]
         public string Name { get; set; }
-        
+
         public string Description { get; set; }
 
         [Required]
@@ -37,7 +37,6 @@ namespace Coder.Models.ViewModels
 
         public CourseViewModel()
         {
-
         }
 
         public CourseViewModel(Course course)

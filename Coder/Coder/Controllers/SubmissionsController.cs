@@ -47,7 +47,7 @@ namespace Coder.Controllers
 
                 return View(submissionsAsStudent.Concat(submissionsAsAssistantTeacher).Concat(submissionsAsTeacher));
             }
-            
+
             return View(submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()));
         }
 
@@ -56,23 +56,24 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
+                throw new HttpException((int) HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            Submission submission = submissionsRepository.GetSubmissionById(id.Value);
+            var submission = submissionsRepository.GetSubmissionById(id.Value);
 
             if (submission == null)
             {
-                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
+                throw new HttpException((int) HttpStatusCode.NotFound, "Not found!");
             }
 
-            if (!submission.ApplicationUsers.Any(u => u.Id == User.Identity.GetUserId()) && !coursesRepository.IsAssistantTeacherInCourse(submission.ProjectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !coursesRepository.IsTeacherInCourse(submission.ProjectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
+            if (!submission.ApplicationUsers.Any(u => u.Id == User.Identity.GetUserId()) && !coursesRepository.IsAssistantTeacherInCourse(submission.ProjectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) &&
+                !coursesRepository.IsTeacherInCourse(submission.ProjectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
-            SubmissionsHelper helper = new SubmissionsHelper(db);
-            ViewBag.submissionFolder = helper.getSubmissionFolder(submission);
+            var helper = new SubmissionsHelper(db);
+            ViewBag.submissionFolder = helper.GetSubmissionFolder(submission);
 
             return View(submission);
         }

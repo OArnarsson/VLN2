@@ -58,28 +58,28 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
+                throw new HttpException((int) HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            ProjectTask projectTask = projectTasksRepository.GetProjectTaskById(id);
+            var projectTask = projectTasksRepository.GetProjectTaskById(id);
 
             if (projectTask == null)
             {
-                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
+                throw new HttpException((int) HttpStatusCode.NotFound, "Not found!");
             }
-            
+
             if (!coursesRepository.IsInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
-            
 
-            bool isTeacher = (coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")));
+
+            var isTeacher = (coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")));
 
             ViewBag.IsTeacher = isTeacher;
             ViewBag.AllUsers = (from u in userCoursesRepostiory.GetUserCoursesByCourseId(projectTask.Project.CourseId)
-                                where u.CoderRole == CoderRole.Student
-                                select u.ApplicationUser).ToList();
+                where u.CoderRole == CoderRole.Student
+                select u.ApplicationUser).ToList();
             ViewBag.BestSubmission = submissionsRepository.GetBestUserSubmissionForTask(id.Value, User.Identity.GetUserId());
 
             if (isTeacher || User.IsInRole("Administrator"))
@@ -90,21 +90,20 @@ namespace Coder.Controllers
             {
                 if (DateTime.Now < projectTask.Project.Start && !coursesRepository.IsAssistantTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")))
                 {
-                    throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                    throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
                 }
                 ViewBag.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId());
             }
-            
+
             return View(projectTask);
         }
 
         // GET: ProjectTasks/Create
         public ActionResult Create()
         {
-           
             if (!coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             // Gets all projects if admin, else just the user's projects
@@ -114,8 +113,8 @@ namespace Coder.Controllers
                 var allProjects = (projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator"))).ToList();
 
                 var teacherProjects = (from p in allProjects
-                                       where p.Course.UserCourses.FirstOrDefault(x => x.UserId == User.Identity.GetUserId()).CoderRole == Coder.Models.Entity.CoderRole.Teacher
-                                       select p).ToList();
+                    where p.Course.UserCourses.FirstOrDefault(x => x.UserId == User.Identity.GetUserId()).CoderRole == CoderRole.Teacher
+                    select p).ToList();
 
                 ViewBag.ProjectId = new SelectList(teacherProjects, "Id", "Name");
             }
@@ -134,7 +133,7 @@ namespace Coder.Controllers
         {
             if (!coursesRepository.IsTeacherInAnyCourse(User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             if (ModelState.IsValid)
@@ -145,19 +144,19 @@ namespace Coder.Controllers
                     {
                         continue;
                     }
-                    projectTasksRepository.AddFilesRequired(new FileRequired { Name = file.Trim(), ProjectTaskId = projectTask.Id });
+                    projectTasksRepository.AddFilesRequired(new FileRequired {Name = file.Trim(), ProjectTaskId = projectTask.Id});
                 }
 
-                for (int i = 0; i < form.Count; i++)
+                for (var i = 0; i < form.Count; i++)
                 {
                     var key = form.Keys[i];
 
                     if (key.StartsWith("test") && key.EndsWith("output"))
                     {
                         var counter = key.Split('_')[1];
-                        string input = form.GetValue("test_" + counter + "_input").AttemptedValue.Replace("&quot;", "\"");
-                        string output = form.GetValue("test_" + counter + "_output").AttemptedValue.Replace("&quot;", "\"");
-                        projectTasksRepository.AddTaskTests(new TaskTest { Input = input, Output = output, ProjectTaskId = projectTask.Id });
+                        var input = form.GetValue("test_" + counter + "_input").AttemptedValue.Replace("&quot;", "\"");
+                        var output = form.GetValue("test_" + counter + "_output").AttemptedValue.Replace("&quot;", "\"");
+                        projectTasksRepository.AddTaskTests(new TaskTest {Input = input, Output = output, ProjectTaskId = projectTask.Id});
                     }
                 }
 
@@ -177,19 +176,19 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
+                throw new HttpException((int) HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            ProjectTask projectTask = projectTasksRepository.GetProjectTaskById(id);
+            var projectTask = projectTasksRepository.GetProjectTaskById(id);
 
             if (projectTask == null)
             {
-                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
+                throw new HttpException((int) HttpStatusCode.NotFound, "Not found!");
             }
 
             if (!coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             if (!User.IsInRole("Administrator"))
@@ -197,8 +196,8 @@ namespace Coder.Controllers
                 var allProjects = (projectsRepository.GetProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator"))).ToList();
 
                 var teacherProjects = (from p in allProjects
-                                       where p.Course.UserCourses.FirstOrDefault(x => x.UserId == User.Identity.GetUserId()).CoderRole == Coder.Models.Entity.CoderRole.Teacher
-                                       select p).ToList();
+                    where p.Course.UserCourses.FirstOrDefault(x => x.UserId == User.Identity.GetUserId()).CoderRole == CoderRole.Teacher
+                    select p).ToList();
 
                 ViewBag.ProjectId = new SelectList(teacherProjects, "Id", "Name");
             }
@@ -216,7 +215,7 @@ namespace Coder.Controllers
         {
             if (!coursesRepository.IsTeacherInCourse(projectTask.Id, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             if (ModelState.IsValid)
@@ -233,19 +232,19 @@ namespace Coder.Controllers
                     {
                         continue;
                     }
-                    projectTasksRepository.AddFilesRequired(new FileRequired { Name = file.Trim(), ProjectTaskId = projectTask.Id });
+                    projectTasksRepository.AddFilesRequired(new FileRequired {Name = file.Trim(), ProjectTaskId = projectTask.Id});
                 }
 
-                for (int i = 0; i < form.Count; i++)
+                for (var i = 0; i < form.Count; i++)
                 {
                     var key = form.Keys[i];
 
                     if (key.StartsWith("test") && key.EndsWith("output"))
                     {
                         var counter = key.Split('_')[1];
-                        string input = form.GetValue("test_" + counter + "_input").AttemptedValue.Replace("&quot;", "\"");
-                        string output = form.GetValue("test_" + counter + "_output").AttemptedValue.Replace("&quot;", "\"");
-                        projectTasksRepository.AddTaskTests(new TaskTest { Input = input, Output = output, ProjectTaskId = projectTask.Id });
+                        var input = form.GetValue("test_" + counter + "_input").AttemptedValue.Replace("&quot;", "\"");
+                        var output = form.GetValue("test_" + counter + "_output").AttemptedValue.Replace("&quot;", "\"");
+                        projectTasksRepository.AddTaskTests(new TaskTest {Input = input, Output = output, ProjectTaskId = projectTask.Id});
                     }
                 }
 
@@ -274,19 +273,19 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
+                throw new HttpException((int) HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            ProjectTask projectTask = projectTasksRepository.GetProjectTaskById(id);
+            var projectTask = projectTasksRepository.GetProjectTaskById(id);
 
             if (projectTask == null)
             {
-                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
+                throw new HttpException((int) HttpStatusCode.NotFound, "Not found!");
             }
 
             if (!coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             return View(projectTask);
@@ -299,7 +298,7 @@ namespace Coder.Controllers
         {
             if (!coursesRepository.IsTeacherInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")) && !User.IsInRole("Administrator"))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             projectTasksRepository.RemoveProjectTask(projectTasksRepository.GetProjectTaskById(id));
@@ -317,36 +316,37 @@ namespace Coder.Controllers
 
         public ActionResult SaveUploadedFile(int Id)
         {
-            bool isSavedSuccessfully = true;
-            string fName = "";
+            var isSavedSuccessfully = true;
+            var fName = "";
             try
             {
-                ProjectTask task = projectTasksRepository.GetProjectTaskById(Id);
+                var task = projectTasksRepository.GetProjectTaskById(Id);
                 // Checking if all files are required
                 foreach (string fileName in Request.Files)
                 {
-                    HttpPostedFileBase file = Request.Files[fileName];
+                    var file = Request.Files[fileName];
                     //Save file content goes here
                     fName = file.FileName;
 
-                    if (!task.FilesRequired.Any(i => i.Name == fName)) {
+                    if (!task.FilesRequired.Any(i => i.Name == fName))
+                    {
                         Response.ClearHeaders();
                         Response.ClearContent();
                         Response.StatusCode = 400;
                         Response.StatusDescription = "File not allowed";
                         Response.ContentType = "application/json";
-                        return Json(new { Message = "File is not in this Task. See required files above." });
+                        return Json(new {Message = "File is not in this Task. See required files above."});
                     }
                 }
 
                 if (Request.Files.Count == task.FilesRequired.Count)
                 {
-                    Submission newSubmission = new Submission { ProjectTaskId = task.Id, Created = DateTime.Now, ApplicationUsers = new List<ApplicationUser>()};
+                    var newSubmission = new Submission {ProjectTaskId = task.Id, Created = DateTime.Now, ApplicationUsers = new List<ApplicationUser>()};
 
                     // Add group members to submission
                     foreach (var k in Request.Form.Keys)
                     {
-                        string key = k.ToString();
+                        var key = k.ToString();
                         var userId = Request.Form[key];
                         if (key.StartsWith("user") && !string.IsNullOrEmpty(userId))
                         {
@@ -364,27 +364,27 @@ namespace Coder.Controllers
                     // All files are valid and all files are there, so we save them
                     foreach (string fileName in Request.Files)
                     {
-                        HttpPostedFileBase file = Request.Files[fileName];
+                        var file = Request.Files[fileName];
 
                         if (file != null && file.ContentLength > 0)
                         {
                             var originalDirectory = new DirectoryInfo(string.Format("{0}Uploads\\Submissions", Server.MapPath(@"\")));
 
-                            string pathString = System.IO.Path.Combine(originalDirectory.ToString(), newSubmission.Id.ToString());
+                            var pathString = Path.Combine(originalDirectory.ToString(), newSubmission.Id.ToString());
 
                             var fileName1 = Path.GetFileName(file.FileName);
 
-                            bool isExists = System.IO.Directory.Exists(pathString);
+                            var isExists = Directory.Exists(pathString);
 
                             if (!isExists)
-                                System.IO.Directory.CreateDirectory(pathString);
+                                Directory.CreateDirectory(pathString);
 
                             var path = string.Format("{0}\\{1}", pathString, file.FileName);
                             file.SaveAs(path);
                         }
                     }
-                    SubmissionsHelper subHelper = new SubmissionsHelper(db);
-                    subHelper.createCppSubmission(task, newSubmission);
+                    var subHelper = new SubmissionsHelper(db);
+                    subHelper.CreateCppSubmission(task, newSubmission);
                 }
                 else
                 {
@@ -393,7 +393,7 @@ namespace Coder.Controllers
                     Response.StatusCode = 400;
                     Response.StatusDescription = "Test requires " + task.FilesRequired.Count + " but the submission only had " + Request.Files.Count;
                     Response.ContentType = "application/json";
-                    return Json(new { Message = "Test requires " + task.FilesRequired.Count + " files, but the submission only had " + Request.Files.Count + ".", JsonRequestBehavior.AllowGet });
+                    return Json(new {Message = "Test requires " + task.FilesRequired.Count + " files, but the submission only had " + Request.Files.Count + ".", JsonRequestBehavior.AllowGet});
                 }
             }
             catch (Exception ex)
@@ -404,41 +404,40 @@ namespace Coder.Controllers
 
             if (isSavedSuccessfully)
             {
-                return Json(new { Message = fName });
+                return Json(new {Message = fName});
             }
-            else
-            {
-                return Json(new { Message = "Error in saving file" });
-            }
+            return Json(new {Message = "Error in saving file"});
         }
-        
+
 
         // GET: ProjectTasks/Grade/5
         public ActionResult Grade(int? id)
         {
             if (id == null)
             {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
+                throw new HttpException((int) HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            ProjectTask projectTask = projectTasksRepository.GetProjectTaskById(id);
+            var projectTask = projectTasksRepository.GetProjectTaskById(id);
 
-            if (!User.IsInRole("Administrator") && !(coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) || coursesRepository.IsAssistantTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator"))))
+            if (!User.IsInRole("Administrator") &&
+                !(coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) ||
+                  coursesRepository.IsAssistantTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator"))))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
             var courseId = projectTask.Project.Course.Id;
             var users = (from uc in db.UserCourses
-                         where uc.CourseId == courseId
-                         select uc.ApplicationUser).ToList();
+                where uc.CourseId == courseId
+                select uc.ApplicationUser).ToList();
 
-            List<GradeTaskViewModel> rows = new List<GradeTaskViewModel>();
+            var rows = new List<GradeTaskViewModel>();
 
             var userId = User.Identity.GetUserId();
             foreach (var u in users)
             {
                 var best = submissionsRepository.GetBestUserSubmissionForTask(id.Value, u.Id);
-                rows.Add(new GradeTaskViewModel()
+                rows.Add(new GradeTaskViewModel
                 {
                     ApplicationUser = u,
                     Submission = best,
@@ -458,16 +457,18 @@ namespace Coder.Controllers
             var projectTask = projectTasksRepository.GetProjectTaskById(projectTaskId);
 
             // TODO: Check if course exists
-            if (!User.IsInRole("Administrator") && !(coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) || coursesRepository.IsAssistantTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator"))))
+            if (!User.IsInRole("Administrator") &&
+                !(coursesRepository.IsTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator")) ||
+                  coursesRepository.IsAssistantTeacherInCourse(projectTask.Project.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator"))))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             projectTasksRepository.RemoveAllGradesForProjectTask(projectTask);
 
             foreach (var k in form.Keys)
             {
-                string key = k.ToString();
+                var key = k.ToString();
                 var grade = 0;
                 int.TryParse(form[key], out grade);
 
@@ -485,7 +486,7 @@ namespace Coder.Controllers
 
             projectTasksRepository.UpdateState(EntityState.Modified, projectTask);
             projectTasksRepository.SaveChanges();
-            return RedirectToAction("Details", "ProjectTasks", new { Id = projectTaskId });
+            return RedirectToAction("Details", "ProjectTasks", new {Id = projectTaskId});
         }
     }
 }

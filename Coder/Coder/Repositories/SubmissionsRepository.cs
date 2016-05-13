@@ -29,9 +29,9 @@ namespace Coder.Repositories
         public IEnumerable<Submission> GetSubmissionsForUserId(string userId)
         {
             return (from s in db.Submissions
-                    from u in s.ApplicationUsers
-                    where u.Id == userId
-                    select s).ToList();
+                from u in s.ApplicationUsers
+                where u.Id == userId
+                select s).ToList();
         }
 
         // Gets all submissions in courses where the user is a teacher
@@ -49,10 +49,10 @@ namespace Coder.Repositories
         public IEnumerable<Submission> GetSubmissionsForCourses(IEnumerable<Course> courses)
         {
             return (from c in courses
-                    join p in db.Projects on c.Id equals p.CourseId
-                    join pt in db.ProjectTasks on p.Id equals pt.ProjectId
-                    join s in db.Submissions on pt.Id equals s.ProjectTaskId
-                    select s).ToList();
+                join p in db.Projects on c.Id equals p.CourseId
+                join pt in db.ProjectTasks on p.Id equals pt.ProjectId
+                join s in db.Submissions on pt.Id equals s.ProjectTaskId
+                select s).ToList();
         }
 
         public IEnumerable<Submission> GetSubmissionsForProjectTaskId(int projectTaskId)
@@ -86,8 +86,8 @@ namespace Coder.Repositories
         {
             var submissions = db.Submissions.Where(i => i.ApplicationUsers.Any(j => j.Id == userId) && i.ProjectTaskId == taskId);
             return (from s in submissions
-                    orderby s.SubmissionTestResults.Count(i => i.Status == TestResultStatus.Accepted) descending, s.Created descending
-                    select s).FirstOrDefault();
+                orderby s.SubmissionTestResults.Count(i => i.Status == TestResultStatus.Accepted) descending, s.Created descending
+                select s).FirstOrDefault();
         }
 
         /*public Project GetProjectById(int? id)

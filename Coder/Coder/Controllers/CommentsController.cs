@@ -40,17 +40,17 @@ namespace Coder.Controllers
 
             if (!(coursesRepo.IsInCourse(comment.ProjectTask.Project.Course.Id, comment.UserId, User.IsInRole("Administrator"))))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             commentsRepo.AddComment(comment);
 
             if (Request.IsAjaxRequest())
             {
-                CommentsHelper commentsHelper = new CommentsHelper();
+                var commentsHelper = new CommentsHelper();
 
                 var commentsFromProjectTask = commentsRepo.GetCommentsForProjectTaskId(comment.ProjectTaskId);
-                List<CommentViewModel> comments = commentsHelper.CommentViewModelsFromComments(commentsFromProjectTask, User.IsInRole("Administrator"), User.Identity.GetUserId()).ToList();
+                var comments = commentsHelper.CommentViewModelsFromComments(commentsFromProjectTask, User.IsInRole("Administrator"), User.Identity.GetUserId()).ToList();
                 return Json(comments, JsonRequestBehavior.AllowGet);
             }
 
@@ -62,18 +62,18 @@ namespace Coder.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            Comment comment = commentsRepo.GetCommentWithId(id);
+            var comment = commentsRepo.GetCommentWithId(id);
 
             if (comment == null)
             {
-                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
+                throw new HttpException((int) HttpStatusCode.NotFound, "Not found!");
             }
 
-            CommentsHelper commentsHelper = new CommentsHelper();
+            var commentsHelper = new CommentsHelper();
 
             if (!commentsHelper.CanDelete(comment, User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             commentsRepo.RemoveCommentWithId(id);
@@ -81,7 +81,7 @@ namespace Coder.Controllers
             if (Request.IsAjaxRequest())
             {
                 var commentsFromProjectTask = commentsRepo.GetCommentsForProjectTaskId(comment.ProjectTaskId);
-                List<CommentViewModel> comments = commentsHelper.CommentViewModelsFromComments(commentsFromProjectTask, User.IsInRole("Administrator"), User.Identity.GetUserId()).ToList();
+                var comments = commentsHelper.CommentViewModelsFromComments(commentsFromProjectTask, User.IsInRole("Administrator"), User.Identity.GetUserId()).ToList();
                 return Json(comments, JsonRequestBehavior.AllowGet);
             }
 

@@ -23,9 +23,9 @@ namespace Coder.Repositories
         public IEnumerable<Comment> GetCommentsForProjectTaskId(int projectTaskId)
         {
             return (from comment in db.Comments.ToList()
-                   where comment.ProjectTaskId == projectTaskId
-                   orderby comment.Created ascending
-                   select comment).ToList();
+                where comment.ProjectTaskId == projectTaskId
+                orderby comment.Created ascending
+                select comment).ToList();
         }
 
         public Comment GetCommentWithId(int id)
@@ -41,7 +41,7 @@ namespace Coder.Repositories
 
         public void RemoveCommentWithId(int id)
         {
-            Comment comment = GetCommentWithId(id);
+            var comment = GetCommentWithId(id);
 
             if (comment != null)
             {

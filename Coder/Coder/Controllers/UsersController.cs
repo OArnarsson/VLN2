@@ -58,19 +58,19 @@ namespace Coder.Controllers
             }
             if (id == null)
             {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
+                throw new HttpException((int) HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            ApplicationUser user = usersRepository.GetUserById(id);
+            var user = usersRepository.GetUserById(id);
 
             if (user == null)
             {
-                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
+                throw new HttpException((int) HttpStatusCode.NotFound, "Not found!");
             }
 
             if (user.Id != User.Identity.GetUserId() && !User.IsInRole("Administrator"))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             var userViewModel = new UserViewModel(user);
@@ -85,7 +85,7 @@ namespace Coder.Controllers
         [CustomAuthorizeAttribute(Roles = "Administrator")]
         public ActionResult Create()
         {
-            CreateUserViewModel userViewModel = new CreateUserViewModel()
+            var userViewModel = new CreateUserViewModel
             {
                 Courses = coursesRepository.GetAllCourses().ToList()
             };
@@ -109,7 +109,7 @@ namespace Coder.Controllers
                     UserName = userViewModel.Email,
                     Email = userViewModel.Email
                 };
-                
+
                 foreach (var i in getUserCoursesFromFormCollection(form, newUser.Id))
                 {
                     userCoursesRepository.AddUserCourse(i);
@@ -136,26 +136,26 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
+                throw new HttpException((int) HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            ApplicationUser user = usersRepository.GetUserById(id);
+            var user = usersRepository.GetUserById(id);
 
             if (user == null)
             {
-                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
+                throw new HttpException((int) HttpStatusCode.NotFound, "Not found!");
             }
 
             if (user.Id != User.Identity.GetUserId() && !User.IsInRole("Administrator"))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!"); 
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             var userViewModel = new UserViewModel(user);
             userViewModel.Courses = coursesRepository.GetAllCourses().ToList();
             userViewModel.UserCourses = userCoursesRepository.GetUserCoursesByUserId(id);
             userViewModel.Admin = userManager.IsInRole(user.Id, "Administrator");
-            
+
             return View(userViewModel);
         }
 
@@ -168,7 +168,7 @@ namespace Coder.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = usersRepository.GetUserById(userViewModel.UserId);
+                var user = usersRepository.GetUserById(userViewModel.UserId);
                 user.Name = userViewModel.Name;
                 user.Email = userViewModel.Email;
 
@@ -200,7 +200,7 @@ namespace Coder.Controllers
                 usersRepository.UpdateState(EntityState.Modified, user);
                 usersRepository.SaveChanges();
 
-                return RedirectToAction("Details", new { Id = user.Id });
+                return RedirectToAction("Details", new {user.Id});
             }
             return View(userViewModel);
         }
@@ -209,15 +209,15 @@ namespace Coder.Controllers
         public List<UserCourse> getUserCoursesFromFormCollection(FormCollection form, string userId)
         {
             var userCourses = new List<UserCourse>();
-            for (int i = 0; i < form.Count; i++)
+            for (var i = 0; i < form.Count; i++)
             {
                 var key = form.Keys[i];
 
                 if (key.StartsWith("Course_") && !string.IsNullOrEmpty(form.GetValue(key).AttemptedValue))
                 {
-                    var val = int.Parse(form.GetValue(key).AttemptedValue.ToString());
+                    var val = int.Parse(form.GetValue(key).AttemptedValue);
                     var courseId = int.Parse(key.Split('_')[1]);
-                    userCourses.Add(new UserCourse { UserId = userId, CourseId = courseId, CoderRole = (CoderRole)val });
+                    userCourses.Add(new UserCourse {UserId = userId, CourseId = courseId, CoderRole = (CoderRole) val});
                 }
             }
             return userCourses;
@@ -229,14 +229,14 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
+                throw new HttpException((int) HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            ApplicationUser applicationUser = usersRepository.GetUserById(id);
+            var applicationUser = usersRepository.GetUserById(id);
 
             if (applicationUser == null)
             {
-                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
+                throw new HttpException((int) HttpStatusCode.NotFound, "Not found!");
             }
 
             return View(applicationUser);

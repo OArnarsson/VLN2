@@ -40,7 +40,7 @@ namespace Coder.Repositories
 
         public void RemoveAllUserCoursesForUserId(string userId)
         {
-            foreach(var x in db.UserCourses.Where(i => i.UserId == userId))
+            foreach (var x in db.UserCourses.Where(i => i.UserId == userId))
             {
                 db.UserCourses.Remove(x);
             }

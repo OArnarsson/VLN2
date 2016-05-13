@@ -30,21 +30,21 @@ namespace Coder.Controllers
 
         public ActionResult Index()
         {
-            DashboardViewModel viewModel = new DashboardViewModel();
+            var viewModel = new DashboardViewModel();
 
             viewModel.Courses = coursesRepository.GetCoursesForUser(User.Identity.GetUserId()).ToList();
             viewModel.OngoingProjects = projectsRepository.GetActiveProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).ToList();
             viewModel.UpcomingProjects = projectsRepository.GetUpcomingProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
             viewModel.ExpiredProjects = projectsRepository.GetExpiredProjectsByUserId(User.Identity.GetUserId(), User.IsInRole("Administrator")).Take(5).ToList();
             viewModel.Submissions = submissionsRepository.GetSubmissionsForUserId(User.Identity.GetUserId()).ToList();
-            viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;                           
+            viewModel.Users = (User.IsInRole("Administrator")) ? usersRepository.GetAllUsers().ToList() : null;
 
             return View(viewModel);
         }
 
         public ActionResult Boxes()
         {
-            DashboardViewModel viewModel = new DashboardViewModel();
+            var viewModel = new DashboardViewModel();
 
             viewModel.Courses = coursesRepository.GetCoursesForUser(User.Identity.GetUserId()).ToList();
 
@@ -71,35 +71,35 @@ namespace Coder.Controllers
 
         public List<ProjectViewModel> GetProjectsWithValue(List<Project> projects)
         {
-            List<ProjectViewModel> List = new List<ProjectViewModel>();
+            var List = new List<ProjectViewModel>();
 
-            foreach(var project in projects)
+            foreach (var project in projects)
             {
-                List.Add(new ProjectViewModel { project = project, value = GetValue(project) });
+                List.Add(new ProjectViewModel {project = project, value = GetValue(project)});
             }
             return List;
         }
 
         public double GetValue(Project projects)
-        {          
+        {
             double currentValue = 0;
             double TotalValue = 0;
             foreach (var task in projects.ProjectTasks)
             {
-                Submission bestSubmisson = submissionsRepository.GetBestUserSubmissionForTask(task.Id, User.Identity.GetUserId());
-                if(bestSubmisson != null && bestSubmisson.Status == TestResultStatus.Accepted)
+                var bestSubmisson = submissionsRepository.GetBestUserSubmissionForTask(task.Id, User.Identity.GetUserId());
+                if (bestSubmisson != null && bestSubmisson.Status == TestResultStatus.Accepted)
                 {
                     currentValue += task.Value;
                 }
                 TotalValue += task.Value;
             }
-            
-            if(TotalValue == 0)
+
+            if (TotalValue == 0)
             {
                 return 0;
-            }        
-                
-            else return Math.Round((currentValue / TotalValue)*100);
+            }
+
+            return Math.Round((currentValue/TotalValue)*100);
         }
 
 
