@@ -15,16 +15,25 @@ namespace Coder.Repositories
     {
         private readonly ApplicationDbContext db;
 
+        /*
+        * Initialization.
+        */
         public ProjectTasksRepository(ApplicationDbContext context)
         {
             db = context ?? new ApplicationDbContext();
         }
 
+        /*
+        * Fetches all the tasks of a given project.
+        */
         public IEnumerable<ProjectTask> GetAllProjectTasks()
         {
             return db.ProjectTasks.Include(x => x.Project);
         }
 
+        /*
+        * Fetches all tasks in projects in courses where the user is enrolled in.
+        */
         public IEnumerable<ProjectTask> GetAllProjectTasksForUserId(string userId)
         {
             return (from pt in db.ProjectTasks
@@ -35,43 +44,67 @@ namespace Coder.Repositories
                 select pt).ToList();
         }
 
+        /*
+        * Fetches a task with a specific ID.
+        */
         public ProjectTask GetProjectTaskById(int? id)
         {
             return db.ProjectTasks.Find(id);
         }
 
+        /*
+        * Fetches all grades in projects in courses where the user is enrolled in.
+        */
         public IEnumerable<GradeProjectTask> GetAllGradeProjectTasks()
         {
             return db.GradeProjectTasks.ToList();
         }
 
+        /*
+        * Fetches all grades in tasks in projects in courses where the user is enrolled in.
+        */
         public IEnumerable<GradeProjectTask> GetAllGradeProjectTasksForTaskId(int taskId)
         {
             return db.GradeProjectTasks.Where(g => g.ProjectTaskId == taskId).ToList();
         }
 
+        /*
+        * Adds a task to the database.
+        */
         public void AddProjectTask(ProjectTask projectTask)
         {
             db.ProjectTasks.Add(projectTask);
             db.SaveChanges();
         }
 
+        /*
+        * Adds information about the files required for a task to the database.
+        */
         public void AddFilesRequired(FileRequired fileRequired)
         {
             db.FilesRequired.Add(fileRequired);
         }
 
+        /*
+        * Adds information about the tests for a task to the database.
+        */
         public void AddTaskTests(TaskTest taskTest)
         {
             db.TaskTests.Add(taskTest);
         }
 
+        /*
+        * Removes a task from the database.
+        */
         public void RemoveProjectTask(ProjectTask projectTask)
         {
             db.ProjectTasks.Remove(projectTask);
             db.SaveChanges();
         }
 
+        /*
+        * Removes all tests for a task from the database.
+        */
         public void RemoveAllTaskTestsForProjectTask(ProjectTask projectTask)
         {
             foreach (var i in db.TaskTests.Where(x => x.ProjectTaskId == projectTask.Id))
@@ -80,6 +113,9 @@ namespace Coder.Repositories
             }
         }
 
+        /*
+        * Removes all required files for a task from the database.
+        */
         public void RemoveAllFilesRequiredForProjectTask(ProjectTask projectTask)
         {
             foreach (var f in db.FilesRequired.Where(i => i.ProjectTaskId == projectTask.Id))
@@ -88,6 +124,9 @@ namespace Coder.Repositories
             }
         }
 
+        /*
+        * Removes all grades for a task from the database.
+        */
         public void RemoveAllGradesForProjectTask(ProjectTask projectTask)
         {
             foreach (var f in db.GradeProjectTasks.Where(i => i.ProjectTaskId == projectTask.Id))
@@ -96,11 +135,17 @@ namespace Coder.Repositories
             }
         }
 
+        /*
+        * Updates the task in the database.
+        */
         public void UpdateState(EntityState state, ProjectTask projectTask)
         {
             db.Entry(projectTask).State = state;
         }
 
+        /*
+        * Saves the changes to the database.
+        */
         public void SaveChanges()
         {
             db.SaveChanges();

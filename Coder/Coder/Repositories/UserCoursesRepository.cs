@@ -15,21 +15,33 @@ namespace Coder.Repositories
     {
         private readonly ApplicationDbContext db;
 
+        /*
+        * Initialization.
+        */
         public UserCoursesRepository(ApplicationDbContext context)
         {
             db = context ?? new ApplicationDbContext();
         }
 
+        /*
+        * Fetches users from course with specific ID.
+        */
         public List<UserCourse> GetUserCoursesByCourseId(int? courseId)
         {
             return db.UserCourses.Where(i => i.CourseId == courseId).ToList();
         }
 
+        /*
+        * Fetches courses from user with specific ID.
+        */
         public List<UserCourse> GetUserCoursesByUserId(string userId)
         {
             return db.UserCourses.Where(i => i.UserId == userId).ToList();
         }
 
+        /*
+        * Removes all users from a course with specific ID.
+        */
         public void RemoveAllUserCoursesForCourseId(int courseId)
         {
             foreach (var x in db.UserCourses.Where(i => i.CourseId == courseId))
@@ -38,6 +50,9 @@ namespace Coder.Repositories
             }
         }
 
+        /*
+        * Removes all courses from a user with specific ID.
+        */
         public void RemoveAllUserCoursesForUserId(string userId)
         {
             foreach (var x in db.UserCourses.Where(i => i.UserId == userId))
@@ -46,11 +61,17 @@ namespace Coder.Repositories
             }
         }
 
+        /*
+        * Adds a connection between user and course to the database.
+        */
         public void AddUserCourse(UserCourse userCourse)
         {
             db.UserCourses.Add(userCourse);
         }
 
+        /*
+        * Saves changes to the database.
+        */
         public void SaveChanges()
         {
             db.SaveChanges();
