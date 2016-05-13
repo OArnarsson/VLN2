@@ -85,7 +85,7 @@ namespace Coder.Controllers
                     totalGrades++;
                 }
             }
-            if (totalGrades == project.ProjectTasks.Count)
+            if (totalGrades == project.ProjectTasks.Count && (project.ProjectTasks.Count > 0))
             {
                 return Math.Round(totalGrade / totalValue, 2);
             }

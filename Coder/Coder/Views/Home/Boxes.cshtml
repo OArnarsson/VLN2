@@ -98,9 +98,9 @@
                         <td>@Html.ActionLink(project.Project.Name.ToString(), "Details", "Projects", new { id = project.Project.Id }, null)</td>
                         <td>@Html.ActionLink(project.Project.Course.Title.ToString(), "Details", "Courses", new { id = project.Project.Course.Id }, null)</td>
                         <td>
-                            @if (!Double.IsNaN(project.Value))
+                            @if (!Double.IsNaN(project.Grade))
                             {
-                                <span>@project.Value</span>
+                                <span>@project.Grade</span>
                             }
                             else
                             {
