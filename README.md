@@ -1,10 +1,15 @@
 # VLN2
 
-## In order for the web to compile the C++ code, one must have installed Mingw.
+## Setup
+In order to be able to compile the C++ code, one must have installed MinGW (http://www.mingw.org/).
+MinGW can be easily installed with the Chocolatey package manager by running the following command
+```
+choco install mingw
+```
 
-## Gulp is used to compile the .scss files into .css
+Gulp is used to compile the .scss files into .css.
 
-### Verklegt námskeið 2
+##Team members
 - Andri Andrésson 
 - Gunnar Torfi Steinarsson 
 - Orri Arnarsson
