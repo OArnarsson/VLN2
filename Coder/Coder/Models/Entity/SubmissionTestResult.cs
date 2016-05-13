@@ -10,12 +10,14 @@ namespace Coder.Models.Entity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public string Input { get; set; }
         public string Output { get; set; }
         public string ObtainedOutput { get; set; }
         public TestResultStatus Status { get; set; }
 
         public int SubmissionId { get; set; }
+
         [ForeignKey("SubmissionId")]
         public virtual Submission Submission { get; set; }
     }

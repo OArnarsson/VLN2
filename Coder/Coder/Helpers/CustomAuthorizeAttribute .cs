@@ -22,7 +22,7 @@ namespace Coder.Helpers
             }
             else
             {
-                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Error", action = "Forbidden" }));
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new {controller = "Error", action = "Forbidden"}));
             }
         }
     }

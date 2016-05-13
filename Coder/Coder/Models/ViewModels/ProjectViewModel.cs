@@ -13,7 +13,7 @@ namespace Coder.Models.ViewModels
 {
     public class ProjectViewModel
     {
-       public Project project { get; set; }
+        public Project project { get; set; }
 
         public double value { get; set; }
     }

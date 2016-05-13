@@ -1,5 +1,5 @@
 ﻿using System;
-﻿using Foolproof;
+using Foolproof;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +14,7 @@ namespace Coder.Models.Entity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public string Name { get; set; }
 
         [AllowHtml]
@@ -32,7 +33,7 @@ namespace Coder.Models.Entity
         public double Value { get; set; }
 
         public int CourseId { get; set; }
-        
+
         public virtual ICollection<ProjectTask> ProjectTasks { get; set; }
 
         [ForeignKey("CourseId")]

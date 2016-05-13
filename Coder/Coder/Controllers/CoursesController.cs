@@ -40,7 +40,7 @@ namespace Coder.Controllers
             {
                 courses = coursesRepository.GetAllCourses();
             }
-            
+
             return View(courses.ToList());
         }
 
@@ -62,19 +62,19 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
+                throw new HttpException((int) HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            Course course = coursesRepository.GetCourseFromId(id);
+            var course = coursesRepository.GetCourseFromId(id);
 
             if (course == null)
             {
-                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
+                throw new HttpException((int) HttpStatusCode.NotFound, "Not found!");
             }
-            
+
             if (!coursesRepository.IsInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             if (coursesRepository.IsTeacherInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
@@ -117,26 +117,26 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
+                throw new HttpException((int) HttpStatusCode.BadRequest, "Bad request!");
             }
 
-            Course course = coursesRepository.GetCourseFromId(id);
+            var course = coursesRepository.GetCourseFromId(id);
 
             if (course == null)
             {
-                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
+                throw new HttpException((int) HttpStatusCode.NotFound, "Not found!");
             }
 
             if (!User.IsInRole("Administrator") && !coursesRepository.IsTeacherInCourse(id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
 
             course = coursesRepository.GetCourseFromId(id, User.Identity.GetUserId(), User.IsInRole("Administrator"));
-            CourseViewModel courseViewModel = new CourseViewModel(course);
+            var courseViewModel = new CourseViewModel(course);
             courseViewModel.UserCourses = userCoursesRepository.GetUserCoursesByCourseId(id);
             courseViewModel.ApplicationUsers = usersRepository.GetAllUsers();
-           
+
             return View(courseViewModel);
         }
 
@@ -149,11 +149,11 @@ namespace Coder.Controllers
         {
             if (ModelState.IsValid)
             {
-                Course course = coursesRepository.GetCourseFromId(courseViewModel.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator"));
+                var course = coursesRepository.GetCourseFromId(courseViewModel.CourseId, User.Identity.GetUserId(), User.IsInRole("Administrator"));
 
                 if (!User.IsInRole("Administrator") && !coursesRepository.IsTeacherInCourse(course.Id, User.Identity.GetUserId(), User.IsInRole("Administrator")))
                 {
-                    throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                    throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
                 }
 
                 course.Name = courseViewModel.Name;
@@ -175,7 +175,7 @@ namespace Coder.Controllers
                 // Normally I have db.SaveChanges() just in the repository functions
                 userCoursesRepository.SaveChanges();
 
-                return RedirectToAction("Details", new { course.Id });
+                return RedirectToAction("Details", new {course.Id});
             }
 
             courseViewModel.UserCourses = db.UserCourses.Where(i => i.CourseId == courseViewModel.CourseId).ToList();
@@ -186,15 +186,15 @@ namespace Coder.Controllers
         public List<UserCourse> getUserCoursesFromFormCollection(FormCollection form, int courseId)
         {
             var userCourses = new List<UserCourse>();
-            for (int i = 0; i < form.Count; i++)
+            for (var i = 0; i < form.Count; i++)
             {
                 var key = form.Keys[i];
 
                 if (key.StartsWith("User_") && !string.IsNullOrEmpty(form.GetValue(key).AttemptedValue))
                 {
-                    var val = int.Parse(form.GetValue(key).AttemptedValue.ToString());
+                    var val = int.Parse(form.GetValue(key).AttemptedValue);
                     var userId = key.Split('_')[1];
-                    userCourses.Add(new UserCourse { UserId = userId.ToString(), CourseId = courseId, CoderRole = (CoderRole)val });
+                    userCourses.Add(new UserCourse {UserId = userId, CourseId = courseId, CoderRole = (CoderRole) val});
                 }
             }
 
@@ -208,19 +208,19 @@ namespace Coder.Controllers
         {
             if (id == null)
             {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Bad request!");
+                throw new HttpException((int) HttpStatusCode.BadRequest, "Bad request!");
             }
 
             if (!User.IsInRole("Administrator"))
             {
-                throw new HttpException((int)HttpStatusCode.Forbidden, "Forbidden!");
+                throw new HttpException((int) HttpStatusCode.Forbidden, "Forbidden!");
             }
-            
-            Course course = coursesRepository.GetCourseFromId(id);
+
+            var course = coursesRepository.GetCourseFromId(id);
 
             if (course == null)
             {
-                throw new HttpException((int)HttpStatusCode.NotFound, "Not found!");
+                throw new HttpException((int) HttpStatusCode.NotFound, "Not found!");
             }
 
             return View(course);
@@ -237,7 +237,7 @@ namespace Coder.Controllers
             if (form["CourseTitle"] != course.Title)
             {
                 TempData["ErrorMessage"] = "Please type the correct course title if you want to delete it.";
-                return RedirectToAction("Delete", new { id = id });
+                return RedirectToAction("Delete", new {id});
             }
 
             coursesRepository.RemoveCourse(course);

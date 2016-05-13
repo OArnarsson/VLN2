@@ -11,7 +11,7 @@ namespace Coder.Helpers
 {
     public class Logger
     {
-        private static Logger theInstance = null;
+        private static Logger theInstance;
         private static StreamWriter sWriter = null;
 
         /*
@@ -35,15 +35,15 @@ namespace Coder.Helpers
         */
         public static void LogException(Exception ex)
         {
-            string directoryPath = HttpContext.Current.Server.MapPath("~/Logs/");
-            string logFilePath = "coder_logfile.txt";
-            string message = string.Format("{0} Time: {1}.{3}For: {2}{3}", ex.Message, DateTime.Now, ex.Source, Environment.NewLine);
+            var directoryPath = HttpContext.Current.Server.MapPath("~/Logs/");
+            var logFilePath = "coder_logfile.txt";
+            var message = string.Format("{0} Time: {1}.{3}For: {2}{3}", ex.Message, DateTime.Now, ex.Source, Environment.NewLine);
 
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
             }
-            using (StreamWriter writer = new StreamWriter(directoryPath + logFilePath, true, Encoding.Default))
+            using (var writer = new StreamWriter(directoryPath + logFilePath, true, Encoding.Default))
             {
                 writer.WriteLine(message);
             }

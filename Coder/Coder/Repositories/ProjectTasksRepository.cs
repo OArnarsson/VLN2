@@ -28,11 +28,11 @@ namespace Coder.Repositories
         public IEnumerable<ProjectTask> GetAllProjectTasksForUserId(string userId)
         {
             return (from pt in db.ProjectTasks
-                    join p in db.Projects on pt.ProjectId equals p.Id
-                    join c in db.Courses on p.CourseId equals c.Id
-                    join uc in db.UserCourses on c.Id equals uc.CourseId
-                    where uc.UserId == userId
-                    select pt).ToList();
+                join p in db.Projects on pt.ProjectId equals p.Id
+                join c in db.Courses on p.CourseId equals c.Id
+                join uc in db.UserCourses on c.Id equals uc.CourseId
+                where uc.UserId == userId
+                select pt).ToList();
         }
 
         public ProjectTask GetProjectTaskById(int? id)
@@ -60,7 +60,7 @@ namespace Coder.Repositories
         {
             db.FilesRequired.Add(fileRequired);
         }
-        
+
         public void AddTaskTests(TaskTest taskTest)
         {
             db.TaskTests.Add(taskTest);

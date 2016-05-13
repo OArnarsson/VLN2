@@ -23,6 +23,7 @@ namespace Coder.Repositories
             db = context ?? new ApplicationDbContext();
         }
 
+
         /*
         * Fetches all the courses from the database.
         */
@@ -37,9 +38,9 @@ namespace Coder.Repositories
         public IEnumerable<Course> GetCoursesForUser(string userId)
         {
             return (from c in db.Courses
-                    join u in db.UserCourses on c.Id equals u.CourseId
-                    where u.UserId == userId
-                    select c).ToList();
+                join u in db.UserCourses on c.Id equals u.CourseId
+                where u.UserId == userId
+                select c).ToList();
         }
 
         /*
@@ -72,9 +73,9 @@ namespace Coder.Repositories
         public IEnumerable<Course> GetCoursesForUserWithRole(string userId, CoderRole role)
         {
             return (from c in db.Courses
-                    join u in db.UserCourses on c.Id equals u.CourseId
-                    where u.UserId == userId && u.CoderRole == role
-                    select c).ToList();
+                join u in db.UserCourses on c.Id equals u.CourseId
+                where u.UserId == userId && u.CoderRole == role
+                select c).ToList();
         }
 
         /*
@@ -150,7 +151,7 @@ namespace Coder.Repositories
         */
         public bool IsAssistantTeacherInCourse(int? id, string userId, bool isAdmin)
         {
-           return HasRoleInCourse(id, userId, isAdmin, CoderRole.TeachingAssistant);
+            return HasRoleInCourse(id, userId, isAdmin, CoderRole.TeachingAssistant);
         }
 
         /*
@@ -160,7 +161,7 @@ namespace Coder.Repositories
         {
             if (!isAdmin)
             {
-                UserCourse userCourse = db.UserCourses.Where(i => i.CourseId == id && i.UserId == userId).FirstOrDefault();
+                var userCourse = db.UserCourses.Where(i => i.CourseId == id && i.UserId == userId).FirstOrDefault();
 
                 if (userCourse != null)
                 {
