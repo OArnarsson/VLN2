@@ -39,6 +39,7 @@ namespace Coder.Repositories
             return (from s in db.Submissions
                 from u in s.ApplicationUsers
                 where u.Id == userId
+                orderby s.Id descending 
                 select s).ToList();
         }
 
