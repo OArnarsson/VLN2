@@ -15,11 +15,17 @@ namespace Coder.Repositories
     {
         private readonly ApplicationDbContext db;
 
+        /*
+        * Initialization.
+        */
         public CommentsRepository(ApplicationDbContext context)
         {
             db = context ?? new ApplicationDbContext();
         }
 
+        /*
+        * Fetches the comments for the task at hand.
+        */
         public IEnumerable<Comment> GetCommentsForProjectTaskId(int projectTaskId)
         {
             return (from comment in db.Comments.ToList()
@@ -28,17 +34,29 @@ namespace Coder.Repositories
                 select comment).ToList();
         }
 
+
+        /*
+        * Fetches a single comment with specified ID.
+        */
         public Comment GetCommentWithId(int id)
         {
             return db.Comments.Find(id);
         }
 
+
+        /*
+        * Adds a comment to the database.
+        */
         public void AddComment(Comment comment)
         {
             db.Comments.Add(comment);
             db.SaveChanges();
         }
 
+
+        /*
+        * Deletes a comment with a specified ID.
+        */
         public void RemoveCommentWithId(int id)
         {
             var comment = GetCommentWithId(id);
