@@ -92,14 +92,14 @@
                 @if (Model.ExpiredProjects.Count() > 0)
                 {
                     foreach (var project in Model.ExpiredProjects)
-                {
+                    {
 
                     <tr>
                         <td>@Html.ActionLink(project.Name.ToString(), "Details", "Projects", new { id = project.Id }, null)</td>
                         <td>@Html.ActionLink(project.Course.Title.ToString(), "Details", "Courses", new { id = project.Course.Id }, null)</td>
                         <td>@project.Value</td>
                     </tr>
-
+                    }
                 }
 
             </tbody>

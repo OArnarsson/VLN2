@@ -92,8 +92,14 @@ namespace Coder.Controllers
                     currentValue += task.Value;
                 }
                 TotalValue += task.Value;
-            }            
-            return (currentValue / TotalValue)*100;
+            }
+            
+            if(TotalValue == 0)
+            {
+                return 0;
+            }        
+                
+            else return Math.Round((currentValue / TotalValue)*100);
         }
 
 
