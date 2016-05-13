@@ -51,8 +51,8 @@
             <tr class="@ongoing">
                 <td>@Html.ActionLink(item.Name, "Details", new { id = item.Id })</td>
                 <td>@Html.ActionLink(item.Course.Name, "Details", "Courses", new { id = item.Course.Id }, null)</td>
-                <td>@item.Start.ToString("dddd, d MMM")</td>
-                <td class="@endDate"> @item.End.ToString("dddd, d MMM")</td>
+                <td>@item.Start.ToString("dddd, d MMM HH:mm")</td>
+                <td class="@endDate"> @item.End.ToString("dddd, d MMM HH:mm")</td>
                 <td>@item.ProjectTasks.Count</td>
                 <td>@Html.DisplayFor(modelItem => item.Value)</td>
                 <td>

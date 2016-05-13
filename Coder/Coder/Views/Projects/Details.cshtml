@@ -30,10 +30,10 @@
         <dd>@Html.ActionLink(Model.Project.Course.Name, "Details", "Courses", new { id = Model.Project.Course.Id }, null)</dd>
 
         <dt>@Html.DisplayNameFor(model => Model.Project.Start):</dt>
-        <dd>@Html.DisplayFor(model => Model.Project.Start)</dd>
+        <dd>@Model.Project.Start.ToString("dddd, d MMM HH:mm")</dd>
 
         <dt>@Html.DisplayNameFor(model => Model.Project.End):</dt>
-        <dd>@Html.DisplayFor(model => Model.Project.End)</dd>
+        <dd>@Model.Project.End.ToString("dddd, d MMM HH:mm")</dd>
 
         <dt>Tasks:</dt>
         <dd>@Html.DisplayFor(model => Model.Project.ProjectTasks.Count)</dd>
